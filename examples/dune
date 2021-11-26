@@ -1,0 +1,3 @@
+(executables
+ (names basic)
+ (libraries mujoco cmdargs glfw-ocaml))

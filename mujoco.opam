@@ -1,0 +1,17 @@
+opam-version: "2.0"
+authors: [ "Ta-Chu Kao" ]
+license: "MIT"
+homepage: "https://github.com/tachukao/ocaml-mujoco"
+dev-repo: "git+https://github.com/tachukao/ocaml-mujoco.git"
+bug-reports: "https://github.com/tachukao/ocaml-mujoco/issues"
+build: [
+  ["dune" "build" "-p" name "-j" jobs]
+]
+depends: [
+  "ocaml" {>= "4.12.0"}
+  "dune" {>= "2.5.0"}
+  "ctypes"
+  "glfw-ocaml"
+]
+synopsis: "OCaml bindings to Mujoco"
+description: "OCaml bindings to Mujoco"

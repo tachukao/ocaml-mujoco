@@ -1,0 +1,24 @@
+(env
+ (dev
+  (flags
+   (:standard -warn-error -A))))
+
+(library
+ (name stubs)
+ (public_name mujoco.stubs)
+ (libraries mujoco.stubs.types ctypes ctypes.foreign))
+
+(rule
+ (targets c_flags.sexp c_library_flags.sexp)
+ (deps
+  (:discover ../config/discover.exe))
+ (action
+  (run %{discover})))
+
+(rule
+ (targets types_bindings_generated.ml)
+ (deps ../gen/gen_types_c.exe)
+ (action
+  (with-stdout-to
+   %{targets}
+   (run %{deps} -ml))))
