@@ -1,8 +1,8 @@
-# OCaml Bindings to MUJOCO
+# OCaml Bindings to MuJoCo
 
 ## Installation
 
-1. Install MUJOCO 210 to the default directory `~/.mujoco/mjoco210` from [here](https://mujoco.org/download)
+1. Install MuJoCo 210 to the default directory `~/.mujoco/mjoco210` from [here](https://mujoco.org/download)
 
 2. Install GLFW3 
 

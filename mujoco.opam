@@ -13,5 +13,5 @@ depends: [
   "ctypes"
   "glfw-ocaml"
 ]
-synopsis: "OCaml bindings to Mujoco"
-description: "OCaml bindings to Mujoco"
+synopsis: "OCaml bindings to MuJoCo"
+description: "OCaml bindings to MuJoCo"
