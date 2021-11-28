@@ -4,8 +4,7 @@ let () =
   let mujoco_dir =
     match Sys.getenv_opt "MUJOCO_DIR" with
     | Some x -> x
-    | None   -> "/Users/tck/.mujoco/mujoco210"
-    (* | None   -> failwith "MUJOCO_DIR not found - please see README.md." *)
+    | None   -> Printf.sprintf "%s/.mujoco/mujoco210" Unix.(getenv "HOME")
   in
   C.main ~name:"mujoco" (fun _ ->
       let libs =
