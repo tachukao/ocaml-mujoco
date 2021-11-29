@@ -110,9 +110,9 @@ let () =
   GLFW.setScrollCallback ~window ~f:(Some scroll_callback) |> ignore;
   (* Loop until the user closes the window *)
   while not (GLFW.windowShouldClose ~window) do
-    let simstart = Ctypes.(getf !@data Typs.time) in
+    let simstart = Ctypes.(getf !@data Typs.mjData_time) in
     (* Run the simulation loop *)
-    while Ctypes.(getf !@data Typs.time) -. simstart < 1.0 /. 60.0 do
+    while Ctypes.(getf !@data Typs.mjData_time) -. simstart < 1.0 /. 60.0 do
       Bindings.mj_step model data
     done;
     let width, height = GLFW.getFramebufferSize ~window in

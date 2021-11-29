@@ -17,14 +17,20 @@ module Bindings (S : Cstubs.Types.TYPE) = struct
   open S
   include Constants (S)
 
-  type mjModel
+  type _mjModel
 
-  let mjModel : mjModel structure typ = structure "mjModel"
+  let _mjModel : _mjModel structure typ = structure "_mjModel"
+  let mjModel_nq = field _mjModel "nq" int
+  let () = seal _mjModel
+
+  type mjModel = _mjModel
+
+  let mjModel = _mjModel
 
   type _mjData
 
   let _mjData : _mjData structure typ = structure "_mjData"
-  let time = field _mjData "time" double
+  let mjData_time = field _mjData "time" double
   let () = seal _mjData
 
   type mjData = _mjData
