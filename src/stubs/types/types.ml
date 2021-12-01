@@ -17,10 +17,104 @@ module Bindings (S : Cstubs.Types.TYPE) = struct
   open S
   include Constants (S)
 
+  type mjtNum = float
+
+  let mjtNum = double
+
+  type _mjOption
+
+  let _mjOption : _mjOption structure typ = structure "_mjOption"
+  let mjOption_timestep = field _mjOption "timestep" mjtNum
+  let mjOption_apirate = field _mjOption "apirate" mjtNum
+  let mjOption_impratio = field _mjOption "impratio" mjtNum
+  let mjOption_tolerance = field _mjOption "tolerance" mjtNum
+  let mjOption_noslip_tolerance = field _mjOption "noslip_tolerance" mjtNum
+  let mjOption_mpr_tolerance = field _mjOption "mpr_tolerance" mjtNum
+  let mjOption_gravity = field _mjOption "gravity" (ptr mjtNum)
+  let mjOption_wind = field _mjOption "wind" (ptr mjtNum)
+  let mjOption_magnetic = field _mjOption "magnetic" (ptr mjtNum)
+  let mjOption_density = field _mjOption "density" mjtNum
+  let mjOption_viscosity = field _mjOption "viscosity" mjtNum
+  let mjOption_o_margin = field _mjOption "o_margin" mjtNum
+  let mjOption_o_solref = field _mjOption "o_solref" (ptr mjtNum)
+  let mjOption_o_solimp = field _mjOption "o_solimp" (ptr mjtNum)
+  let mjOption_integrator = field _mjOption "integrator" int
+  let mjOption_collision = field _mjOption "collision" int
+  let mjOption_cone = field _mjOption "cone" int
+  let mjOption_jacobian = field _mjOption "jacobian" int
+  let mjOption_solver = field _mjOption "solver" int
+  let mjOption_iterations = field _mjOption "iterations" int
+  let mjOption_noslip_iterations = field _mjOption "noslip_iterations" int
+  let mjOption_mpr_iterations = field _mjOption "mpr_iterations" int
+  let mjOption_disableflags = field _mjOption "disableflags" int
+  let mjOption_enableflags = field _mjOption "enableflags" int
+  let () = seal _mjOption
+
+  type mjOption = _mjOption
+
+  let mjOption = _mjOption
+
   type _mjModel
 
   let _mjModel : _mjModel structure typ = structure "_mjModel"
   let mjModel_nq = field _mjModel "nq" int
+  let mjModel_nv = field _mjModel "nv" int
+  let mjModel_nu = field _mjModel "nu" int
+  let mjModel_na = field _mjModel "na" int
+  let mjModel_nbody = field _mjModel "nbody" int
+  let mjModel_njnt = field _mjModel "njnt" int
+  let mjModel_ngeom = field _mjModel "ngeom" int
+  let mjModel_nsite = field _mjModel "nsite" int
+  let mjModel_ncam = field _mjModel "ncam" int
+  let mjModel_nlight = field _mjModel "nlight" int
+  let mjModel_nmesh = field _mjModel "nmesh" int
+  let mjModel_nmeshvert = field _mjModel "nmeshvert" int
+  let mjModel_nmeshtexvert = field _mjModel "nmeshtexvert" int
+  let mjModel_nmeshface = field _mjModel "nmeshface" int
+  let mjModel_nmeshgraph = field _mjModel "nmeshgraph" int
+  let mjModel_nskin = field _mjModel "nskin" int
+  let mjModel_nskinvert = field _mjModel "nskinvert" int
+  let mjModel_nskintexvert = field _mjModel "nskintexvert" int
+  let mjModel_nskinface = field _mjModel "nskinface" int
+  let mjModel_nskinbone = field _mjModel "nskinbone" int
+  let mjModel_nskinbonevert = field _mjModel "nskinbonevert" int
+  let mjModel_nhfield = field _mjModel "nhfield" int
+  let mjModel_nhfielddata = field _mjModel "nhfielddata" int
+  let mjModel_ntex = field _mjModel "ntex" int
+  let mjModel_ntexdata = field _mjModel "ntexdata" int
+  let mjModel_nmat = field _mjModel "nmat" int
+  let mjModel_npair = field _mjModel "npair" int
+  let mjModel_nexclude = field _mjModel "nexclude" int
+  let mjModel_neq = field _mjModel "neq" int
+  let mjModel_ntendon = field _mjModel "ntendon" int
+  let mjModel_nwrap = field _mjModel "nwrap" int
+  let mjModel_nsensor = field _mjModel "nsensor" int
+  let mjModel_nnumeric = field _mjModel "nnumeric" int
+  let mjModel_nnumericdata = field _mjModel "nnumericdata" int
+  let mjModel_ntext = field _mjModel "ntext" int
+  let mjModel_ntextdata = field _mjModel "ntextdata" int
+  let mjModel_ntuple = field _mjModel "ntuple" int
+  let mjModel_ntupledata = field _mjModel "ntupledata" int
+  let mjModel_nkey = field _mjModel "nkey" int
+  let mjModel_nmocap = field _mjModel "nmocap" int
+  let mjModel_nuser_body = field _mjModel "nuser_body" int
+  let mjModel_nuser_jnt = field _mjModel "nuser_jnt" int
+  let mjModel_nuser_geom = field _mjModel "nuser_geom" int
+  let mjModel_nuser_site = field _mjModel "nuser_site" int
+  let mjModel_nuser_cam = field _mjModel "nuser_cam" int
+  let mjModel_nuser_tendon = field _mjModel "nuser_tendon" int
+  let mjModel_nuser_actuator = field _mjModel "nuser_actuator" int
+  let mjModel_nuser_sensor = field _mjModel "nuser_sensor" int
+  let mjModel_nnames = field _mjModel "nnames" int
+  let mjModel_nM = field _mjModel "nM" int
+  let mjModel_nemax = field _mjModel "nemax" int
+  let mjModel_njmax = field _mjModel "njmax" int
+  let mjModel_nconmax = field _mjModel "nconmax" int
+  let mjModel_nstack = field _mjModel "nstack" int
+  let mjModel_nuserdata = field _mjModel "nuserdata" int
+  let mjModel_nsensordata = field _mjModel "nsensordata" int
+  let mjModel_nbuffer = field _mjModel "nbuffer" int
+  let mjModel_opt = field _mjModel "opt" mjOption
   let () = seal _mjModel
 
   type mjModel = _mjModel
@@ -30,7 +124,13 @@ module Bindings (S : Cstubs.Types.TYPE) = struct
   type _mjData
 
   let _mjData : _mjData structure typ = structure "_mjData"
-  let mjData_time = field _mjData "time" double
+
+  (* variable sizes *)
+  let mjData_ne = field _mjData "ne" int
+  let mjData_nf = field _mjData "nf" int
+  let mjData_nefc = field _mjData "nefc" int
+  let mjData_ncon = field _mjData "ncon" int
+  let mjData_time = field _mjData "time" mjtNum
   let () = seal _mjData
 
   type mjData = _mjData
@@ -47,10 +147,10 @@ module Bindings (S : Cstubs.Types.TYPE) = struct
   let mjvCamera_type = field _mjvCamera "type" int
   let mjvCamera_fixedcamid = field _mjvCamera "fixedcamid" int
   let mjvCamera_trackbodyid = field _mjvCamera "trackbodyid" int
-  let mjvCamera_lookat = field _mjvCamera "lookat" (ptr double)
-  let mjvCamera_distance = field _mjvCamera "distance" double
-  let mjvCamera_azimuth = field _mjvCamera "azimuth" double
-  let mjvCamera_elevation = field _mjvCamera "elevation" double
+  let mjvCamera_lookat = field _mjvCamera "lookat" (ptr mjtNum)
+  let mjvCamera_distance = field _mjvCamera "distance" mjtNum
+  let mjvCamera_azimuth = field _mjvCamera "azimuth" mjtNum
+  let mjvCamera_elevation = field _mjvCamera "elevation" mjtNum
   let () = seal _mjvCamera
 
   type mjvCamera = _mjvCamera

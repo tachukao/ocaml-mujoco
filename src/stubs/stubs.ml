@@ -44,8 +44,8 @@ module Bindings (F : FOREIGN) = struct
       "mjv_moveCamera"
       (ptr mjModel
       @-> mjtMouse
-      @-> double
-      @-> double
+      @-> mjtNum
+      @-> mjtNum
       @-> ptr mjvScene
       @-> ptr mjvCamera
       @-> returning void)
@@ -59,4 +59,16 @@ module Bindings (F : FOREIGN) = struct
 
   let mjr_render =
     foreign "mjr_render" (mjrRect @-> ptr mjvScene @-> ptr mjrContext @-> returning void)
+
+
+  (* Error and Memory *)
+
+  (* Allocate memory; byte-align on 8; pad size to multiple of 8. *)
+  let mju_malloc = foreign "mju_malloc" (size_t @-> returning (ptr void))
+
+  (* Free memory, using free() by default. *)
+  let mju_free = foreign "mju_free" (ptr void @-> returning void)
+
+  (* High-level warning function: count warnings in mjData, print only the first. *)
+  let mj_warning = foreign "mj_warning" (ptr mjData @-> int @-> int @-> returning void)
 end
