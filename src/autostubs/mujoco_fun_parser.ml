@@ -1,15 +1,12 @@
 open Base
 
-let file =
-  let mujoco_dir =
-    match Stdlib.Sys.getenv_opt "MUJOCO_DIR" with
-    | Some x -> x
-    | None   -> Printf.sprintf "%s/.mujoco/mujoco210" Unix.(getenv "HOME")
-  in
-  Printf.sprintf "%s/include/mujoco.h" mujoco_dir
+let preprocess s =
+  s
+  (* use mjtMouse type instead of int *)
+  |> Str.global_replace Str.(regexp "int action") "mjtMouse action"
+  (* use mjtCatBit type instead of int *)
+  |> Str.global_replace Str.(regexp "int catmask") "mjtCatBit catmask"
 
-
-let read_entire_file file = Stdio.In_channel.with_file file ~f:Stdio.In_channel.input_all
 
 let convert_arg s =
   if String.(s = "void")
@@ -31,9 +28,6 @@ let convert_arg s =
 
 
 let parse s =
-  (* use mjtMouse type instead of int *)
-  let s = Str.global_replace Str.(regexp "int action") "mjtMouse action" s in
-  let s = Str.global_replace Str.(regexp "int catmask") "mjtCatBit catmask" s in
   let open Re in
   let regex =
     Pcre.re "[ ]*MJAPI ([^ \n]+)[ ]+(mj[uvr]?_[^\\(]+)\\(([^;]+)\\);" |> compile
@@ -69,4 +63,15 @@ let write_stubs parsed =
   with_file "stubs.ml" ~f
 
 
-let () = read_entire_file file |> parse |> write_stubs
+let () =
+  let mujoco_dir =
+    match Stdlib.Sys.getenv_opt "MUJOCO_DIR" with
+    | Some x -> x
+    | None   -> Printf.sprintf "%s/.mujoco/mujoco210" Unix.(getenv "HOME")
+  in
+  mujoco_dir
+  |> Printf.sprintf "%s/include/mujoco.h"
+  |> Stdio.In_channel.with_file ~f:Stdio.In_channel.input_all
+  |> preprocess
+  |> parse
+  |> write_stubs
