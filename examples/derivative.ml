@@ -1,3 +1,4 @@
+(*
 open Mujoco
 open Wrapper
 
@@ -62,3 +63,4 @@ let () =
   Bindings.mju_free Ctypes.(to_voidp deriv);
   Bindings.mj_deleteData data;
   Bindings.mj_deleteModel model
+*)

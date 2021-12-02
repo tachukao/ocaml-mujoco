@@ -9,6 +9,13 @@
  (libraries mujoco.stubs.types ctypes ctypes.foreign))
 
 (rule
+ (targets stubs.ml)
+ (deps
+  (:fun_parser ../autostubs/mujoco_fun_parser.exe))
+ (action
+  (run %{fun_parser})))
+
+(rule
  (targets c_flags.sexp c_library_flags.sexp)
  (deps
   (:discover ../config/discover.exe))

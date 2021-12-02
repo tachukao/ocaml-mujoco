@@ -2,3 +2,10 @@
  (name types)
  (public_name mujoco.stubs.types)
  (libraries ctypes.stubs ctypes))
+
+(rule
+ (targets types.ml)
+ (deps
+  (:typs_parser ../../autostubs/mujoco_typs_parser.exe))
+ (action
+  (run %{typs_parser})))

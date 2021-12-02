@@ -62,10 +62,10 @@ let mouse_move window xpos ypos =
     in
     let action =
       if !button_right
-      then if mod_shift then Typs.MOUSE_MOVE_H else Typs.MOUSE_MOVE_V
+      then if mod_shift then Typs.MjMOUSE_MOVE_H else Typs.MjMOUSE_MOVE_V
       else if !button_left
-      then if mod_shift then Typs.MOUSE_ROTATE_H else Typs.MOUSE_ROTATE_V
-      else Typs.MOUSE_ZOOM
+      then if mod_shift then Typs.MjMOUSE_ROTATE_H else Typs.MjMOUSE_ROTATE_V
+      else Typs.MjMOUSE_ZOOM
     in
     Bindings.mjv_moveCamera
       model
@@ -80,7 +80,7 @@ let mouse_move window xpos ypos =
 let scroll_callback _ _ yoffset =
   Bindings.mjv_moveCamera
     model
-    Typs.MOUSE_ZOOM
+    Typs.MjMOUSE_ZOOM
     0.
     (-0.05 *. yoffset)
     Ctypes.(addr scn)
@@ -102,7 +102,7 @@ let () =
   GLFW.makeContextCurrent ~window:(Some window);
   (* Make scene and conext *)
   Bindings.mjv_makeScene model Ctypes.(addr scn) 2000;
-  Bindings.mjr_makeContext model Ctypes.(addr con) Typs.mjFONTSCALE_150;
+  Bindings.mjr_makeContext model Ctypes.(addr con) 150;
   (* Set various callbacks *)
   GLFW.setKeyCallback ~window ~f:(Some key_callback) |> ignore;
   GLFW.setCursorPosCallback ~window ~f:(Some mouse_move) |> ignore;
@@ -124,7 +124,7 @@ let () =
       Ctypes.(addr opt)
       Ctypes.(from_voidp Typs.mjvPerturb null)
       (Ctypes.addr cam)
-      Typs.CAT_ALL
+      Typs.MjCAT_ALL
       Ctypes.(addr scn);
     (* Render on window  *)
     Bindings.mjr_render viewport Ctypes.(addr scn) Ctypes.(addr con);
