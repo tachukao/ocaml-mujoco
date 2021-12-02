@@ -1,14 +1,18 @@
 open Base
 
-let preprocess s =
-  s
+let preprocess s = s
+(*
   (* use mjtMouse type instead of int *)
   |> Str.global_replace Str.(regexp "int action") "mjtMouse action"
   (* use mjtCatBit type instead of int *)
   |> Str.global_replace Str.(regexp "int catmask") "mjtCatBit catmask"
   (* use mjtObj type instead of int *)
   |> Str.global_replace Str.(regexp "int type") "mjtObj type"
-
+  (* use mjtStage type instead of int *)
+  |> Str.global_replace Str.(regexp "int skipstage") "mjtStage skipstage"
+  (* use mjtSensor type instead of int *)
+  |> Str.global_replace Str.(regexp "int skipsensor") "mjtSensor skipsensor"
+  *)
 
 let convert_arg s =
   if String.(s = "void")

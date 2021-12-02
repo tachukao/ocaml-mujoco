@@ -62,14 +62,14 @@ let mouse_move window xpos ypos =
     in
     let action =
       if !button_right
-      then if mod_shift then Typs.MjMOUSE_MOVE_H else Typs.MjMOUSE_MOVE_V
+      then if mod_shift then Typs.mjMOUSE_MOVE_H else Typs.mjMOUSE_MOVE_V
       else if !button_left
-      then if mod_shift then Typs.MjMOUSE_ROTATE_H else Typs.MjMOUSE_ROTATE_V
-      else Typs.MjMOUSE_ZOOM
+      then if mod_shift then Typs.mjMOUSE_ROTATE_H else Typs.mjMOUSE_ROTATE_V
+      else Typs.mjMOUSE_ZOOM
     in
     Bindings.mjv_moveCamera
       model
-      action
+      Int64.(to_int action)
       (dx /. Int.to_float width)
       (dy /. Int.to_float height)
       Ctypes.(addr scn)
@@ -80,7 +80,7 @@ let mouse_move window xpos ypos =
 let scroll_callback _ _ yoffset =
   Bindings.mjv_moveCamera
     model
-    Typs.MjMOUSE_ZOOM
+    Int64.(to_int Typs.mjMOUSE_ZOOM)
     0.
     (-0.05 *. yoffset)
     Ctypes.(addr scn)
@@ -124,7 +124,7 @@ let () =
       Ctypes.(addr opt)
       Ctypes.(from_voidp Typs.mjvPerturb null)
       (Ctypes.addr cam)
-      Typs.MjCAT_ALL
+      Int64.(to_int Typs.mjCAT_ALL)
       Ctypes.(addr scn);
     (* Render on window  *)
     Bindings.mjr_render viewport Ctypes.(addr scn) Ctypes.(addr con);
