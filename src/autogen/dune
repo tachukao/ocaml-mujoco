@@ -1,3 +1,3 @@
 (executables
- (names mujoco_fun_parser mujoco_typs_parser)
+ (names autogen)
  (libraries base stdio dune.configurator str re))

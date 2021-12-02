@@ -160,12 +160,13 @@ let parse_struct s =
   |> String.concat ~sep:"\n\n"
 
 
-let write_stubs parsed_list =
+let write_stubs ~stubs_filename parsed_list=
   let open Stdio.Out_channel in
   let f channel =
     fprintf
       channel
-      "open Ctypes\n\
+      "(* THIS FILE IS GENERATED AUTOMATICALLY, DO NOT EDIT BY HAND *)\n\n\
+       open Ctypes\n\
        module Bindings (S : Cstubs.Types.TYPE) = struct\n\
        open S\n\
        type mjtByte = Unsigned.UChar.t\n\
@@ -185,7 +186,7 @@ let write_stubs parsed_list =
       parsed_list;
     fprintf channel "end"
   in
-  with_file "types.ml" ~f
+  with_file stubs_filename ~f
 
 
 let parse s =
@@ -194,8 +195,8 @@ let parse s =
   Printf.sprintf "%s\n%s" _enum _struct
 
 
-let () =
+let write stubs_filename =
   [ "mjmodel.h"; "mjdata.h"; "mjvisualize.h"; "mjrender.h"; "mjui.h" ]
   |> List.map ~f:read_file
   |> List.map ~f:(fun (n, x) -> n, parse x)
-  |> write_stubs
+  |> write_stubs ~stubs_filename

@@ -47,12 +47,13 @@ let parse s =
            sprintf "let %s = foreign \"%s\" (%s @-> returning %s)" _fun _fun _args _rval))
 
 
-let write_stubs parsed =
+let write_stubs ~stubs_filename parsed =
   let open Stdio.Out_channel in
   let f channel =
     fprintf
       channel
-      "open Ctypes\n\
+      "(* THIS FILE IS GENERATED AUTOMATICALLY, DO NOT EDIT BY HAND *)\n\n\
+       open Ctypes\n\
        module Typs = Typs\n\
        open Typs\n\n\
        module Bindings (F : FOREIGN) = struct\n\
@@ -60,10 +61,10 @@ let write_stubs parsed =
     List.iter ~f:(fprintf channel "%s\n") parsed;
     fprintf channel "end"
   in
-  with_file "stubs.ml" ~f
+  with_file stubs_filename ~f
 
 
-let () =
+let write stubs_filename =
   let mujoco_dir =
     match Stdlib.Sys.getenv_opt "MUJOCO_DIR" with
     | Some x -> x
@@ -74,4 +75,4 @@ let () =
   |> Stdio.In_channel.with_file ~f:Stdio.In_channel.input_all
   |> preprocess
   |> parse
-  |> write_stubs
+  |> write_stubs ~stubs_filename
