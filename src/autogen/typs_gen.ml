@@ -110,14 +110,21 @@ let convert_struct name fields =
         ; rep blank
         ; shortest (group (rep (alt [ wordc; char '*' ])))
         ; rep blank
-        ; shortest (group (rep wordc))
+        ; shortest (group (rep (alt [ wordc ])))
+        ; opt (group (seq [ char '['; rep wordc; char ']' ]))
         ; str ";"
         ]
     in
     let mid =
       all (compile regex) s
       |> List.map ~f:(fun group ->
-             let typ = Group.get group 1 |> Common.convert_typ in
+             let typ =
+               let typ = Group.get group 1 in
+               (match Group.(get_opt group 3) with
+               | None   -> typ
+               | Some _ -> Printf.sprintf "%s*" typ)
+               |> Common.convert_typ
+             in
              let field = Group.get group 2 in
              Printf.sprintf "let %s_%s = field %s \"%s\" %s" bname field name field typ)
       |> String.concat ~sep:"\n"
