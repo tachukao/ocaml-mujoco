@@ -1,5 +1,5 @@
-let fun_stubs_filename = "src/stubs/stubs.ml"
-let typs_stubs_filename = "src/stubs/types/types.ml"
+let fun_stubs_filename = "src/wrapper/stubs/stubs.ml"
+let typs_stubs_filename = "src/wrapper/types/types.ml"
 
 let () =
   Fun_gen.write fun_stubs_filename;
