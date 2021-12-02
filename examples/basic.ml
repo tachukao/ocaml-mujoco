@@ -1,28 +1,12 @@
-open Mujoco
-open Wrapper
-
 let model_xml = Cmdargs.(get_string "-xml" |> force ~usage:"model XML")
-
-let make_rect ~left ~width ~bottom ~height =
-  let rect = Ctypes.make Typs.mjrRect in
-  Ctypes.setf rect Typs.mjrRect_left left;
-  Ctypes.setf rect Typs.mjrRect_width width;
-  Ctypes.setf rect Typs.mjrRect_bottom bottom;
-  Ctypes.setf rect Typs.mjrRect_height height;
-  rect
-
-
-let model =
-  Bindings.mj_loadXML model_xml Ctypes.(from_voidp Typs.mjVFS null) "Example" 1000
-
-
-let data = Bindings.mj_makeData model
+let model = Mujoco.load_xml ~name:"Example" model_xml
+let data = Mujoco.make_data model
 
 (* Create camera option scene and context *)
-let cam = Ctypes.make Typs.mjvCamera
-let opt = Ctypes.make Typs.mjvOption
-let scn = Ctypes.make Typs.mjvScene
-let con = Ctypes.make Typs.mjrContext
+let cam = Mujoco.make_default_vcamera ()
+let opt = Mujoco.make_default_voption ()
+let scn = Mujoco.make_default_vscene ()
+let con = Mujoco.make_default_rcontext ()
 let button_left = ref false
 let button_middle = ref false
 let button_right = ref false
@@ -33,8 +17,8 @@ let lasty = ref 0.
 let key_callback _ k _ act _ =
   if k = GLFW.Backspace && act = GLFW.Press
   then (
-    Bindings.mj_resetData model data;
-    Bindings.mj_forward model data)
+    Mujoco.reset_data model data;
+    Mujoco.forward model data)
 
 
 (* mouse button callback *)
@@ -61,48 +45,38 @@ let mouse_move window xpos ypos =
       || GLFW.(getKey ~window ~key:GLFW.RightShift)
     in
     let action =
+      let open Mujoco in
       if !button_right
-      then if mod_shift then Typs.mjMOUSE_MOVE_H else Typs.mjMOUSE_MOVE_V
+      then if mod_shift then MjMOUSE_MOVE_H else MjMOUSE_MOVE_V
       else if !button_left
-      then if mod_shift then Typs.mjMOUSE_ROTATE_H else Typs.mjMOUSE_ROTATE_V
-      else Typs.mjMOUSE_ZOOM
+      then if mod_shift then MjMOUSE_ROTATE_H else MjMOUSE_ROTATE_V
+      else MjMOUSE_ZOOM
     in
-    Bindings.mjv_moveCamera
+    Mujoco.move_camera
       model
-      Int64.(to_int action)
+      action
       (dx /. Int.to_float width)
       (dy /. Int.to_float height)
-      Ctypes.(addr scn)
-      Ctypes.(addr cam))
+      scn
+      cam)
 
 
 (* scroll callback *)
 let scroll_callback _ _ yoffset =
-  Bindings.mjv_moveCamera
-    model
-    Int64.(to_int Typs.mjMOUSE_ZOOM)
-    0.
-    (-0.05 *. yoffset)
-    Ctypes.(addr scn)
-    Ctypes.(addr cam)
+  Mujoco.move_camera model Mujoco.MjMOUSE_ZOOM 0. (-0.05 *. yoffset) scn cam
 
 
 let () =
   (* Initialize the GLFW library *)
   GLFW.init ();
   at_exit GLFW.terminate;
-  (* Set defaults *)
-  Bindings.mjv_defaultCamera (Ctypes.addr cam);
-  Bindings.mjv_defaultOption (Ctypes.addr opt);
-  Bindings.mjv_defaultScene (Ctypes.addr scn);
-  Bindings.mjr_defaultContext (Ctypes.addr con);
   (* Create a windowed mode window and its OpenGL context *)
   let window = GLFW.createWindow ~width:1200 ~height:900 ~title:"Demo" () in
   (* Make the window's context current *)
   GLFW.makeContextCurrent ~window:(Some window);
   (* Make scene and conext *)
-  Bindings.mjv_makeScene model Ctypes.(addr scn) 2000;
-  Bindings.mjr_makeContext model Ctypes.(addr con) 150;
+  Mujoco.(make_scene model scn 2000);
+  Mujoco.(make_context model con MjFONTSCALE_150);
   (* Set various callbacks *)
   GLFW.setKeyCallback ~window ~f:(Some key_callback) |> ignore;
   GLFW.setCursorPosCallback ~window ~f:(Some mouse_move) |> ignore;
@@ -110,28 +84,21 @@ let () =
   GLFW.setScrollCallback ~window ~f:(Some scroll_callback) |> ignore;
   (* Loop until the user closes the window *)
   while not (GLFW.windowShouldClose ~window) do
-    let simstart = Ctypes.(getf !@data Typs.mjData_time) in
+    let simstart = Mujoco.get_data_time data in
     (* Run the simulation loop *)
-    while Ctypes.(getf !@data Typs.mjData_time) -. simstart < 1.0 /. 60.0 do
-      Bindings.mj_step model data
+    while Mujoco.get_data_time data -. simstart < 1.0 /. 60.0 do
+      Mujoco.step model data
     done;
     let width, height = GLFW.getFramebufferSize ~window in
-    let viewport = make_rect ~left:0 ~width ~bottom:0 ~height in
+    let viewport = Mujoco.make_rrect ~left:0 ~width ~bottom:0 ~height in
     (* Update Mujoco Scene *)
-    Bindings.mjv_updateScene
-      model
-      data
-      Ctypes.(addr opt)
-      Ctypes.(from_voidp Typs.mjvPerturb null)
-      (Ctypes.addr cam)
-      Int64.(to_int Typs.mjCAT_ALL)
-      Ctypes.(addr scn);
+    Mujoco.(update_scene model data opt cam MjCAT_ALL scn);
     (* Render on window  *)
-    Bindings.mjr_render viewport Ctypes.(addr scn) Ctypes.(addr con);
+    Mujoco.render viewport scn con;
     (* Swap front and back buffers *)
     GLFW.swapBuffers ~window;
     (* Poll for and process events *)
     GLFW.pollEvents ()
   done;
-  Bindings.mj_deleteData data;
-  Bindings.mj_deleteModel model
+  Mujoco.delete_data data;
+  Mujoco.delete_model model

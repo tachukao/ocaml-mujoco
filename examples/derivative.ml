@@ -1,6 +1,3 @@
-open Mujoco
-open Wrapper
-
 let model_xml = Cmdargs.(get_string "-xml" |> force ~usage:"model XML")
 let niter = 30
 let nwarmup = 3
@@ -155,19 +152,19 @@ void worker(const mjModel* m, const mjData* dmain, mjData* d, int id)
 
 let worker ~is_forward model data =
   ignore is_forward;
-  let nv = Ctypes.(getf !@model Typs.mjModel_nv) in
+  let nv = Mujoco.get_model_nv model in
   ignore nv;
   if is_forward
   then (
-    Bindings.mj_forward model data;
+    Mujoco.forward model data;
     for _ = 0 to nwarmup - 1 do
-      Bindings.mj_forwardSkip
-        model
-        data
-        Int64.(to_int Typs.mjSTAGE_VEL)
-        Int64.(to_int Typs.mjSENS_ACCELEROMETER)
+      Mujoco.(forward_skip model data MjSTAGE_VEL MjSENS_ACCELEROMETER)
     done)
-  else Bindings.mj_inverse model data
+  else Mujoco.inverse model data;
+  let output =
+    if is_forward then Mujoco.get_data_qacc data else Mujoco.get_data_qfrc_inverse data
+  in
+  ignore output
 
 
 let () =
@@ -176,11 +173,9 @@ let () =
   Printf.printf "nepoch  : %d\n" nepoch;
   Printf.printf "nstep   : %d\n" nstep;
   Printf.printf "eps     : %g\n\n" eps;
-  let model =
-    Bindings.mj_loadXML model_xml Ctypes.(from_voidp Typs.mjVFS null) "Example" 1000
-  in
-  let data = Bindings.mj_makeData model in
-  let deriv =
+  let model = Mujoco.load_xml ~name:"Example" model_xml in
+  let data = Mujoco.make_data model in
+  (* let deriv =
     Unsigned.Size_t.(
       of_int
         (6
@@ -188,34 +183,32 @@ let () =
         * Ctypes.(getf !@model Typs.mjModel_nv)
         * Ctypes.(getf !@model Typs.mjModel_nv)))
     |> Bindings.mju_malloc
-    |> Ctypes.from_voidp Ctypes.double
-  in
+    |> Ctypes.from_voidp Ctypes.double *)
+  (* in *)
   (* save solver options *)
   let save_iterations =
-    Ctypes.(getf !@(model |-> Typs.mjModel_opt) Typs.mjOption_iterations)
+    model |> Mujoco.get_model_option |> Mujoco.get_option_iterations
   in
-  let save_tolerance =
-    Ctypes.(getf !@(model |-> Typs.mjModel_opt) Typs.mjOption_tolerance)
-  in
+  let save_tolerance = model |> Mujoco.get_model_option |> Mujoco.get_option_tolerance in
   let nefc = ref 0 in
   for _ = 0 to nepoch - 1 do
     (* set solver options for main simulation *)
-    Ctypes.(setf !@(model |-> Typs.mjModel_opt) Typs.mjOption_iterations save_iterations);
-    Ctypes.(setf !@(model |-> Typs.mjModel_opt) Typs.mjOption_tolerance save_tolerance);
+    Mujoco.set_option_iterations Mujoco.(get_model_option model) save_iterations;
+    Mujoco.set_option_tolerance Mujoco.(get_model_option model) save_tolerance;
     (* advance main simulation for nstep *)
     for _ = 0 to nstep - 1 do
-      Bindings.mj_step model data
+      Mujoco.step model data
     done;
-    (nefc := Ctypes.(getf !@data Typs.mjData_nefc));
+    nefc := Mujoco.get_data_nefc data;
     (* set solver options for finite differences *)
-    Ctypes.(setf !@(model |-> Typs.mjModel_opt) Typs.mjOption_iterations niter);
-    Ctypes.(setf !@(model |-> Typs.mjModel_opt) Typs.mjOption_tolerance 0.);
+    Mujoco.set_option_iterations Mujoco.(get_model_option model) niter;
+    Mujoco.set_option_tolerance Mujoco.(get_model_option model) 0.;
     (* test forward and inverse *)
     for _ = 0 to 1 do
       (* run worker *)
       worker ~is_forward:true model data
     done
   done;
-  Bindings.mju_free Ctypes.(to_voidp deriv);
-  Bindings.mj_deleteData data;
-  Bindings.mj_deleteModel model
+  (* Mujoco.mju_free Ctypes.(to_voidp deriv); *)
+  Mujoco.delete_data data;
+  Mujoco.delete_model model
