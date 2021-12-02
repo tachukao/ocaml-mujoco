@@ -1,5 +1,7 @@
 open Wrapper
 
+let version = 210
+
 type 'a cptr = 'a Ctypes.structure Ctypes_static.ptr
 type 'a cstruct = 'a Ctypes.structure
 type model = Typs.mjModel cptr
@@ -158,7 +160,7 @@ let make_default_rcontext () =
   con
 
 
-let move_camera model action dx dy scn cam =
+let move_vcamera model action dx dy scn cam =
   Bindings.mjv_moveCamera
     model
     (mouse_to_int action)
@@ -181,9 +183,9 @@ let render viewport scn con =
   Bindings.mjr_render viewport Ctypes.(addr scn) Ctypes.(addr con)
 
 
-let make_scene model scene = Bindings.mjv_makeScene model Ctypes.(addr scene)
+let make_vscene model scene = Bindings.mjv_makeScene model Ctypes.(addr scene)
 
-let update_scene ?perturb model data opt cam catbit scn =
+let update_vscene ?perturb model data opt cam catbit scn =
   let perturb =
     match perturb with
     | None         -> Ctypes.(from_voidp Typs.mjvPerturb null)
@@ -199,5 +201,10 @@ let update_scene ?perturb model data opt cam catbit scn =
     Ctypes.(addr scn)
 
 
-let make_context model context fontscale =
+let free_vscene scene = Bindings.mjv_freeScene Ctypes.(addr scene)
+
+let make_rcontext model context fontscale =
   Bindings.mjr_makeContext model Ctypes.(addr context) (fontscale_to_int fontscale)
+
+
+let free_rcontext rcontext = Bindings.mjr_freeContext Ctypes.(addr rcontext)

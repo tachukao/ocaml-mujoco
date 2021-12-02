@@ -1,5 +1,7 @@
 open Wrapper
 
+val version : int
+
 type 'a cptr = 'a Ctypes.structure Ctypes_static.ptr
 type 'a cstruct = 'a Ctypes.structure
 type model = Typs.mjModel cptr
@@ -157,8 +159,8 @@ val step1 : model -> data -> unit
 (** mj_step2 *)
 val step2 : model -> data -> unit
 
-(** move camera *)
-val move_camera : model -> mouse -> float -> float -> vscene -> vcamera -> unit
+(** move vcamera *)
+val move_vcamera : model -> mouse -> float -> float -> vscene -> vcamera -> unit
 
 (** make rrect *)
 val make_rrect : left:int -> width:int -> bottom:int -> height:int -> rrect
@@ -178,11 +180,11 @@ val make_default_vscene : unit -> vscene
 (*** make default rcontext *)
 val make_default_rcontext : unit -> rcontext
 
-(** make scene *)
-val make_scene : model -> vscene -> int -> unit
+(** make vscene *)
+val make_vscene : model -> vscene -> int -> unit
 
-(** update scene *)
-val update_scene
+(** update vscene *)
+val update_vscene
   :  ?perturb:vperturb
   -> model
   -> data
@@ -192,5 +194,11 @@ val update_scene
   -> vscene
   -> unit
 
-(** make context *)
-val make_context : model -> rcontext -> fontscale -> unit
+(* free vscene *)
+val free_vscene : vscene -> unit
+
+(** make rcontext *)
+val make_rcontext : model -> rcontext -> fontscale -> unit
+
+(* free rcontext *)
+val free_rcontext : rcontext -> unit

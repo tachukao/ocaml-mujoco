@@ -101,4 +101,6 @@ let () =
     GLFW.pollEvents ()
   done;
   Mujoco.delete_data data;
-  Mujoco.delete_model model
+  Mujoco.delete_model model;
+  Mujoco.free_vscene scn;
+  Mujoco.free_vcamera cam
