@@ -6,6 +6,8 @@ let preprocess s =
   |> Str.global_replace Str.(regexp "int action") "mjtMouse action"
   (* use mjtCatBit type instead of int *)
   |> Str.global_replace Str.(regexp "int catmask") "mjtCatBit catmask"
+  (* use mjtObj type instead of int *)
+  |> Str.global_replace Str.(regexp "int type") "mjtObj type"
 
 
 let convert_arg s =

@@ -320,7 +320,9 @@ module Bindings (F : FOREIGN) = struct
       @-> returning void)
 
 
-  let mj_name2id = foreign "mj_name2id" (ptr mjModel @-> int @-> string @-> returning int)
+  let mj_name2id =
+    foreign "mj_name2id" (ptr mjModel @-> mjtObj @-> string @-> returning int)
+
 
   let mj_fullM =
     foreign "mj_fullM" (ptr mjModel @-> ptr mjtNum @-> ptr mjtNum @-> returning void)
@@ -625,7 +627,7 @@ module Bindings (F : FOREIGN) = struct
     foreign
       "mjv_initGeom"
       (ptr mjvGeom
-      @-> int
+      @-> mjtObj
       @-> ptr mjtNum
       @-> ptr mjtNum
       @-> ptr mjtNum
@@ -637,7 +639,7 @@ module Bindings (F : FOREIGN) = struct
     foreign
       "mjv_makeConnector"
       (ptr mjvGeom
-      @-> int
+      @-> mjtObj
       @-> mjtNum
       @-> mjtNum
       @-> mjtNum
