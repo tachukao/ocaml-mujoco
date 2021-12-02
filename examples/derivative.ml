@@ -1,4 +1,3 @@
-(*
 open Mujoco
 open Wrapper
 
@@ -42,12 +41,12 @@ let () =
     Ctypes.(getf !@(model |-> Typs.mjModel_opt) Typs.mjOption_tolerance)
   in
   let nefc = ref 0 in
-  for epoch = 0 to nepoch - 1 do
+  for _ = 0 to nepoch - 1 do
     (* set solver options for main simulation *)
     Ctypes.(setf !@(model |-> Typs.mjModel_opt) Typs.mjOption_iterations save_iterations);
     Ctypes.(setf !@(model |-> Typs.mjModel_opt) Typs.mjOption_tolerance save_tolerance);
     (* advance main simulation for nstep *)
-    for i = 0 to nstep - 1 do
+    for _ = 0 to nstep - 1 do
       Bindings.mj_step model data
     done;
     (nefc := Ctypes.(getf !@data Typs.mjData_nefc));
@@ -55,7 +54,7 @@ let () =
     Ctypes.(setf !@(model |-> Typs.mjModel_opt) Typs.mjOption_iterations niter);
     Ctypes.(setf !@(model |-> Typs.mjModel_opt) Typs.mjOption_tolerance 0.);
     (* test forward and inverse *)
-    for isforward = 0 to 1 do
+    for _ = 0 to 1 do
       (* run worker *)
       worker model data
     done
@@ -63,4 +62,3 @@ let () =
   Bindings.mju_free Ctypes.(to_voidp deriv);
   Bindings.mj_deleteData data;
   Bindings.mj_deleteModel model
-*)
