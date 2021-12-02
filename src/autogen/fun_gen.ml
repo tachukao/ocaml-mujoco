@@ -1,19 +1,5 @@
 open Base
 
-let preprocess s = s
-(*
-  (* use mjtMouse type instead of int *)
-  |> Str.global_replace Str.(regexp "int action") "mjtMouse action"
-  (* use mjtCatBit type instead of int *)
-  |> Str.global_replace Str.(regexp "int catmask") "mjtCatBit catmask"
-  (* use mjtObj type instead of int *)
-  |> Str.global_replace Str.(regexp "int type") "mjtObj type"
-  (* use mjtStage type instead of int *)
-  |> Str.global_replace Str.(regexp "int skipstage") "mjtStage skipstage"
-  (* use mjtSensor type instead of int *)
-  |> Str.global_replace Str.(regexp "int skipsensor") "mjtSensor skipsensor"
-  *)
-
 let convert_arg s =
   if String.(s = "void")
   then "void"
@@ -79,6 +65,5 @@ let write stubs_filename =
   mujoco_dir
   |> Printf.sprintf "%s/include/mujoco.h"
   |> Stdio.In_channel.with_file ~f:Stdio.In_channel.input_all
-  |> preprocess
   |> parse
   |> write_stubs ~stubs_filename
