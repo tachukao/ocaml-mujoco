@@ -32,4 +32,4 @@
   c_library_flags)
  (action
   (bash
-   "%{cc} %{base} -I `dirname %{lib:ctypes:ctypes_cstubs_internals.h}` -I %{ocaml_where} $(< c_flags) $(< c_library_flags) -o %{targets}")))
+    "%{cc} %{base} -I `dirname %{lib:ctypes:ctypes_cstubs_internals.h}` -I %{ocaml_where} $(< c_flags) $(< c_library_flags) -o %{targets}")))

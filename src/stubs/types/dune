@@ -2,4 +2,3 @@
  (name types)
  (public_name mujoco.stubs.types)
  (libraries ctypes.stubs ctypes))
-

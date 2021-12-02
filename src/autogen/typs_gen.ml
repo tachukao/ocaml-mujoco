@@ -160,7 +160,7 @@ let parse_struct s =
   |> String.concat ~sep:"\n\n"
 
 
-let write_stubs ~stubs_filename parsed_list=
+let write_stubs ~stubs_filename parsed_list =
   let open Stdio.Out_channel in
   let f channel =
     fprintf
