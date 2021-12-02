@@ -52,7 +52,7 @@ let mouse_move window xpos ypos =
       then if mod_shift then MjMOUSE_ROTATE_H else MjMOUSE_ROTATE_V
       else MjMOUSE_ZOOM
     in
-    Mujoco.move_camera
+    Mujoco.move_vcamera
       model
       action
       (dx /. Int.to_float width)
@@ -63,7 +63,7 @@ let mouse_move window xpos ypos =
 
 (* scroll callback *)
 let scroll_callback _ _ yoffset =
-  Mujoco.move_camera model Mujoco.MjMOUSE_ZOOM 0. (-0.05 *. yoffset) scn cam
+  Mujoco.move_vcamera model Mujoco.MjMOUSE_ZOOM 0. (-0.05 *. yoffset) scn cam
 
 
 let () =
@@ -75,8 +75,8 @@ let () =
   (* Make the window's context current *)
   GLFW.makeContextCurrent ~window:(Some window);
   (* Make scene and conext *)
-  Mujoco.(make_scene model scn 2000);
-  Mujoco.(make_context model con MjFONTSCALE_150);
+  Mujoco.(make_vscene model scn 2000);
+  Mujoco.(make_rcontext model con MjFONTSCALE_150);
   (* Set various callbacks *)
   GLFW.setKeyCallback ~window ~f:(Some key_callback) |> ignore;
   GLFW.setCursorPosCallback ~window ~f:(Some mouse_move) |> ignore;
@@ -92,7 +92,7 @@ let () =
     let width, height = GLFW.getFramebufferSize ~window in
     let viewport = Mujoco.make_rrect ~left:0 ~width ~bottom:0 ~height in
     (* Update Mujoco Scene *)
-    Mujoco.(update_scene model data opt cam MjCAT_ALL scn);
+    Mujoco.(update_vscene model data opt cam MjCAT_ALL scn);
     (* Render on window  *)
     Mujoco.render viewport scn con;
     (* Swap front and back buffers *)
@@ -103,4 +103,4 @@ let () =
   Mujoco.delete_data data;
   Mujoco.delete_model model;
   Mujoco.free_vscene scn;
-  Mujoco.free_vcamera cam
+  Mujoco.free_rcontext con

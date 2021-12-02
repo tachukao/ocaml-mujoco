@@ -168,20 +168,38 @@ val make_rrect : left:int -> width:int -> bottom:int -> height:int -> rrect
 (** render on scene *)
 val render : rrect -> vscene -> rcontext -> unit
 
+(** make null vcamera *)
+val make_null_vcamera : unit -> vcamera
+
+(** set vcamera to default settings *)
+val set_default_vcamera : vcamera -> unit
+
 (** make default vcamera *)
 val make_default_vcamera : unit -> vcamera
+
+(** make null voption *)
+val make_null_voption : unit -> voption
+
+(** set voption to default settings *)
+val set_default_voption : voption -> unit
 
 (** make default voption *)
 val make_default_voption : unit -> voption
 
-(*** make default vscene *)
-val make_default_vscene : unit -> vscene
+(*** make null rcontext *)
+val make_null_rcontext : unit -> rcontext
 
 (*** make default rcontext *)
 val make_default_rcontext : unit -> rcontext
 
-(** make vscene *)
-val make_vscene : model -> vscene -> int -> unit
+(*** make null vscene *)
+val make_null_vscene : unit -> vscene
+
+(** set vscene to default settings *)
+val set_default_vscene : vscene -> unit
+
+(*** make default vscene *)
+val make_default_vscene : unit -> vscene
 
 (** update vscene *)
 val update_vscene
@@ -194,7 +212,10 @@ val update_vscene
   -> vscene
   -> unit
 
-(* free vscene *)
+(** make vscene with model for maxgeom *)
+val make_vscene : model -> vscene -> int -> unit 
+
+(** free vscene *)
 val free_vscene : vscene -> unit
 
 (** make rcontext *)

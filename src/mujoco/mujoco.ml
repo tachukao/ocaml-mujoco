@@ -136,27 +136,39 @@ let set_option_tolerance option tolerance =
   Ctypes.(setf option Typs.mjOption_tolerance tolerance)
 
 
+let make_null_vcamera () = Ctypes.make Typs.mjvCamera
+let set_default_vcamera cam = Bindings.mjv_defaultCamera (Ctypes.addr cam)
+
 let make_default_vcamera () =
-  let cam = Ctypes.make Typs.mjvCamera in
-  Bindings.mjv_defaultCamera (Ctypes.addr cam);
+  let cam = make_null_vcamera () in
+  set_default_vcamera cam;
   cam
 
 
+let make_null_voption () = Ctypes.make Typs.mjvOption
+let set_default_voption opt = Bindings.mjv_defaultOption (Ctypes.addr opt)
+
 let make_default_voption () =
-  let opt = Ctypes.make Typs.mjvOption in
-  Bindings.mjv_defaultOption (Ctypes.addr opt);
+  let opt = make_null_voption () in
+  set_default_voption opt;
   opt
 
 
+let make_null_vscene () = Ctypes.make Typs.mjvScene
+let set_default_vscene scn = Bindings.mjv_defaultScene (Ctypes.addr scn)
+
 let make_default_vscene () =
   let scn = Ctypes.make Typs.mjvScene in
-  Bindings.mjv_defaultScene (Ctypes.addr scn);
+  set_default_vscene scn;
   scn
 
 
+let make_null_rcontext () = Ctypes.make Typs.mjrContext
+let set_default_rcontext con = Bindings.mjr_defaultContext (Ctypes.addr con)
+
 let make_default_rcontext () =
-  let con = Ctypes.make Typs.mjrContext in
-  Bindings.mjr_defaultContext (Ctypes.addr con);
+  let con = make_null_rcontext () in
+  set_default_rcontext con;
   con
 
 
@@ -183,8 +195,6 @@ let render viewport scn con =
   Bindings.mjr_render viewport Ctypes.(addr scn) Ctypes.(addr con)
 
 
-let make_vscene model scene = Bindings.mjv_makeScene model Ctypes.(addr scene)
-
 let update_vscene ?perturb model data opt cam catbit scn =
   let perturb =
     match perturb with
@@ -201,6 +211,7 @@ let update_vscene ?perturb model data opt cam catbit scn =
     Ctypes.(addr scn)
 
 
+let make_vscene model scene = Bindings.mjv_makeScene model Ctypes.(addr scene) 
 let free_vscene scene = Bindings.mjv_freeScene Ctypes.(addr scene)
 
 let make_rcontext model context fontscale =
