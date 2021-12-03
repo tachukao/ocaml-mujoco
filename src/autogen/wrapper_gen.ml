@@ -101,17 +101,17 @@ let p_types ch chi =
                     p chi "\n";
                     p ch "(** get %s from %s *)" field bname;
                     p chi "(** get %s from %s *)" field bname;
-                    p ch "let get_%s_%s x =" bname field;
+                    p ch "let %s_get_%s x =" bname field;
                     p ch "  Ctypes.(getf x Typs.%s_%s)" bname field;
-                    p chi "val get_%s_%s : %s -> %s" bname field bname typ;
+                    p chi "val %s_get_%s : %s -> %s" bname field bname typ;
                     (* setter *)
                     p ch "\n";
                     p chi "\n";
                     p ch "(** set %s for %s *)" field bname;
                     p chi "(** set %s for %s *)" field bname;
-                    p ch "let set_%s_%s x y =" bname field;
+                    p ch "let %s_set_%s x y =" bname field;
                     p ch "  Ctypes.(setf x Typs.%s_%s y)" bname field;
-                    p chi "val set_%s_%s : %s -> %s -> unit" bname field bname typ)
+                    p chi "val %s_set_%s : %s -> %s -> unit" bname field bname typ)
             in
             callback)
       in
