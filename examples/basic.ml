@@ -1,16 +1,6 @@
 open Wrapper
 
 let model_xml = Cmdargs.(get_string "-xml" |> force ~usage:"model XML")
-
-let make_rect ~left ~width ~bottom ~height =
-  let rect = mjrRect_allocate () in
-  mjrRect_set_left rect left;
-  mjrRect_set_width rect width;
-  mjrRect_set_bottom rect bottom;
-  mjrRect_set_height rect height;
-  rect
-
-
 let model = mj_loadXML model_xml (mjVFS_null ()) "Example" 1000
 let data = mj_makeData model
 
@@ -68,19 +58,13 @@ let mouse_move window xpos ypos =
       (mjtMouse_to_int action)
       (dx /. Int.to_float width)
       (dy /. Int.to_float height)
-      (mj_addr scn)
-      (mj_addr cam))
+      !&scn
+      !&cam)
 
 
 (* scroll callback *)
 let scroll_callback _ _ yoffset =
-  mjv_moveCamera
-    model
-    (mjtMouse_to_int MjMOUSE_ZOOM)
-    0.
-    (-0.05 *. yoffset)
-    (mj_addr scn)
-    (mj_addr cam)
+  mjv_moveCamera model (mjtMouse_to_int MjMOUSE_ZOOM) 0. (-0.05 *. yoffset) !&scn !&cam
 
 
 let () =
@@ -88,17 +72,17 @@ let () =
   GLFW.init ();
   at_exit GLFW.terminate;
   (* Set defaults *)
-  mjv_defaultCamera (mj_addr cam);
-  mjv_defaultOption (mj_addr opt);
-  mjv_defaultScene (mj_addr scn);
-  mjr_defaultContext (mj_addr con);
+  mjv_defaultCamera !&cam;
+  mjv_defaultOption !&opt;
+  mjv_defaultScene !&scn;
+  mjr_defaultContext !&con;
   (* Create a windowed mode window and its OpenGL context *)
   let window = GLFW.createWindow ~width:1200 ~height:900 ~title:"Demo" () in
   (* Make the window's context current *)
   GLFW.makeContextCurrent ~window:(Some window);
   (* Make scene and conext *)
-  mjv_makeScene model (mj_addr scn) 2000;
-  mjr_makeContext model (mj_addr con) 150;
+  mjv_makeScene model !&scn 2000;
+  mjr_makeContext model !&con 150;
   (* Set various callbacks *)
   GLFW.setKeyCallback ~window ~f:(Some key_callback) |> ignore;
   GLFW.setCursorPosCallback ~window ~f:(Some mouse_move) |> ignore;
@@ -111,19 +95,19 @@ let () =
     while mjData_get_time Ctypes.(!@data) -. simstart < 1.0 /. 60.0 do
       mj_step model data
     done;
-    let width, height = GLFW.getFramebufferSize ~window in
-    let viewport = make_rect ~left:0 ~width ~bottom:0 ~height in
+    let mjf_width, mjf_height = GLFW.getFramebufferSize ~window in
+    let viewport = mjrRect_make ~mjf_left:0 ~mjf_width ~mjf_bottom:0 ~mjf_height () in
     (* Update Mujoco Scene *)
     mjv_updateScene
       model
       data
-      (mj_addr opt)
+      !&opt
       (mjvPerturb_null ())
-      (mj_addr cam)
+      !&cam
       (mjtCatBit_to_int MjCAT_ALL)
-      (mj_addr scn);
+      !&scn;
     (* Render on window  *)
-    mjr_render viewport (mj_addr scn) (mj_addr con);
+    mjr_render viewport !&scn !&con;
     (* Swap front and back buffers *)
     GLFW.swapBuffers ~window;
     (* Poll for and process events *)
