@@ -1,5 +1,19 @@
 open Base
 
+type cstruct_fields =
+  | Nested
+  | Flat of (string * string) list
+
+type cstruct =
+  { cstruct_name : string
+  ; cstruct_fields : cstruct_fields
+  }
+
+type cenum =
+  { cenum_name : string
+  ; cenum_states : string list
+  }
+
 let p = Common.p
 
 let get_bname name =
@@ -7,56 +21,22 @@ let get_bname name =
   String.sub ~pos:1 ~len:String.(length name - 1) name
 
 
-let convert_enum name items =
-  let bname = get_bname name in
-  let top =
-    items
-    |> List.map ~f:String.capitalize
-    |> List.map ~f:Printf.(sprintf "| %s")
-    |> String.concat ~sep:"\n"
-    |> Printf.sprintf "type %s =\n%s\n" bname
-  in
-  let mid =
-    items
-    |> List.map ~f:(fun s -> Printf.(sprintf "let %s = constant \"%s\" int64_t" s s))
+let get_enum_states s =
+  let open Re in
+  let s =
+    String.strip s
+    |> Printf.sprintf "%s,"
+    |> String.split_lines
+    |> List.map ~f:String.strip
+    |> List.filter ~f:(fun s -> String.(s <> ""))
     |> String.concat ~sep:"\n"
   in
-  let bottom =
-    let z =
-      items
-      |> List.map ~f:(fun s -> Printf.sprintf "%s , %s" String.(capitalize s) s)
-      |> String.concat ~sep:"\n; "
-      |> Printf.sprintf "[ %s ]"
-    in
-    Printf.sprintf
-      "let %s =\n\
-       S.enum\n\
-       \"%s\"\n\
-       ~typedef:true\n\
-       %s\n\
-      \      ~unexpected:(fun _ -> failwith \"unexpected %s element data type enum\")\n"
-      bname
-      bname
-      z
-      bname
-  in
-  Printf.sprintf "%s\n%s\n%s\n%!" top mid bottom
+  let regex = seq [ bol; shortest (group (rep1 wordc)); alt [ space; char ',' ] ] in
+  all (compile regex) s |> List.map ~f:(fun group -> Group.get group 1)
 
 
 let parse_enum s =
   let open Re in
-  let get_items s =
-    let s =
-      String.strip s
-      |> Printf.sprintf "%s,"
-      |> String.split_lines
-      |> List.map ~f:String.strip
-      |> List.filter ~f:(fun s -> String.(s <> ""))
-      |> String.concat ~sep:"\n"
-    in
-    let regex = seq [ bol; shortest (group (rep1 wordc)); alt [ space; char ',' ] ] in
-    all (compile regex) s |> List.map ~f:(fun group -> Group.get group 1)
-  in
   let regex =
     seq
       [ bol
@@ -73,53 +53,13 @@ let parse_enum s =
   in
   all (compile regex) s
   |> List.map ~f:(fun group ->
-         let name = Group.get group 1 in
-         let items = Group.get group 2 |> get_items in
-         convert_enum name items)
-  |> String.concat ~sep:"\n"
+         let cenum_name = Group.get group 1 in
+         let cenum_states = Group.get group 2 |> get_enum_states in
+         { cenum_name; cenum_states })
 
 
-let convert_struct name fields =
-  let bname = get_bname name in
-  let top =
-    Printf.sprintf
-      "type %s\nlet %s : %s structure typ = structure \"%s\""
-      name
-      name
-      name
-      name
-  in
-  let seal = Printf.sprintf "let () = seal %s" name in
-  let bottom = Printf.sprintf "type %s = %s\nlet %s = %s" bname name bname name in
+let is_nested_struct_fields s =
   let open Re in
-  let get_fields s =
-    let regex =
-      seq
-        [ bol
-        ; rep blank
-        ; shortest (group (rep (alt [ wordc; char '*' ])))
-        ; rep blank
-        ; shortest (group (rep (alt [ wordc ])))
-        ; opt (group (seq [ char '['; rep wordc; char ']' ]))
-        ; str ";"
-        ]
-    in
-    let mid =
-      all (compile regex) s
-      |> List.map ~f:(fun group ->
-             let typ =
-               let typ = Group.get group 1 in
-               (match Group.(get_opt group 3) with
-               | None   -> typ
-               | Some _ -> typ ^ "*")
-               |> Common.convert_typ
-             in
-             let field = Group.get group 2 in
-             Printf.sprintf "let %s_%s = field %s \"%s\" %s" bname field name field typ)
-      |> String.concat ~sep:"\n"
-    in
-    Printf.sprintf "%s\n%s\n" mid seal
-  in
   let regex =
     seq
       [ seq [ bow; str "struct"; eow ]
@@ -129,9 +69,37 @@ let convert_struct name fields =
       ; seq [ str "}"; space; group (rep wordc) ]
       ]
   in
-  let matched = all (compile regex) fields in
-  let mid = if not Int.(List.length matched = 0) then "" else get_fields fields in
-  Printf.sprintf "%s\n%s\n%s\n" top mid bottom
+  let matched = all (compile regex) s in
+  Int.(List.length matched > 0)
+
+
+let get_flat_struct_fields s =
+  let open Re in
+  let regex =
+    seq
+      [ bol
+      ; rep blank
+      ; shortest (group (rep (alt [ wordc; char '*' ])))
+      ; rep blank
+      ; shortest (group (rep (alt [ wordc ])))
+      ; opt (group (seq [ char '['; rep wordc; char ']' ]))
+      ; str ";"
+      ]
+  in
+  let fields =
+    all (compile regex) s
+    |> List.map ~f:(fun group ->
+           let typ =
+             let typ = Group.get group 1 in
+             (match Group.(get_opt group 3) with
+             | None   -> typ
+             | Some _ -> typ ^ "*")
+             |> Common.convert_typ
+           in
+           let field = Group.get group 2 in
+           typ, field)
+  in
+  Flat fields
 
 
 let parse_struct s =
@@ -151,46 +119,93 @@ let parse_struct s =
   all (compile regex) s
   |> List.map ~f:(fun group ->
          let name = Group.get group 1 in
-         let fields = Group.get group 2 in
-         convert_struct name fields)
-  |> String.concat ~sep:"\n\n"
+         let _fields = Group.get group 2 in
+         if is_nested_struct_fields _fields
+         then { cstruct_name = name; cstruct_fields = Nested }
+         else { cstruct_name = name; cstruct_fields = get_flat_struct_fields _fields })
 
 
-let write_stubs ~stubs_filename parsed_list =
-  let f channel =
-    let ps = p channel in
-    ps "(* THIS FILE IS GENERATED AUTOMATICALLY, DO NOT EDIT BY HAND *)\n";
-    ps "open Ctypes";
-    ps "module Bindings (S : Cstubs.Types.TYPE) = struct";
-    ps "open S";
-    ps "type mjtByte = Unsigned.UChar.t";
-    ps "let mjtByte = uchar";
-    ps "type mjtNum = float";
-    ps "let mjtNum = double";
-    ps "let mjfItemEnable = static_funptr (int @-> ptr void @-> returning int)\n";
-    List.iter
-      ~f:(fun (filename, parsed) ->
-        p
-          channel
-          "(* %s %s %s *)\n\n%s"
-          String.(make 25 '-')
-          filename
-          String.(make 25 '-')
-          parsed)
-      parsed_list;
-    ps "end"
-  in
-  Stdio.Out_channel.with_file stubs_filename ~f
+let p_filename_box ch filename =
+  let width = 80 in
+  let l = String.length filename in
+  let first_leg = 30 in
+  let second_leg = width - (first_leg + 2) - l in
+  p ch "(* %s *)" String.(make width '-');
+  p ch "(* %s %s %s *)" String.(make first_leg '-') filename String.(make second_leg '-');
+  p ch "(* %s *)\n\n" String.(make width '-')
 
 
-let parse s =
-  let _enum = parse_enum s in
-  let _struct = parse_struct s in
-  Printf.sprintf "%s\n%s" _enum _struct
+let p_enum_part channel fs =
+  List.iter (parse_enum fs) ~f:(fun cenum ->
+      let name = cenum.cenum_name in
+      let bname = get_bname name in
+      let states = cenum.cenum_states in
+      (* top *)
+      p channel "type %s =" bname;
+      List.iter states ~f:(fun state -> p channel " | %s" String.(capitalize state));
+      (* mid *)
+      List.iter states ~f:(fun s -> p channel "let %s = constant \"%s\" int64_t" s s);
+      (* bottom *)
+      p channel "let %s =" bname;
+      p channel " S.enum";
+      p channel " \"%s\"" bname;
+      p channel " ~typedef:true";
+      p channel " [";
+      List.iter states ~f:(fun s -> p channel "%s , %s;" String.(capitalize s) s);
+      p channel " ]";
+      p
+        channel
+        "    ~unexpected:(fun _ -> failwith \"unexpected %s element data type enum\")"
+        bname)
+
+
+let p_struct_part channel fs =
+  List.iter (parse_struct fs) ~f:(fun cstruct ->
+      let name = cstruct.cstruct_name in
+      let bname = get_bname name in
+      (* top *)
+      p
+        channel
+        "type %s\nlet %s : %s structure typ = structure \"%s\""
+        name
+        name
+        name
+        name;
+      (* mid *)
+      (match cstruct.cstruct_fields with
+      | Nested      -> ()
+      | Flat fields ->
+        List.iter fields ~f:(fun (typ, field) ->
+            p channel "let %s_%s = field %s \"%s\" %s" bname field name field typ);
+        (* seal *)
+        p channel "let () = seal %s" name);
+      (* bottom *)
+      p channel "type %s = %s" bname name;
+      p channel "let %s = %s" bname name)
+
+
+let write_stubs ~stubs_filename s =
+  Stdio.Out_channel.with_file stubs_filename ~f:(fun channel ->
+      let ps = p channel in
+      ps "(* THIS FILE IS GENERATED AUTOMATICALLY, DO NOT EDIT BY HAND *)\n";
+      ps "open Ctypes";
+      ps "module Bindings (S : Cstubs.Types.TYPE) = struct";
+      ps "open S";
+      ps "type mjtByte = Unsigned.UChar.t";
+      ps "let mjtByte = uchar";
+      ps "type mjtNum = float";
+      ps "let mjtNum = double";
+      ps "let mjfItemEnable = static_funptr (int @-> ptr void @-> returning int)\n";
+      List.iter s ~f:(fun (filename, fs) ->
+          p_filename_box channel filename;
+          (* enum part *)
+          p_enum_part channel fs;
+          (* struct part *) 
+          p_struct_part channel fs);
+      ps "end")
 
 
 let write stubs_filename =
   [ "mjmodel.h"; "mjdata.h"; "mjvisualize.h"; "mjrender.h"; "mjui.h" ]
   |> List.map ~f:Common.read_file
-  |> List.map ~f:(fun (n, x) -> n, parse x)
   |> write_stubs ~stubs_filename
