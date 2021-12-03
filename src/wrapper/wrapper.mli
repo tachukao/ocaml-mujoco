@@ -1,11 +1,13 @@
 (* THIS FILE IS GENERATED AUTOMATICALLY, DO NOT EDIT BY HAND *)
 
 open Stubs
-module Typs : module type of Typs
-module Bindings : module type of Stubs.Bindings (Mujoco_generated)
 
 type 'a t = 'a Ctypes.structure
 type 'a ptr = 'a Ctypes_static.ptr
+
+val ( !@ ) : 'a ptr -> 'a
+val mj_addr : 'a t -> 'a t ptr
+
 type mjfItemEnable = (int -> unit ptr -> int) Mujoco_generated.CI.static_funptr
 
 (** disable default feature bitflags *)
@@ -617,6 +619,12 @@ val mjtDataType_to_int : mjtDataType -> int
 (** convert mjtLRMode type to int *)
 val mjtLRMode_to_int : mjtLRMode -> int
 
+(** allocate fresh mjLROpt struct *)
+val mjLROpt_allocate : unit -> mjLROpt
+
+(** make null mjLROpt struct ptr *)
+val mjLROpt_null : unit -> mjLROpt ptr
+
 (** get mode from mjLROpt *)
 val mjLROpt_get_mode : mjLROpt -> int
 
@@ -677,6 +685,12 @@ val mjLROpt_get_tolrange : mjLROpt -> float
 (** set tolrange for mjLROpt *)
 val mjLROpt_set_tolrange : mjLROpt -> float -> unit
 
+(** allocate fresh mjVFS struct *)
+val mjVFS_allocate : unit -> mjVFS
+
+(** make null mjVFS struct ptr *)
+val mjVFS_null : unit -> mjVFS ptr
+
 (** get nfile from mjVFS *)
 val mjVFS_get_nfile : mjVFS -> int
 
@@ -694,6 +708,12 @@ val mjVFS_get_filedata : mjVFS -> unit ptr ptr
 
 (** set filedata for mjVFS *)
 val mjVFS_set_filedata : mjVFS -> unit ptr ptr -> unit
+
+(** allocate fresh mjOption struct *)
+val mjOption_allocate : unit -> mjOption
+
+(** make null mjOption struct ptr *)
+val mjOption_null : unit -> mjOption ptr
 
 (** get timestep from mjOption *)
 val mjOption_get_timestep : mjOption -> float
@@ -839,6 +859,12 @@ val mjOption_get_enableflags : mjOption -> int
 (** set enableflags for mjOption *)
 val mjOption_set_enableflags : mjOption -> int -> unit
 
+(** allocate fresh mjStatistic struct *)
+val mjStatistic_allocate : unit -> mjStatistic
+
+(** make null mjStatistic struct ptr *)
+val mjStatistic_null : unit -> mjStatistic ptr
+
 (** get meaninertia from mjStatistic *)
 val mjStatistic_get_meaninertia : mjStatistic -> float
 
@@ -868,6 +894,12 @@ val mjStatistic_get_center : mjStatistic -> float ptr
 
 (** set center for mjStatistic *)
 val mjStatistic_set_center : mjStatistic -> float ptr -> unit
+
+(** allocate fresh mjModel struct *)
+val mjModel_allocate : unit -> mjModel
+
+(** make null mjModel struct ptr *)
+val mjModel_null : unit -> mjModel ptr
 
 (** get nq from mjModel *)
 val mjModel_get_nq : mjModel -> int
@@ -2837,6 +2869,12 @@ val mjtWarning_to_int : mjtWarning -> int
 (** convert mjtTimer type to int *)
 val mjtTimer_to_int : mjtTimer -> int
 
+(** allocate fresh mjContact struct *)
+val mjContact_allocate : unit -> mjContact
+
+(** make null mjContact struct ptr *)
+val mjContact_null : unit -> mjContact ptr
+
 (** get dist from mjContact *)
 val mjContact_get_dist : mjContact -> float
 
@@ -2921,6 +2959,12 @@ val mjContact_get_efc_address : mjContact -> int
 (** set efc_address for mjContact *)
 val mjContact_set_efc_address : mjContact -> int -> unit
 
+(** allocate fresh mjWarningStat struct *)
+val mjWarningStat_allocate : unit -> mjWarningStat
+
+(** make null mjWarningStat struct ptr *)
+val mjWarningStat_null : unit -> mjWarningStat ptr
+
 (** get lastinfo from mjWarningStat *)
 val mjWarningStat_get_lastinfo : mjWarningStat -> int
 
@@ -2933,6 +2977,12 @@ val mjWarningStat_get_number : mjWarningStat -> int
 (** set number for mjWarningStat *)
 val mjWarningStat_set_number : mjWarningStat -> int -> unit
 
+(** allocate fresh mjTimerStat struct *)
+val mjTimerStat_allocate : unit -> mjTimerStat
+
+(** make null mjTimerStat struct ptr *)
+val mjTimerStat_null : unit -> mjTimerStat ptr
+
 (** get duration from mjTimerStat *)
 val mjTimerStat_get_duration : mjTimerStat -> float
 
@@ -2944,6 +2994,12 @@ val mjTimerStat_get_number : mjTimerStat -> int
 
 (** set number for mjTimerStat *)
 val mjTimerStat_set_number : mjTimerStat -> int -> unit
+
+(** allocate fresh mjSolverStat struct *)
+val mjSolverStat_allocate : unit -> mjSolverStat
+
+(** make null mjSolverStat struct ptr *)
+val mjSolverStat_null : unit -> mjSolverStat ptr
 
 (** get improvement from mjSolverStat *)
 val mjSolverStat_get_improvement : mjSolverStat -> float
@@ -2986,6 +3042,12 @@ val mjSolverStat_get_nupdate : mjSolverStat -> int
 
 (** set nupdate for mjSolverStat *)
 val mjSolverStat_set_nupdate : mjSolverStat -> int -> unit
+
+(** allocate fresh mjData struct *)
+val mjData_allocate : unit -> mjData
+
+(** make null mjData struct ptr *)
+val mjData_null : unit -> mjData ptr
 
 (** get nstack from mjData *)
 val mjData_get_nstack : mjData -> int
@@ -3692,6 +3754,12 @@ val mjtRndFlag_to_int : mjtRndFlag -> int
 (** convert mjtStereo type to int *)
 val mjtStereo_to_int : mjtStereo -> int
 
+(** allocate fresh mjvPerturb struct *)
+val mjvPerturb_allocate : unit -> mjvPerturb
+
+(** make null mjvPerturb struct ptr *)
+val mjvPerturb_null : unit -> mjvPerturb ptr
+
 (** get select from mjvPerturb *)
 val mjvPerturb_get_select : mjvPerturb -> int
 
@@ -3740,6 +3808,12 @@ val mjvPerturb_get_scale : mjvPerturb -> float
 (** set scale for mjvPerturb *)
 val mjvPerturb_set_scale : mjvPerturb -> float -> unit
 
+(** allocate fresh mjvCamera struct *)
+val mjvCamera_allocate : unit -> mjvCamera
+
+(** make null mjvCamera struct ptr *)
+val mjvCamera_null : unit -> mjvCamera ptr
+
 (** get type from mjvCamera *)
 val mjvCamera_get_type : mjvCamera -> int
 
@@ -3781,6 +3855,12 @@ val mjvCamera_get_elevation : mjvCamera -> float
 
 (** set elevation for mjvCamera *)
 val mjvCamera_set_elevation : mjvCamera -> float -> unit
+
+(** allocate fresh mjvGLCamera struct *)
+val mjvGLCamera_allocate : unit -> mjvGLCamera
+
+(** make null mjvGLCamera struct ptr *)
+val mjvGLCamera_null : unit -> mjvGLCamera ptr
 
 (** get pos from mjvGLCamera *)
 val mjvGLCamera_get_pos : mjvGLCamera -> float ptr
@@ -3829,6 +3909,12 @@ val mjvGLCamera_get_frustum_far : mjvGLCamera -> float
 
 (** set frustum_far for mjvGLCamera *)
 val mjvGLCamera_set_frustum_far : mjvGLCamera -> float -> unit
+
+(** allocate fresh mjvGeom struct *)
+val mjvGeom_allocate : unit -> mjvGeom
+
+(** make null mjvGeom struct ptr *)
+val mjvGeom_null : unit -> mjvGeom ptr
 
 (** get type from mjvGeom *)
 val mjvGeom_get_type : mjvGeom -> int
@@ -3962,6 +4048,12 @@ val mjvGeom_get_transparent : mjvGeom -> Unsigned.UChar.t
 (** set transparent for mjvGeom *)
 val mjvGeom_set_transparent : mjvGeom -> Unsigned.UChar.t -> unit
 
+(** allocate fresh mjvLight struct *)
+val mjvLight_allocate : unit -> mjvLight
+
+(** make null mjvLight struct ptr *)
+val mjvLight_null : unit -> mjvLight ptr
+
 (** get pos from mjvLight *)
 val mjvLight_get_pos : mjvLight -> float ptr
 
@@ -4028,6 +4120,12 @@ val mjvLight_get_castshadow : mjvLight -> Unsigned.UChar.t
 (** set castshadow for mjvLight *)
 val mjvLight_set_castshadow : mjvLight -> Unsigned.UChar.t -> unit
 
+(** allocate fresh mjvOption struct *)
+val mjvOption_allocate : unit -> mjvOption
+
+(** make null mjvOption struct ptr *)
+val mjvOption_null : unit -> mjvOption ptr
+
 (** get label from mjvOption *)
 val mjvOption_get_label : mjvOption -> int
 
@@ -4075,6 +4173,12 @@ val mjvOption_get_flags : mjvOption -> Unsigned.UChar.t ptr
 
 (** set flags for mjvOption *)
 val mjvOption_set_flags : mjvOption -> Unsigned.UChar.t ptr -> unit
+
+(** allocate fresh mjvScene struct *)
+val mjvScene_allocate : unit -> mjvScene
+
+(** make null mjvScene struct ptr *)
+val mjvScene_null : unit -> mjvScene ptr
 
 (** get maxgeom from mjvScene *)
 val mjvScene_get_maxgeom : mjvScene -> int
@@ -4201,6 +4305,12 @@ val mjvScene_get_framergb : mjvScene -> float ptr
 
 (** set framergb for mjvScene *)
 val mjvScene_set_framergb : mjvScene -> float ptr -> unit
+
+(** allocate fresh mjvFigure struct *)
+val mjvFigure_allocate : unit -> mjvFigure
+
+(** make null mjvFigure struct ptr *)
+val mjvFigure_null : unit -> mjvFigure ptr
 
 (** get flg_legend from mjvFigure *)
 val mjvFigure_get_flg_legend : mjvFigure -> int
@@ -4388,6 +4498,12 @@ val mjtFontScale_to_int : mjtFontScale -> int
 (** convert mjtFont type to int *)
 val mjtFont_to_int : mjtFont -> int
 
+(** allocate fresh mjrRect struct *)
+val mjrRect_allocate : unit -> mjrRect
+
+(** make null mjrRect struct ptr *)
+val mjrRect_null : unit -> mjrRect ptr
+
 (** get left from mjrRect *)
 val mjrRect_get_left : mjrRect -> int
 
@@ -4411,6 +4527,12 @@ val mjrRect_get_height : mjrRect -> int
 
 (** set height for mjrRect *)
 val mjrRect_set_height : mjrRect -> int -> unit
+
+(** allocate fresh mjrContext struct *)
+val mjrContext_allocate : unit -> mjrContext
+
+(** make null mjrContext struct ptr *)
+val mjrContext_null : unit -> mjrContext ptr
 
 (** get lineWidth from mjrContext *)
 val mjrContext_get_lineWidth : mjrContext -> float
@@ -4613,6 +4735,12 @@ val mjtEvent_to_int : mjtEvent -> int
 (** convert mjtItem type to int *)
 val mjtItem_to_int : mjtItem -> int
 
+(** allocate fresh mjuiState struct *)
+val mjuiState_allocate : unit -> mjuiState
+
+(** make null mjuiState struct ptr *)
+val mjuiState_null : unit -> mjuiState ptr
+
 (** get nrect from mjuiState *)
 val mjuiState_get_nrect : mjuiState -> int
 
@@ -4757,6 +4885,12 @@ val mjuiState_get_dragbutton : mjuiState -> int
 (** set dragbutton for mjuiState *)
 val mjuiState_set_dragbutton : mjuiState -> int -> unit
 
+(** allocate fresh mjuiThemeSpacing struct *)
+val mjuiThemeSpacing_allocate : unit -> mjuiThemeSpacing
+
+(** make null mjuiThemeSpacing struct ptr *)
+val mjuiThemeSpacing_null : unit -> mjuiThemeSpacing ptr
+
 (** get total from mjuiThemeSpacing *)
 val mjuiThemeSpacing_get_total : mjuiThemeSpacing -> int
 
@@ -4822,6 +4956,12 @@ val mjuiThemeSpacing_get_samples : mjuiThemeSpacing -> int
 
 (** set samples for mjuiThemeSpacing *)
 val mjuiThemeSpacing_set_samples : mjuiThemeSpacing -> int -> unit
+
+(** allocate fresh mjuiThemeColor struct *)
+val mjuiThemeColor_allocate : unit -> mjuiThemeColor
+
+(** make null mjuiThemeColor struct ptr *)
+val mjuiThemeColor_null : unit -> mjuiThemeColor ptr
 
 (** get master from mjuiThemeColor *)
 val mjuiThemeColor_get_master : mjuiThemeColor -> float ptr
@@ -4949,6 +5089,12 @@ val mjuiThemeColor_get_cursor : mjuiThemeColor -> float ptr
 (** set cursor for mjuiThemeColor *)
 val mjuiThemeColor_set_cursor : mjuiThemeColor -> float ptr -> unit
 
+(** allocate fresh mjuiItemSingle struct *)
+val mjuiItemSingle_allocate : unit -> mjuiItemSingle
+
+(** make null mjuiItemSingle struct ptr *)
+val mjuiItemSingle_null : unit -> mjuiItemSingle ptr
+
 (** get modifier from mjuiItemSingle *)
 val mjuiItemSingle_get_modifier : mjuiItemSingle -> int
 
@@ -4961,11 +5107,23 @@ val mjuiItemSingle_get_shortcut : mjuiItemSingle -> int
 (** set shortcut for mjuiItemSingle *)
 val mjuiItemSingle_set_shortcut : mjuiItemSingle -> int -> unit
 
+(** allocate fresh mjuiItemMulti struct *)
+val mjuiItemMulti_allocate : unit -> mjuiItemMulti
+
+(** make null mjuiItemMulti struct ptr *)
+val mjuiItemMulti_null : unit -> mjuiItemMulti ptr
+
 (** get nelem from mjuiItemMulti *)
 val mjuiItemMulti_get_nelem : mjuiItemMulti -> int
 
 (** set nelem for mjuiItemMulti *)
 val mjuiItemMulti_set_nelem : mjuiItemMulti -> int -> unit
+
+(** allocate fresh mjuiItemSlider struct *)
+val mjuiItemSlider_allocate : unit -> mjuiItemSlider
+
+(** make null mjuiItemSlider struct ptr *)
+val mjuiItemSlider_null : unit -> mjuiItemSlider ptr
 
 (** get range from mjuiItemSlider *)
 val mjuiItemSlider_get_range : mjuiItemSlider -> float ptr
@@ -4979,11 +5137,23 @@ val mjuiItemSlider_get_divisions : mjuiItemSlider -> float
 (** set divisions for mjuiItemSlider *)
 val mjuiItemSlider_set_divisions : mjuiItemSlider -> float -> unit
 
+(** allocate fresh mjuiItemEdit struct *)
+val mjuiItemEdit_allocate : unit -> mjuiItemEdit
+
+(** make null mjuiItemEdit struct ptr *)
+val mjuiItemEdit_null : unit -> mjuiItemEdit ptr
+
 (** get nelem from mjuiItemEdit *)
 val mjuiItemEdit_get_nelem : mjuiItemEdit -> int
 
 (** set nelem for mjuiItemEdit *)
 val mjuiItemEdit_set_nelem : mjuiItemEdit -> int -> unit
+
+(** allocate fresh mjuiItem struct *)
+val mjuiItem_allocate : unit -> mjuiItem
+
+(** make null mjuiItem struct ptr *)
+val mjuiItem_null : unit -> mjuiItem ptr
 
 (** get type from mjuiItem *)
 val mjuiItem_get_type : mjuiItem -> int
@@ -5020,6 +5190,12 @@ val mjuiItem_get_rect : mjuiItem -> mjrRect
 
 (** set rect for mjuiItem *)
 val mjuiItem_set_rect : mjuiItem -> mjrRect -> unit
+
+(** allocate fresh mjuiSection struct *)
+val mjuiSection_allocate : unit -> mjuiSection
+
+(** make null mjuiSection struct ptr *)
+val mjuiSection_null : unit -> mjuiSection ptr
 
 (** get name from mjuiSection *)
 val mjuiSection_get_name : mjuiSection -> string
@@ -5068,6 +5244,12 @@ val mjuiSection_get_rcontent : mjuiSection -> mjrRect
 
 (** set rcontent for mjuiSection *)
 val mjuiSection_set_rcontent : mjuiSection -> mjrRect -> unit
+
+(** allocate fresh mjUI struct *)
+val mjUI_allocate : unit -> mjUI
+
+(** make null mjUI struct ptr *)
+val mjUI_null : unit -> mjUI ptr
 
 (** get spacing from mjUI *)
 val mjUI_get_spacing : mjUI -> mjuiThemeSpacing
@@ -5200,6 +5382,12 @@ val mjUI_get_sect : mjUI -> mjuiSection ptr
 
 (** set sect for mjUI *)
 val mjUI_set_sect : mjUI -> mjuiSection ptr -> unit
+
+(** allocate fresh mjuiDef struct *)
+val mjuiDef_allocate : unit -> mjuiDef
+
+(** make null mjuiDef struct ptr *)
+val mjuiDef_null : unit -> mjuiDef ptr
 
 (** get type from mjuiDef *)
 val mjuiDef_get_type : mjuiDef -> int

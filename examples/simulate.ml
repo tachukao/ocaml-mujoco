@@ -1,3 +1,4 @@
+(*
 open Base
 
 type settings =
@@ -175,3 +176,5 @@ let () =
   Mujoco.delete_model model;
   Mujoco.free_vscene scn;
   Mujoco.free_rcontext con
+
+  *)

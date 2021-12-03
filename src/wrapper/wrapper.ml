@@ -5,6 +5,10 @@ module Bindings = Stubs.Bindings (Mujoco_generated)
 
 type 'a t = 'a Ctypes.structure
 type 'a ptr = 'a Ctypes_static.ptr
+
+let ( !@ ) = Ctypes.( !@ )
+let mj_addr = Ctypes.addr
+
 type mjfItemEnable = (int -> unit ptr -> int) Mujoco_generated.CI.static_funptr
 
 (** disable default feature bitflags *)
@@ -665,6 +669,12 @@ let mjtLRMode_to_int mjtLRMode =
   Ctypes.(coerce Typs.mjtLRMode uint32_t mjtLRMode) |> Unsigned.UInt32.to_int
 
 
+(** allocate fresh mjLROpt struct *)
+let mjLROpt_allocate () = Ctypes.(make Typs.mjLROpt)
+
+(** make null mjLROpt struct ptr *)
+let mjLROpt_null () = Ctypes.(from_voidp Typs.mjLROpt null)
+
 (** get mode from mjLROpt *)
 let mjLROpt_get_mode x = Ctypes.(getf x Typs.mjLROpt_mode)
 
@@ -725,6 +735,12 @@ let mjLROpt_get_tolrange x = Ctypes.(getf x Typs.mjLROpt_tolrange)
 (** set tolrange for mjLROpt *)
 let mjLROpt_set_tolrange x y = Ctypes.(setf x Typs.mjLROpt_tolrange y)
 
+(** allocate fresh mjVFS struct *)
+let mjVFS_allocate () = Ctypes.(make Typs.mjVFS)
+
+(** make null mjVFS struct ptr *)
+let mjVFS_null () = Ctypes.(from_voidp Typs.mjVFS null)
+
 (** get nfile from mjVFS *)
 let mjVFS_get_nfile x = Ctypes.(getf x Typs.mjVFS_nfile)
 
@@ -742,6 +758,12 @@ let mjVFS_get_filedata x = Ctypes.(getf x Typs.mjVFS_filedata)
 
 (** set filedata for mjVFS *)
 let mjVFS_set_filedata x y = Ctypes.(setf x Typs.mjVFS_filedata y)
+
+(** allocate fresh mjOption struct *)
+let mjOption_allocate () = Ctypes.(make Typs.mjOption)
+
+(** make null mjOption struct ptr *)
+let mjOption_null () = Ctypes.(from_voidp Typs.mjOption null)
 
 (** get timestep from mjOption *)
 let mjOption_get_timestep x = Ctypes.(getf x Typs.mjOption_timestep)
@@ -887,6 +909,12 @@ let mjOption_get_enableflags x = Ctypes.(getf x Typs.mjOption_enableflags)
 (** set enableflags for mjOption *)
 let mjOption_set_enableflags x y = Ctypes.(setf x Typs.mjOption_enableflags y)
 
+(** allocate fresh mjStatistic struct *)
+let mjStatistic_allocate () = Ctypes.(make Typs.mjStatistic)
+
+(** make null mjStatistic struct ptr *)
+let mjStatistic_null () = Ctypes.(from_voidp Typs.mjStatistic null)
+
 (** get meaninertia from mjStatistic *)
 let mjStatistic_get_meaninertia x = Ctypes.(getf x Typs.mjStatistic_meaninertia)
 
@@ -916,6 +944,12 @@ let mjStatistic_get_center x = Ctypes.(getf x Typs.mjStatistic_center)
 
 (** set center for mjStatistic *)
 let mjStatistic_set_center x y = Ctypes.(setf x Typs.mjStatistic_center y)
+
+(** allocate fresh mjModel struct *)
+let mjModel_allocate () = Ctypes.(make Typs.mjModel)
+
+(** make null mjModel struct ptr *)
+let mjModel_null () = Ctypes.(from_voidp Typs.mjModel null)
 
 (** get nq from mjModel *)
 let mjModel_get_nq x = Ctypes.(getf x Typs.mjModel_nq)
@@ -2907,6 +2941,12 @@ let mjtTimer_to_int mjtTimer =
   Ctypes.(coerce Typs.mjtTimer uint32_t mjtTimer) |> Unsigned.UInt32.to_int
 
 
+(** allocate fresh mjContact struct *)
+let mjContact_allocate () = Ctypes.(make Typs.mjContact)
+
+(** make null mjContact struct ptr *)
+let mjContact_null () = Ctypes.(from_voidp Typs.mjContact null)
+
 (** get dist from mjContact *)
 let mjContact_get_dist x = Ctypes.(getf x Typs.mjContact_dist)
 
@@ -2991,6 +3031,12 @@ let mjContact_get_efc_address x = Ctypes.(getf x Typs.mjContact_efc_address)
 (** set efc_address for mjContact *)
 let mjContact_set_efc_address x y = Ctypes.(setf x Typs.mjContact_efc_address y)
 
+(** allocate fresh mjWarningStat struct *)
+let mjWarningStat_allocate () = Ctypes.(make Typs.mjWarningStat)
+
+(** make null mjWarningStat struct ptr *)
+let mjWarningStat_null () = Ctypes.(from_voidp Typs.mjWarningStat null)
+
 (** get lastinfo from mjWarningStat *)
 let mjWarningStat_get_lastinfo x = Ctypes.(getf x Typs.mjWarningStat_lastinfo)
 
@@ -3003,6 +3049,12 @@ let mjWarningStat_get_number x = Ctypes.(getf x Typs.mjWarningStat_number)
 (** set number for mjWarningStat *)
 let mjWarningStat_set_number x y = Ctypes.(setf x Typs.mjWarningStat_number y)
 
+(** allocate fresh mjTimerStat struct *)
+let mjTimerStat_allocate () = Ctypes.(make Typs.mjTimerStat)
+
+(** make null mjTimerStat struct ptr *)
+let mjTimerStat_null () = Ctypes.(from_voidp Typs.mjTimerStat null)
+
 (** get duration from mjTimerStat *)
 let mjTimerStat_get_duration x = Ctypes.(getf x Typs.mjTimerStat_duration)
 
@@ -3014,6 +3066,12 @@ let mjTimerStat_get_number x = Ctypes.(getf x Typs.mjTimerStat_number)
 
 (** set number for mjTimerStat *)
 let mjTimerStat_set_number x y = Ctypes.(setf x Typs.mjTimerStat_number y)
+
+(** allocate fresh mjSolverStat struct *)
+let mjSolverStat_allocate () = Ctypes.(make Typs.mjSolverStat)
+
+(** make null mjSolverStat struct ptr *)
+let mjSolverStat_null () = Ctypes.(from_voidp Typs.mjSolverStat null)
 
 (** get improvement from mjSolverStat *)
 let mjSolverStat_get_improvement x = Ctypes.(getf x Typs.mjSolverStat_improvement)
@@ -3056,6 +3114,12 @@ let mjSolverStat_get_nupdate x = Ctypes.(getf x Typs.mjSolverStat_nupdate)
 
 (** set nupdate for mjSolverStat *)
 let mjSolverStat_set_nupdate x y = Ctypes.(setf x Typs.mjSolverStat_nupdate y)
+
+(** allocate fresh mjData struct *)
+let mjData_allocate () = Ctypes.(make Typs.mjData)
+
+(** make null mjData struct ptr *)
+let mjData_null () = Ctypes.(from_voidp Typs.mjData null)
 
 (** get nstack from mjData *)
 let mjData_get_nstack x = Ctypes.(getf x Typs.mjData_nstack)
@@ -3780,6 +3844,12 @@ let mjtStereo_to_int mjtStereo =
   Ctypes.(coerce Typs.mjtStereo uint32_t mjtStereo) |> Unsigned.UInt32.to_int
 
 
+(** allocate fresh mjvPerturb struct *)
+let mjvPerturb_allocate () = Ctypes.(make Typs.mjvPerturb)
+
+(** make null mjvPerturb struct ptr *)
+let mjvPerturb_null () = Ctypes.(from_voidp Typs.mjvPerturb null)
+
 (** get select from mjvPerturb *)
 let mjvPerturb_get_select x = Ctypes.(getf x Typs.mjvPerturb_select)
 
@@ -3828,6 +3898,12 @@ let mjvPerturb_get_scale x = Ctypes.(getf x Typs.mjvPerturb_scale)
 (** set scale for mjvPerturb *)
 let mjvPerturb_set_scale x y = Ctypes.(setf x Typs.mjvPerturb_scale y)
 
+(** allocate fresh mjvCamera struct *)
+let mjvCamera_allocate () = Ctypes.(make Typs.mjvCamera)
+
+(** make null mjvCamera struct ptr *)
+let mjvCamera_null () = Ctypes.(from_voidp Typs.mjvCamera null)
+
 (** get type from mjvCamera *)
 let mjvCamera_get_type x = Ctypes.(getf x Typs.mjvCamera_type)
 
@@ -3869,6 +3945,12 @@ let mjvCamera_get_elevation x = Ctypes.(getf x Typs.mjvCamera_elevation)
 
 (** set elevation for mjvCamera *)
 let mjvCamera_set_elevation x y = Ctypes.(setf x Typs.mjvCamera_elevation y)
+
+(** allocate fresh mjvGLCamera struct *)
+let mjvGLCamera_allocate () = Ctypes.(make Typs.mjvGLCamera)
+
+(** make null mjvGLCamera struct ptr *)
+let mjvGLCamera_null () = Ctypes.(from_voidp Typs.mjvGLCamera null)
 
 (** get pos from mjvGLCamera *)
 let mjvGLCamera_get_pos x = Ctypes.(getf x Typs.mjvGLCamera_pos)
@@ -3917,6 +3999,12 @@ let mjvGLCamera_get_frustum_far x = Ctypes.(getf x Typs.mjvGLCamera_frustum_far)
 
 (** set frustum_far for mjvGLCamera *)
 let mjvGLCamera_set_frustum_far x y = Ctypes.(setf x Typs.mjvGLCamera_frustum_far y)
+
+(** allocate fresh mjvGeom struct *)
+let mjvGeom_allocate () = Ctypes.(make Typs.mjvGeom)
+
+(** make null mjvGeom struct ptr *)
+let mjvGeom_null () = Ctypes.(from_voidp Typs.mjvGeom null)
 
 (** get type from mjvGeom *)
 let mjvGeom_get_type x = Ctypes.(getf x Typs.mjvGeom_type)
@@ -4050,6 +4138,12 @@ let mjvGeom_get_transparent x = Ctypes.(getf x Typs.mjvGeom_transparent)
 (** set transparent for mjvGeom *)
 let mjvGeom_set_transparent x y = Ctypes.(setf x Typs.mjvGeom_transparent y)
 
+(** allocate fresh mjvLight struct *)
+let mjvLight_allocate () = Ctypes.(make Typs.mjvLight)
+
+(** make null mjvLight struct ptr *)
+let mjvLight_null () = Ctypes.(from_voidp Typs.mjvLight null)
+
 (** get pos from mjvLight *)
 let mjvLight_get_pos x = Ctypes.(getf x Typs.mjvLight_pos)
 
@@ -4116,6 +4210,12 @@ let mjvLight_get_castshadow x = Ctypes.(getf x Typs.mjvLight_castshadow)
 (** set castshadow for mjvLight *)
 let mjvLight_set_castshadow x y = Ctypes.(setf x Typs.mjvLight_castshadow y)
 
+(** allocate fresh mjvOption struct *)
+let mjvOption_allocate () = Ctypes.(make Typs.mjvOption)
+
+(** make null mjvOption struct ptr *)
+let mjvOption_null () = Ctypes.(from_voidp Typs.mjvOption null)
+
 (** get label from mjvOption *)
 let mjvOption_get_label x = Ctypes.(getf x Typs.mjvOption_label)
 
@@ -4163,6 +4263,12 @@ let mjvOption_get_flags x = Ctypes.(getf x Typs.mjvOption_flags)
 
 (** set flags for mjvOption *)
 let mjvOption_set_flags x y = Ctypes.(setf x Typs.mjvOption_flags y)
+
+(** allocate fresh mjvScene struct *)
+let mjvScene_allocate () = Ctypes.(make Typs.mjvScene)
+
+(** make null mjvScene struct ptr *)
+let mjvScene_null () = Ctypes.(from_voidp Typs.mjvScene null)
 
 (** get maxgeom from mjvScene *)
 let mjvScene_get_maxgeom x = Ctypes.(getf x Typs.mjvScene_maxgeom)
@@ -4289,6 +4395,12 @@ let mjvScene_get_framergb x = Ctypes.(getf x Typs.mjvScene_framergb)
 
 (** set framergb for mjvScene *)
 let mjvScene_set_framergb x y = Ctypes.(setf x Typs.mjvScene_framergb y)
+
+(** allocate fresh mjvFigure struct *)
+let mjvFigure_allocate () = Ctypes.(make Typs.mjvFigure)
+
+(** make null mjvFigure struct ptr *)
+let mjvFigure_null () = Ctypes.(from_voidp Typs.mjvFigure null)
 
 (** get flg_legend from mjvFigure *)
 let mjvFigure_get_flg_legend x = Ctypes.(getf x Typs.mjvFigure_flg_legend)
@@ -4484,6 +4596,12 @@ let mjtFont_to_int mjtFont =
   Ctypes.(coerce Typs.mjtFont uint32_t mjtFont) |> Unsigned.UInt32.to_int
 
 
+(** allocate fresh mjrRect struct *)
+let mjrRect_allocate () = Ctypes.(make Typs.mjrRect)
+
+(** make null mjrRect struct ptr *)
+let mjrRect_null () = Ctypes.(from_voidp Typs.mjrRect null)
+
 (** get left from mjrRect *)
 let mjrRect_get_left x = Ctypes.(getf x Typs.mjrRect_left)
 
@@ -4507,6 +4625,12 @@ let mjrRect_get_height x = Ctypes.(getf x Typs.mjrRect_height)
 
 (** set height for mjrRect *)
 let mjrRect_set_height x y = Ctypes.(setf x Typs.mjrRect_height y)
+
+(** allocate fresh mjrContext struct *)
+let mjrContext_allocate () = Ctypes.(make Typs.mjrContext)
+
+(** make null mjrContext struct ptr *)
+let mjrContext_null () = Ctypes.(from_voidp Typs.mjrContext null)
 
 (** get lineWidth from mjrContext *)
 let mjrContext_get_lineWidth x = Ctypes.(getf x Typs.mjrContext_lineWidth)
@@ -4719,6 +4843,12 @@ let mjtItem_to_int mjtItem =
   Ctypes.(coerce Typs.mjtItem uint32_t mjtItem) |> Unsigned.UInt32.to_int
 
 
+(** allocate fresh mjuiState struct *)
+let mjuiState_allocate () = Ctypes.(make Typs.mjuiState)
+
+(** make null mjuiState struct ptr *)
+let mjuiState_null () = Ctypes.(from_voidp Typs.mjuiState null)
+
 (** get nrect from mjuiState *)
 let mjuiState_get_nrect x = Ctypes.(getf x Typs.mjuiState_nrect)
 
@@ -4863,6 +4993,12 @@ let mjuiState_get_dragbutton x = Ctypes.(getf x Typs.mjuiState_dragbutton)
 (** set dragbutton for mjuiState *)
 let mjuiState_set_dragbutton x y = Ctypes.(setf x Typs.mjuiState_dragbutton y)
 
+(** allocate fresh mjuiThemeSpacing struct *)
+let mjuiThemeSpacing_allocate () = Ctypes.(make Typs.mjuiThemeSpacing)
+
+(** make null mjuiThemeSpacing struct ptr *)
+let mjuiThemeSpacing_null () = Ctypes.(from_voidp Typs.mjuiThemeSpacing null)
+
 (** get total from mjuiThemeSpacing *)
 let mjuiThemeSpacing_get_total x = Ctypes.(getf x Typs.mjuiThemeSpacing_total)
 
@@ -4930,6 +5066,12 @@ let mjuiThemeSpacing_get_samples x = Ctypes.(getf x Typs.mjuiThemeSpacing_sample
 
 (** set samples for mjuiThemeSpacing *)
 let mjuiThemeSpacing_set_samples x y = Ctypes.(setf x Typs.mjuiThemeSpacing_samples y)
+
+(** allocate fresh mjuiThemeColor struct *)
+let mjuiThemeColor_allocate () = Ctypes.(make Typs.mjuiThemeColor)
+
+(** make null mjuiThemeColor struct ptr *)
+let mjuiThemeColor_null () = Ctypes.(from_voidp Typs.mjuiThemeColor null)
 
 (** get master from mjuiThemeColor *)
 let mjuiThemeColor_get_master x = Ctypes.(getf x Typs.mjuiThemeColor_master)
@@ -5065,6 +5207,12 @@ let mjuiThemeColor_get_cursor x = Ctypes.(getf x Typs.mjuiThemeColor_cursor)
 (** set cursor for mjuiThemeColor *)
 let mjuiThemeColor_set_cursor x y = Ctypes.(setf x Typs.mjuiThemeColor_cursor y)
 
+(** allocate fresh mjuiItemSingle struct *)
+let mjuiItemSingle_allocate () = Ctypes.(make Typs.mjuiItemSingle)
+
+(** make null mjuiItemSingle struct ptr *)
+let mjuiItemSingle_null () = Ctypes.(from_voidp Typs.mjuiItemSingle null)
+
 (** get modifier from mjuiItemSingle *)
 let mjuiItemSingle_get_modifier x = Ctypes.(getf x Typs.mjuiItemSingle_modifier)
 
@@ -5077,11 +5225,23 @@ let mjuiItemSingle_get_shortcut x = Ctypes.(getf x Typs.mjuiItemSingle_shortcut)
 (** set shortcut for mjuiItemSingle *)
 let mjuiItemSingle_set_shortcut x y = Ctypes.(setf x Typs.mjuiItemSingle_shortcut y)
 
+(** allocate fresh mjuiItemMulti struct *)
+let mjuiItemMulti_allocate () = Ctypes.(make Typs.mjuiItemMulti)
+
+(** make null mjuiItemMulti struct ptr *)
+let mjuiItemMulti_null () = Ctypes.(from_voidp Typs.mjuiItemMulti null)
+
 (** get nelem from mjuiItemMulti *)
 let mjuiItemMulti_get_nelem x = Ctypes.(getf x Typs.mjuiItemMulti_nelem)
 
 (** set nelem for mjuiItemMulti *)
 let mjuiItemMulti_set_nelem x y = Ctypes.(setf x Typs.mjuiItemMulti_nelem y)
+
+(** allocate fresh mjuiItemSlider struct *)
+let mjuiItemSlider_allocate () = Ctypes.(make Typs.mjuiItemSlider)
+
+(** make null mjuiItemSlider struct ptr *)
+let mjuiItemSlider_null () = Ctypes.(from_voidp Typs.mjuiItemSlider null)
 
 (** get range from mjuiItemSlider *)
 let mjuiItemSlider_get_range x = Ctypes.(getf x Typs.mjuiItemSlider_range)
@@ -5095,11 +5255,23 @@ let mjuiItemSlider_get_divisions x = Ctypes.(getf x Typs.mjuiItemSlider_division
 (** set divisions for mjuiItemSlider *)
 let mjuiItemSlider_set_divisions x y = Ctypes.(setf x Typs.mjuiItemSlider_divisions y)
 
+(** allocate fresh mjuiItemEdit struct *)
+let mjuiItemEdit_allocate () = Ctypes.(make Typs.mjuiItemEdit)
+
+(** make null mjuiItemEdit struct ptr *)
+let mjuiItemEdit_null () = Ctypes.(from_voidp Typs.mjuiItemEdit null)
+
 (** get nelem from mjuiItemEdit *)
 let mjuiItemEdit_get_nelem x = Ctypes.(getf x Typs.mjuiItemEdit_nelem)
 
 (** set nelem for mjuiItemEdit *)
 let mjuiItemEdit_set_nelem x y = Ctypes.(setf x Typs.mjuiItemEdit_nelem y)
+
+(** allocate fresh mjuiItem struct *)
+let mjuiItem_allocate () = Ctypes.(make Typs.mjuiItem)
+
+(** make null mjuiItem struct ptr *)
+let mjuiItem_null () = Ctypes.(from_voidp Typs.mjuiItem null)
 
 (** get type from mjuiItem *)
 let mjuiItem_get_type x = Ctypes.(getf x Typs.mjuiItem_type)
@@ -5136,6 +5308,12 @@ let mjuiItem_get_rect x = Ctypes.(getf x Typs.mjuiItem_rect)
 
 (** set rect for mjuiItem *)
 let mjuiItem_set_rect x y = Ctypes.(setf x Typs.mjuiItem_rect y)
+
+(** allocate fresh mjuiSection struct *)
+let mjuiSection_allocate () = Ctypes.(make Typs.mjuiSection)
+
+(** make null mjuiSection struct ptr *)
+let mjuiSection_null () = Ctypes.(from_voidp Typs.mjuiSection null)
 
 (** get name from mjuiSection *)
 let mjuiSection_get_name x = Ctypes.(getf x Typs.mjuiSection_name)
@@ -5184,6 +5362,12 @@ let mjuiSection_get_rcontent x = Ctypes.(getf x Typs.mjuiSection_rcontent)
 
 (** set rcontent for mjuiSection *)
 let mjuiSection_set_rcontent x y = Ctypes.(setf x Typs.mjuiSection_rcontent y)
+
+(** allocate fresh mjUI struct *)
+let mjUI_allocate () = Ctypes.(make Typs.mjUI)
+
+(** make null mjUI struct ptr *)
+let mjUI_null () = Ctypes.(from_voidp Typs.mjUI null)
 
 (** get spacing from mjUI *)
 let mjUI_get_spacing x = Ctypes.(getf x Typs.mjUI_spacing)
@@ -5316,6 +5500,12 @@ let mjUI_get_sect x = Ctypes.(getf x Typs.mjUI_sect)
 
 (** set sect for mjUI *)
 let mjUI_set_sect x y = Ctypes.(setf x Typs.mjUI_sect y)
+
+(** allocate fresh mjuiDef struct *)
+let mjuiDef_allocate () = Ctypes.(make Typs.mjuiDef)
+
+(** make null mjuiDef struct ptr *)
+let mjuiDef_null () = Ctypes.(from_voidp Typs.mjuiDef null)
 
 (** get type from mjuiDef *)
 let mjuiDef_get_type x = Ctypes.(getf x Typs.mjuiDef_type)

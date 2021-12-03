@@ -1,3 +1,4 @@
+(*
 let model_xml = Cmdargs.(get_string "-xml" |> force ~usage:"model XML")
 let niter = 30
 let nwarmup = 3
@@ -212,3 +213,5 @@ let () =
   (* Mujoco.mju_free Ctypes.(to_voidp deriv); *)
   Mujoco.delete_data data;
   Mujoco.delete_model model
+
+  *)

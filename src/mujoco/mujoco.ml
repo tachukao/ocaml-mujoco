@@ -1,4 +1,6 @@
+(*
 open Wrapper
+
 
 let version = 210
 
@@ -228,3 +230,5 @@ let make_rcontext model context fontscale =
 
 
 let free_rcontext rcontext = Bindings.mjr_freeContext Ctypes.(addr rcontext)
+
+*)

@@ -1,3 +1,4 @@
+(*
 open Wrapper
 
 val version : int
@@ -226,3 +227,5 @@ val make_rcontext : model -> rcontext -> fontscale -> unit
 
 (* free rcontext *)
 val free_rcontext : rcontext -> unit
+
+*)

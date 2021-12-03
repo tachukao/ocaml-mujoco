@@ -94,6 +94,20 @@ let p_types ch chi =
               match cstruct_fields with
               | Nested      -> ()
               | Flat fields ->
+                (* allocate fresh *)
+                p ch "\n";
+                p chi "\n";
+                p ch "(** allocate fresh %s struct *)" bname;
+                p chi "(** allocate fresh %s struct *)" bname;
+                p ch "let %s_allocate () = Ctypes.(make Typs.%s)" bname bname;
+                p chi "val %s_allocate : unit -> %s" bname bname;
+                (* make null ptr *)
+                p ch "\n";
+                p chi "\n";
+                p ch "(** make null %s struct ptr *)" bname;
+                p chi "(** make null %s struct ptr *)" bname;
+                p ch "let %s_null () = Ctypes.(from_voidp Typs.%s null)" bname bname;
+                p chi "val %s_null : unit -> %s ptr" bname bname;
                 List.iter fields ~f:(fun (typ, field, _) ->
                     let typ = to_ocaml_type typ in
                     (* getter *)
@@ -150,12 +164,16 @@ let write_wrapper ~filename =
           pc "module Typs = Stubs.Typs";
           pc "module Bindings = Stubs.Bindings (Mujoco_generated)";
           pci "open Stubs";
-          pci "module Typs : module type of Typs";
-          pci "module Bindings : module type of Stubs.Bindings (Mujoco_generated)";
+          (* pci "module Typs : module type of Typs"; *)
+          (* pci "module Bindings : module type of Stubs.Bindings (Mujoco_generated)"; *)
           pc "type 'a t = 'a Ctypes.structure";
           pci "type 'a t = 'a Ctypes.structure";
           pc "type 'a ptr = 'a Ctypes_static.ptr";
           pci "type 'a ptr = 'a Ctypes_static.ptr";
+          pc "let ( !@ ) = Ctypes.( !@ )";
+          pci "val ( !@ ) : 'a ptr -> 'a";
+          pc "let mj_addr = Ctypes.addr";
+          pci "val mj_addr : 'a t -> 'a t ptr";
           pc
             "type mjfItemEnable = (int -> unit ptr -> int) \
              Mujoco_generated.CI.static_funptr";
