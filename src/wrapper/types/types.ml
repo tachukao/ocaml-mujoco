@@ -3900,26 +3900,6 @@ module Bindings (S : Cstubs.Types.TYPE) = struct
 
   let _mjuiItem : _mjuiItem structure typ = structure "_mjuiItem"
 
-  (** type (mjtItem) *)
-  let mjuiItem_type = field _mjuiItem "type" int
-
-  (** name *)
-  let mjuiItem_name = field _mjuiItem "name" string
-
-  (** 0: disable, 1: enable, 2+: use predicate *)
-  let mjuiItem_state = field _mjuiItem "state" int
-
-  (** id of section containing item *)
-  let mjuiItem_sectionid = field _mjuiItem "sectionid" int
-
-  (** id of item within section *)
-  let mjuiItem_itemid = field _mjuiItem "itemid" int
-
-  (** rectangle occupied by item *)
-  let mjuiItem_rect = field _mjuiItem "rect" mjrRect
-
-  let () = seal _mjuiItem
-
   type mjuiItem = _mjuiItem
 
   let mjuiItem = _mjuiItem

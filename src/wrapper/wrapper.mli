@@ -6070,62 +6070,6 @@ val mjuiItemEdit_make : ?mjf_nelem:int -> unit -> mjuiItemEdit
 (** returns mjuiItemEdit carray from list of mjuiItemEdit *)
 val mjuiItemEdit_to_carray : mjuiItemEdit list -> mjuiItemEdit Ctypes.carray
 
-(** allocate fresh mjuiItem struct *)
-val mjuiItem_allocate : unit -> mjuiItem
-
-(** make null mjuiItem struct ptr *)
-val mjuiItem_null : unit -> mjuiItem ptr
-
-(** get type from mjuiItem *)
-val mjuiItem_get_type : mjuiItem -> int
-
-(** set type for mjuiItem *)
-val mjuiItem_set_type : mjuiItem -> int -> unit
-
-(** get name from mjuiItem *)
-val mjuiItem_get_name : mjuiItem -> string
-
-(** set name for mjuiItem *)
-val mjuiItem_set_name : mjuiItem -> string -> unit
-
-(** get state from mjuiItem *)
-val mjuiItem_get_state : mjuiItem -> int
-
-(** set state for mjuiItem *)
-val mjuiItem_set_state : mjuiItem -> int -> unit
-
-(** get sectionid from mjuiItem *)
-val mjuiItem_get_sectionid : mjuiItem -> int
-
-(** set sectionid for mjuiItem *)
-val mjuiItem_set_sectionid : mjuiItem -> int -> unit
-
-(** get itemid from mjuiItem *)
-val mjuiItem_get_itemid : mjuiItem -> int
-
-(** set itemid for mjuiItem *)
-val mjuiItem_set_itemid : mjuiItem -> int -> unit
-
-(** get rect from mjuiItem *)
-val mjuiItem_get_rect : mjuiItem -> mjrRect
-
-(** set rect for mjuiItem *)
-val mjuiItem_set_rect : mjuiItem -> mjrRect -> unit
-
-(** make mjuiItem struct *)
-val mjuiItem_make
-  :  ?mjf_type:int
-  -> ?mjf_name:string
-  -> ?mjf_state:int
-  -> ?mjf_sectionid:int
-  -> ?mjf_itemid:int
-  -> ?mjf_rect:mjrRect
-  -> unit
-  -> mjuiItem
-
-(** returns mjuiItem carray from list of mjuiItem *)
-val mjuiItem_to_carray : mjuiItem list -> mjuiItem Ctypes.carray
-
 (** allocate fresh mjuiSection struct *)
 val mjuiSection_allocate : unit -> mjuiSection
 

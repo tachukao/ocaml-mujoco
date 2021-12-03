@@ -192,7 +192,7 @@ let parse_enum s =
          { cenum_docstr; cenum_name; cenum_states })
 
 
-let is_nested_struct_fields s =
+let is_nested_struct_fields name s =
   let open Re in
   let regex =
     seq
@@ -204,7 +204,9 @@ let is_nested_struct_fields s =
       ]
   in
   let matched = all (compile regex) s in
-  Int.(List.length matched > 0)
+  let b = Int.(List.length matched > 0) || String.(name = "_mjuiItem") in
+  if b then Stdio.printf "%s\n%!" name;
+  b
 
 
 let get_flat_struct_fields s =
@@ -256,6 +258,6 @@ let parse_struct s =
   |> List.map ~f:(fun group ->
          let name = Group.get group 1 in
          let _fields = Group.get group 2 in
-         if is_nested_struct_fields _fields
+         if is_nested_struct_fields name _fields
          then { cstruct_name = name; cstruct_fields = Nested }
          else { cstruct_name = name; cstruct_fields = get_flat_struct_fields _fields })

@@ -7243,63 +7243,6 @@ let mjuiItemEdit_make ?mjf_nelem () =
 (** returns mjuiItemEdit carray from list of mjuiItemEdit *)
 let mjuiItemEdit_to_carray = Ctypes.CArray.of_list Typs.mjuiItemEdit
 
-(** allocate fresh mjuiItem struct *)
-let mjuiItem_allocate () = Ctypes.(make Typs.mjuiItem)
-
-(** make null mjuiItem struct ptr *)
-let mjuiItem_null () = Ctypes.(from_voidp Typs.mjuiItem null)
-
-(** get type from mjuiItem *)
-let mjuiItem_get_type x = Ctypes.(getf x Typs.mjuiItem_type)
-
-(** set type for mjuiItem *)
-let mjuiItem_set_type x y = Ctypes.(setf x Typs.mjuiItem_type y)
-
-(** get name from mjuiItem *)
-let mjuiItem_get_name x = Ctypes.(getf x Typs.mjuiItem_name)
-
-(** set name for mjuiItem *)
-let mjuiItem_set_name x y = Ctypes.(setf x Typs.mjuiItem_name y)
-
-(** get state from mjuiItem *)
-let mjuiItem_get_state x = Ctypes.(getf x Typs.mjuiItem_state)
-
-(** set state for mjuiItem *)
-let mjuiItem_set_state x y = Ctypes.(setf x Typs.mjuiItem_state y)
-
-(** get sectionid from mjuiItem *)
-let mjuiItem_get_sectionid x = Ctypes.(getf x Typs.mjuiItem_sectionid)
-
-(** set sectionid for mjuiItem *)
-let mjuiItem_set_sectionid x y = Ctypes.(setf x Typs.mjuiItem_sectionid y)
-
-(** get itemid from mjuiItem *)
-let mjuiItem_get_itemid x = Ctypes.(getf x Typs.mjuiItem_itemid)
-
-(** set itemid for mjuiItem *)
-let mjuiItem_set_itemid x y = Ctypes.(setf x Typs.mjuiItem_itemid y)
-
-(** get rect from mjuiItem *)
-let mjuiItem_get_rect x = Ctypes.(getf x Typs.mjuiItem_rect)
-
-(** set rect for mjuiItem *)
-let mjuiItem_set_rect x y = Ctypes.(setf x Typs.mjuiItem_rect y)
-
-(** make mjuiItem struct *)
-let mjuiItem_make ?mjf_type ?mjf_name ?mjf_state ?mjf_sectionid ?mjf_itemid ?mjf_rect () =
-  let x = mjuiItem_allocate () in
-  Option.iter (mjuiItem_set_type x) mjf_type;
-  Option.iter (mjuiItem_set_name x) mjf_name;
-  Option.iter (mjuiItem_set_state x) mjf_state;
-  Option.iter (mjuiItem_set_sectionid x) mjf_sectionid;
-  Option.iter (mjuiItem_set_itemid x) mjf_itemid;
-  Option.iter (mjuiItem_set_rect x) mjf_rect;
-  x
-
-
-(** returns mjuiItem carray from list of mjuiItem *)
-let mjuiItem_to_carray = Ctypes.CArray.of_list Typs.mjuiItem
-
 (** allocate fresh mjuiSection struct *)
 let mjuiSection_allocate () = Ctypes.(make Typs.mjuiSection)
 
