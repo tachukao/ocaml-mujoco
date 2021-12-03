@@ -125,7 +125,31 @@ let p_types ch chi =
                     p chi "(** set %s for %s *)" field bname;
                     p ch "let %s_set_%s x y =" bname field;
                     p ch "  Ctypes.(setf x Typs.%s_%s y)" bname field;
-                    p chi "val %s_set_%s : %s -> %s -> unit" bname field bname typ)
+                    p chi "val %s_set_%s : %s -> %s -> unit" bname field bname typ);
+                (* make struct *)
+                let mjf x = "mjf_" ^ x in
+                p ch "\n";
+                p chi "\n";
+                p ch "(** make %s struct *)" bname;
+                p chi "(** make %s struct *)" bname;
+                p
+                  chi
+                  "val %s_make : %s -> unit -> %s"
+                  bname
+                  (List.map fields ~f:(fun (typ, field, _) ->
+                       "?" ^ mjf field ^ ":" ^ to_ocaml_type typ)
+                  |> String.concat ~sep:" -> ")
+                  bname;
+                p
+                  ch
+                  "let %s_make %s () ="
+                  bname
+                  (List.map fields ~f:(fun (_, field, _) -> "?" ^ mjf field)
+                  |> String.concat ~sep:" ");
+                p ch "  let x = %s_allocate () in" bname;
+                List.iter fields ~f:(fun (_, field, _) ->
+                    p ch "  Option.iter (%s_set_%s x) %s;" bname field (mjf field));
+                p ch "  x"
             in
             callback)
       in
@@ -190,6 +214,8 @@ let write_wrapper ~filename =
              Mujoco_generated.CI.static_funptr";
           let callbacks = p_types ch chi in
           List.iter callbacks ~f:(fun g -> g ());
+          pc "\n\n";
+          pci "\n\n";
           p_func ch chi))
 
 

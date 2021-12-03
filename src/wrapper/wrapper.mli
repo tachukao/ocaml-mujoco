@@ -688,6 +688,21 @@ val mjLROpt_get_tolrange : mjLROpt -> float
 (** set tolrange for mjLROpt *)
 val mjLROpt_set_tolrange : mjLROpt -> float -> unit
 
+(** make mjLROpt struct *)
+val mjLROpt_make
+  :  ?mjf_mode:int
+  -> ?mjf_useexisting:int
+  -> ?mjf_uselimit:int
+  -> ?mjf_accel:float
+  -> ?mjf_maxforce:float
+  -> ?mjf_timeconst:float
+  -> ?mjf_timestep:float
+  -> ?mjf_inttotal:float
+  -> ?mjf_inteval:float
+  -> ?mjf_tolrange:float
+  -> unit
+  -> mjLROpt
+
 (** allocate fresh mjVFS struct *)
 val mjVFS_allocate : unit -> mjVFS
 
@@ -711,6 +726,14 @@ val mjVFS_get_filedata : mjVFS -> unit ptr ptr
 
 (** set filedata for mjVFS *)
 val mjVFS_set_filedata : mjVFS -> unit ptr ptr -> unit
+
+(** make mjVFS struct *)
+val mjVFS_make
+  :  ?mjf_nfile:int
+  -> ?mjf_filesize:int ptr
+  -> ?mjf_filedata:unit ptr ptr
+  -> unit
+  -> mjVFS
 
 (** allocate fresh mjOption struct *)
 val mjOption_allocate : unit -> mjOption
@@ -862,6 +885,35 @@ val mjOption_get_enableflags : mjOption -> int
 (** set enableflags for mjOption *)
 val mjOption_set_enableflags : mjOption -> int -> unit
 
+(** make mjOption struct *)
+val mjOption_make
+  :  ?mjf_timestep:float
+  -> ?mjf_apirate:float
+  -> ?mjf_impratio:float
+  -> ?mjf_tolerance:float
+  -> ?mjf_noslip_tolerance:float
+  -> ?mjf_mpr_tolerance:float
+  -> ?mjf_gravity:float ptr
+  -> ?mjf_wind:float ptr
+  -> ?mjf_magnetic:float ptr
+  -> ?mjf_density:float
+  -> ?mjf_viscosity:float
+  -> ?mjf_o_margin:float
+  -> ?mjf_o_solref:float ptr
+  -> ?mjf_o_solimp:float ptr
+  -> ?mjf_integrator:int
+  -> ?mjf_collision:int
+  -> ?mjf_cone:int
+  -> ?mjf_jacobian:int
+  -> ?mjf_solver:int
+  -> ?mjf_iterations:int
+  -> ?mjf_noslip_iterations:int
+  -> ?mjf_mpr_iterations:int
+  -> ?mjf_disableflags:int
+  -> ?mjf_enableflags:int
+  -> unit
+  -> mjOption
+
 (** allocate fresh mjStatistic struct *)
 val mjStatistic_allocate : unit -> mjStatistic
 
@@ -897,6 +949,16 @@ val mjStatistic_get_center : mjStatistic -> float ptr
 
 (** set center for mjStatistic *)
 val mjStatistic_set_center : mjStatistic -> float ptr -> unit
+
+(** make mjStatistic struct *)
+val mjStatistic_make
+  :  ?mjf_meaninertia:float
+  -> ?mjf_meanmass:float
+  -> ?mjf_meansize:float
+  -> ?mjf_extent:float
+  -> ?mjf_center:float ptr
+  -> unit
+  -> mjStatistic
 
 (** allocate fresh mjModel struct *)
 val mjModel_allocate : unit -> mjModel
@@ -2866,6 +2928,338 @@ val mjModel_get_names : mjModel -> string
 (** set names for mjModel *)
 val mjModel_set_names : mjModel -> string -> unit
 
+(** make mjModel struct *)
+val mjModel_make
+  :  ?mjf_nq:int
+  -> ?mjf_nv:int
+  -> ?mjf_nu:int
+  -> ?mjf_na:int
+  -> ?mjf_nbody:int
+  -> ?mjf_njnt:int
+  -> ?mjf_ngeom:int
+  -> ?mjf_nsite:int
+  -> ?mjf_ncam:int
+  -> ?mjf_nlight:int
+  -> ?mjf_nmesh:int
+  -> ?mjf_nmeshvert:int
+  -> ?mjf_nmeshtexvert:int
+  -> ?mjf_nmeshface:int
+  -> ?mjf_nmeshgraph:int
+  -> ?mjf_nskin:int
+  -> ?mjf_nskinvert:int
+  -> ?mjf_nskintexvert:int
+  -> ?mjf_nskinface:int
+  -> ?mjf_nskinbone:int
+  -> ?mjf_nskinbonevert:int
+  -> ?mjf_nhfield:int
+  -> ?mjf_nhfielddata:int
+  -> ?mjf_ntex:int
+  -> ?mjf_ntexdata:int
+  -> ?mjf_nmat:int
+  -> ?mjf_npair:int
+  -> ?mjf_nexclude:int
+  -> ?mjf_neq:int
+  -> ?mjf_ntendon:int
+  -> ?mjf_nwrap:int
+  -> ?mjf_nsensor:int
+  -> ?mjf_nnumeric:int
+  -> ?mjf_nnumericdata:int
+  -> ?mjf_ntext:int
+  -> ?mjf_ntextdata:int
+  -> ?mjf_ntuple:int
+  -> ?mjf_ntupledata:int
+  -> ?mjf_nkey:int
+  -> ?mjf_nmocap:int
+  -> ?mjf_nuser_body:int
+  -> ?mjf_nuser_jnt:int
+  -> ?mjf_nuser_geom:int
+  -> ?mjf_nuser_site:int
+  -> ?mjf_nuser_cam:int
+  -> ?mjf_nuser_tendon:int
+  -> ?mjf_nuser_actuator:int
+  -> ?mjf_nuser_sensor:int
+  -> ?mjf_nnames:int
+  -> ?mjf_nM:int
+  -> ?mjf_nemax:int
+  -> ?mjf_njmax:int
+  -> ?mjf_nconmax:int
+  -> ?mjf_nstack:int
+  -> ?mjf_nuserdata:int
+  -> ?mjf_nsensordata:int
+  -> ?mjf_nbuffer:int
+  -> ?mjf_opt:mjOption
+  -> ?mjf_vis:mjVisual
+  -> ?mjf_stat:mjStatistic
+  -> ?mjf_buffer:unit ptr
+  -> ?mjf_qpos0:float ptr
+  -> ?mjf_qpos_spring:float ptr
+  -> ?mjf_body_parentid:int ptr
+  -> ?mjf_body_rootid:int ptr
+  -> ?mjf_body_weldid:int ptr
+  -> ?mjf_body_mocapid:int ptr
+  -> ?mjf_body_jntnum:int ptr
+  -> ?mjf_body_jntadr:int ptr
+  -> ?mjf_body_dofnum:int ptr
+  -> ?mjf_body_dofadr:int ptr
+  -> ?mjf_body_geomnum:int ptr
+  -> ?mjf_body_geomadr:int ptr
+  -> ?mjf_body_simple:Unsigned.UChar.t ptr
+  -> ?mjf_body_sameframe:Unsigned.UChar.t ptr
+  -> ?mjf_body_pos:float ptr
+  -> ?mjf_body_quat:float ptr
+  -> ?mjf_body_ipos:float ptr
+  -> ?mjf_body_iquat:float ptr
+  -> ?mjf_body_mass:float ptr
+  -> ?mjf_body_subtreemass:float ptr
+  -> ?mjf_body_inertia:float ptr
+  -> ?mjf_body_invweight0:float ptr
+  -> ?mjf_body_user:float ptr
+  -> ?mjf_jnt_type:int ptr
+  -> ?mjf_jnt_qposadr:int ptr
+  -> ?mjf_jnt_dofadr:int ptr
+  -> ?mjf_jnt_bodyid:int ptr
+  -> ?mjf_jnt_group:int ptr
+  -> ?mjf_jnt_limited:Unsigned.UChar.t ptr
+  -> ?mjf_jnt_solref:float ptr
+  -> ?mjf_jnt_solimp:float ptr
+  -> ?mjf_jnt_pos:float ptr
+  -> ?mjf_jnt_axis:float ptr
+  -> ?mjf_jnt_stiffness:float ptr
+  -> ?mjf_jnt_range:float ptr
+  -> ?mjf_jnt_margin:float ptr
+  -> ?mjf_jnt_user:float ptr
+  -> ?mjf_dof_bodyid:int ptr
+  -> ?mjf_dof_jntid:int ptr
+  -> ?mjf_dof_parentid:int ptr
+  -> ?mjf_dof_Madr:int ptr
+  -> ?mjf_dof_simplenum:int ptr
+  -> ?mjf_dof_solref:float ptr
+  -> ?mjf_dof_solimp:float ptr
+  -> ?mjf_dof_frictionloss:float ptr
+  -> ?mjf_dof_armature:float ptr
+  -> ?mjf_dof_damping:float ptr
+  -> ?mjf_dof_invweight0:float ptr
+  -> ?mjf_dof_M0:float ptr
+  -> ?mjf_geom_type:int ptr
+  -> ?mjf_geom_contype:int ptr
+  -> ?mjf_geom_conaffinity:int ptr
+  -> ?mjf_geom_condim:int ptr
+  -> ?mjf_geom_bodyid:int ptr
+  -> ?mjf_geom_dataid:int ptr
+  -> ?mjf_geom_matid:int ptr
+  -> ?mjf_geom_group:int ptr
+  -> ?mjf_geom_priority:int ptr
+  -> ?mjf_geom_sameframe:Unsigned.UChar.t ptr
+  -> ?mjf_geom_solmix:float ptr
+  -> ?mjf_geom_solref:float ptr
+  -> ?mjf_geom_solimp:float ptr
+  -> ?mjf_geom_size:float ptr
+  -> ?mjf_geom_rbound:float ptr
+  -> ?mjf_geom_pos:float ptr
+  -> ?mjf_geom_quat:float ptr
+  -> ?mjf_geom_friction:float ptr
+  -> ?mjf_geom_margin:float ptr
+  -> ?mjf_geom_gap:float ptr
+  -> ?mjf_geom_user:float ptr
+  -> ?mjf_geom_rgba:float ptr
+  -> ?mjf_site_type:int ptr
+  -> ?mjf_site_bodyid:int ptr
+  -> ?mjf_site_matid:int ptr
+  -> ?mjf_site_group:int ptr
+  -> ?mjf_site_sameframe:Unsigned.UChar.t ptr
+  -> ?mjf_site_size:float ptr
+  -> ?mjf_site_pos:float ptr
+  -> ?mjf_site_quat:float ptr
+  -> ?mjf_site_user:float ptr
+  -> ?mjf_site_rgba:float ptr
+  -> ?mjf_cam_mode:int ptr
+  -> ?mjf_cam_bodyid:int ptr
+  -> ?mjf_cam_targetbodyid:int ptr
+  -> ?mjf_cam_pos:float ptr
+  -> ?mjf_cam_quat:float ptr
+  -> ?mjf_cam_poscom0:float ptr
+  -> ?mjf_cam_pos0:float ptr
+  -> ?mjf_cam_mat0:float ptr
+  -> ?mjf_cam_fovy:float ptr
+  -> ?mjf_cam_ipd:float ptr
+  -> ?mjf_cam_user:float ptr
+  -> ?mjf_light_mode:int ptr
+  -> ?mjf_light_bodyid:int ptr
+  -> ?mjf_light_targetbodyid:int ptr
+  -> ?mjf_light_directional:Unsigned.UChar.t ptr
+  -> ?mjf_light_castshadow:Unsigned.UChar.t ptr
+  -> ?mjf_light_active:Unsigned.UChar.t ptr
+  -> ?mjf_light_pos:float ptr
+  -> ?mjf_light_dir:float ptr
+  -> ?mjf_light_poscom0:float ptr
+  -> ?mjf_light_pos0:float ptr
+  -> ?mjf_light_dir0:float ptr
+  -> ?mjf_light_attenuation:float ptr
+  -> ?mjf_light_cutoff:float ptr
+  -> ?mjf_light_exponent:float ptr
+  -> ?mjf_light_ambient:float ptr
+  -> ?mjf_light_diffuse:float ptr
+  -> ?mjf_light_specular:float ptr
+  -> ?mjf_mesh_vertadr:int ptr
+  -> ?mjf_mesh_vertnum:int ptr
+  -> ?mjf_mesh_texcoordadr:int ptr
+  -> ?mjf_mesh_faceadr:int ptr
+  -> ?mjf_mesh_facenum:int ptr
+  -> ?mjf_mesh_graphadr:int ptr
+  -> ?mjf_mesh_vert:float ptr
+  -> ?mjf_mesh_normal:float ptr
+  -> ?mjf_mesh_texcoord:float ptr
+  -> ?mjf_mesh_face:int ptr
+  -> ?mjf_mesh_graph:int ptr
+  -> ?mjf_skin_matid:int ptr
+  -> ?mjf_skin_rgba:float ptr
+  -> ?mjf_skin_inflate:float ptr
+  -> ?mjf_skin_vertadr:int ptr
+  -> ?mjf_skin_vertnum:int ptr
+  -> ?mjf_skin_texcoordadr:int ptr
+  -> ?mjf_skin_faceadr:int ptr
+  -> ?mjf_skin_facenum:int ptr
+  -> ?mjf_skin_boneadr:int ptr
+  -> ?mjf_skin_bonenum:int ptr
+  -> ?mjf_skin_vert:float ptr
+  -> ?mjf_skin_texcoord:float ptr
+  -> ?mjf_skin_face:int ptr
+  -> ?mjf_skin_bonevertadr:int ptr
+  -> ?mjf_skin_bonevertnum:int ptr
+  -> ?mjf_skin_bonebindpos:float ptr
+  -> ?mjf_skin_bonebindquat:float ptr
+  -> ?mjf_skin_bonebodyid:int ptr
+  -> ?mjf_skin_bonevertid:int ptr
+  -> ?mjf_skin_bonevertweight:float ptr
+  -> ?mjf_hfield_size:float ptr
+  -> ?mjf_hfield_nrow:int ptr
+  -> ?mjf_hfield_ncol:int ptr
+  -> ?mjf_hfield_adr:int ptr
+  -> ?mjf_hfield_data:float ptr
+  -> ?mjf_tex_type:int ptr
+  -> ?mjf_tex_height:int ptr
+  -> ?mjf_tex_width:int ptr
+  -> ?mjf_tex_adr:int ptr
+  -> ?mjf_tex_rgb:Unsigned.UChar.t ptr
+  -> ?mjf_mat_texid:int ptr
+  -> ?mjf_mat_texuniform:Unsigned.UChar.t ptr
+  -> ?mjf_mat_texrepeat:float ptr
+  -> ?mjf_mat_emission:float ptr
+  -> ?mjf_mat_specular:float ptr
+  -> ?mjf_mat_shininess:float ptr
+  -> ?mjf_mat_reflectance:float ptr
+  -> ?mjf_mat_rgba:float ptr
+  -> ?mjf_pair_dim:int ptr
+  -> ?mjf_pair_geom1:int ptr
+  -> ?mjf_pair_geom2:int ptr
+  -> ?mjf_pair_signature:int ptr
+  -> ?mjf_pair_solref:float ptr
+  -> ?mjf_pair_solimp:float ptr
+  -> ?mjf_pair_margin:float ptr
+  -> ?mjf_pair_gap:float ptr
+  -> ?mjf_pair_friction:float ptr
+  -> ?mjf_exclude_signature:int ptr
+  -> ?mjf_eq_type:int ptr
+  -> ?mjf_eq_obj1id:int ptr
+  -> ?mjf_eq_obj2id:int ptr
+  -> ?mjf_eq_active:Unsigned.UChar.t ptr
+  -> ?mjf_eq_solref:float ptr
+  -> ?mjf_eq_solimp:float ptr
+  -> ?mjf_eq_data:float ptr
+  -> ?mjf_tendon_adr:int ptr
+  -> ?mjf_tendon_num:int ptr
+  -> ?mjf_tendon_matid:int ptr
+  -> ?mjf_tendon_group:int ptr
+  -> ?mjf_tendon_limited:Unsigned.UChar.t ptr
+  -> ?mjf_tendon_width:float ptr
+  -> ?mjf_tendon_solref_lim:float ptr
+  -> ?mjf_tendon_solimp_lim:float ptr
+  -> ?mjf_tendon_solref_fri:float ptr
+  -> ?mjf_tendon_solimp_fri:float ptr
+  -> ?mjf_tendon_range:float ptr
+  -> ?mjf_tendon_margin:float ptr
+  -> ?mjf_tendon_stiffness:float ptr
+  -> ?mjf_tendon_damping:float ptr
+  -> ?mjf_tendon_frictionloss:float ptr
+  -> ?mjf_tendon_lengthspring:float ptr
+  -> ?mjf_tendon_length0:float ptr
+  -> ?mjf_tendon_invweight0:float ptr
+  -> ?mjf_tendon_user:float ptr
+  -> ?mjf_tendon_rgba:float ptr
+  -> ?mjf_wrap_type:int ptr
+  -> ?mjf_wrap_objid:int ptr
+  -> ?mjf_wrap_prm:float ptr
+  -> ?mjf_actuator_trntype:int ptr
+  -> ?mjf_actuator_dyntype:int ptr
+  -> ?mjf_actuator_gaintype:int ptr
+  -> ?mjf_actuator_biastype:int ptr
+  -> ?mjf_actuator_trnid:int ptr
+  -> ?mjf_actuator_group:int ptr
+  -> ?mjf_actuator_ctrllimited:Unsigned.UChar.t ptr
+  -> ?mjf_actuator_forcelimited:Unsigned.UChar.t ptr
+  -> ?mjf_actuator_dynprm:float ptr
+  -> ?mjf_actuator_gainprm:float ptr
+  -> ?mjf_actuator_biasprm:float ptr
+  -> ?mjf_actuator_ctrlrange:float ptr
+  -> ?mjf_actuator_forcerange:float ptr
+  -> ?mjf_actuator_gear:float ptr
+  -> ?mjf_actuator_cranklength:float ptr
+  -> ?mjf_actuator_acc0:float ptr
+  -> ?mjf_actuator_length0:float ptr
+  -> ?mjf_actuator_lengthrange:float ptr
+  -> ?mjf_actuator_user:float ptr
+  -> ?mjf_sensor_type:int ptr
+  -> ?mjf_sensor_datatype:int ptr
+  -> ?mjf_sensor_needstage:int ptr
+  -> ?mjf_sensor_objtype:int ptr
+  -> ?mjf_sensor_objid:int ptr
+  -> ?mjf_sensor_dim:int ptr
+  -> ?mjf_sensor_adr:int ptr
+  -> ?mjf_sensor_cutoff:float ptr
+  -> ?mjf_sensor_noise:float ptr
+  -> ?mjf_sensor_user:float ptr
+  -> ?mjf_numeric_adr:int ptr
+  -> ?mjf_numeric_size:int ptr
+  -> ?mjf_numeric_data:float ptr
+  -> ?mjf_text_adr:int ptr
+  -> ?mjf_text_size:int ptr
+  -> ?mjf_text_data:string
+  -> ?mjf_tuple_adr:int ptr
+  -> ?mjf_tuple_size:int ptr
+  -> ?mjf_tuple_objtype:int ptr
+  -> ?mjf_tuple_objid:int ptr
+  -> ?mjf_tuple_objprm:float ptr
+  -> ?mjf_key_time:float ptr
+  -> ?mjf_key_qpos:float ptr
+  -> ?mjf_key_qvel:float ptr
+  -> ?mjf_key_act:float ptr
+  -> ?mjf_key_mpos:float ptr
+  -> ?mjf_key_mquat:float ptr
+  -> ?mjf_name_bodyadr:int ptr
+  -> ?mjf_name_jntadr:int ptr
+  -> ?mjf_name_geomadr:int ptr
+  -> ?mjf_name_siteadr:int ptr
+  -> ?mjf_name_camadr:int ptr
+  -> ?mjf_name_lightadr:int ptr
+  -> ?mjf_name_meshadr:int ptr
+  -> ?mjf_name_skinadr:int ptr
+  -> ?mjf_name_hfieldadr:int ptr
+  -> ?mjf_name_texadr:int ptr
+  -> ?mjf_name_matadr:int ptr
+  -> ?mjf_name_pairadr:int ptr
+  -> ?mjf_name_excludeadr:int ptr
+  -> ?mjf_name_eqadr:int ptr
+  -> ?mjf_name_tendonadr:int ptr
+  -> ?mjf_name_actuatoradr:int ptr
+  -> ?mjf_name_sensoradr:int ptr
+  -> ?mjf_name_numericadr:int ptr
+  -> ?mjf_name_textadr:int ptr
+  -> ?mjf_name_tupleadr:int ptr
+  -> ?mjf_name_keyadr:int ptr
+  -> ?mjf_names:string
+  -> unit
+  -> mjModel
+
 (** convert mjtWarning type to int *)
 val mjtWarning_to_int : mjtWarning -> int
 
@@ -2962,6 +3356,25 @@ val mjContact_get_efc_address : mjContact -> int
 (** set efc_address for mjContact *)
 val mjContact_set_efc_address : mjContact -> int -> unit
 
+(** make mjContact struct *)
+val mjContact_make
+  :  ?mjf_dist:float
+  -> ?mjf_pos:float ptr
+  -> ?mjf_frame:float ptr
+  -> ?mjf_includemargin:float
+  -> ?mjf_friction:float ptr
+  -> ?mjf_solref:float ptr
+  -> ?mjf_solimp:float ptr
+  -> ?mjf_mu:float
+  -> ?mjf_H:float ptr
+  -> ?mjf_dim:int
+  -> ?mjf_geom1:int
+  -> ?mjf_geom2:int
+  -> ?mjf_exclude:int
+  -> ?mjf_efc_address:int
+  -> unit
+  -> mjContact
+
 (** allocate fresh mjWarningStat struct *)
 val mjWarningStat_allocate : unit -> mjWarningStat
 
@@ -2980,6 +3393,9 @@ val mjWarningStat_get_number : mjWarningStat -> int
 (** set number for mjWarningStat *)
 val mjWarningStat_set_number : mjWarningStat -> int -> unit
 
+(** make mjWarningStat struct *)
+val mjWarningStat_make : ?mjf_lastinfo:int -> ?mjf_number:int -> unit -> mjWarningStat
+
 (** allocate fresh mjTimerStat struct *)
 val mjTimerStat_allocate : unit -> mjTimerStat
 
@@ -2997,6 +3413,9 @@ val mjTimerStat_get_number : mjTimerStat -> int
 
 (** set number for mjTimerStat *)
 val mjTimerStat_set_number : mjTimerStat -> int -> unit
+
+(** make mjTimerStat struct *)
+val mjTimerStat_make : ?mjf_duration:float -> ?mjf_number:int -> unit -> mjTimerStat
 
 (** allocate fresh mjSolverStat struct *)
 val mjSolverStat_allocate : unit -> mjSolverStat
@@ -3045,6 +3464,18 @@ val mjSolverStat_get_nupdate : mjSolverStat -> int
 
 (** set nupdate for mjSolverStat *)
 val mjSolverStat_set_nupdate : mjSolverStat -> int -> unit
+
+(** make mjSolverStat struct *)
+val mjSolverStat_make
+  :  ?mjf_improvement:float
+  -> ?mjf_gradient:float
+  -> ?mjf_lineslope:float
+  -> ?mjf_nactive:int
+  -> ?mjf_nchange:int
+  -> ?mjf_neval:int
+  -> ?mjf_nupdate:int
+  -> unit
+  -> mjSolverStat
 
 (** allocate fresh mjData struct *)
 val mjData_allocate : unit -> mjData
@@ -3730,6 +4161,124 @@ val mjData_get_cfrc_ext : mjData -> float ptr
 (** set cfrc_ext for mjData *)
 val mjData_set_cfrc_ext : mjData -> float ptr -> unit
 
+(** make mjData struct *)
+val mjData_make
+  :  ?mjf_nstack:int
+  -> ?mjf_nbuffer:int
+  -> ?mjf_pstack:int
+  -> ?mjf_maxuse_stack:int
+  -> ?mjf_maxuse_con:int
+  -> ?mjf_maxuse_efc:int
+  -> ?mjf_warning:mjWarningStat ptr
+  -> ?mjf_timer:mjTimerStat ptr
+  -> ?mjf_solver:mjSolverStat ptr
+  -> ?mjf_solver_iter:int
+  -> ?mjf_solver_nnz:int
+  -> ?mjf_solver_fwdinv:float ptr
+  -> ?mjf_ne:int
+  -> ?mjf_nf:int
+  -> ?mjf_nefc:int
+  -> ?mjf_ncon:int
+  -> ?mjf_time:float
+  -> ?mjf_energy:float ptr
+  -> ?mjf_buffer:unit ptr
+  -> ?mjf_stack:float ptr
+  -> ?mjf_qpos:float ptr
+  -> ?mjf_qvel:float ptr
+  -> ?mjf_act:float ptr
+  -> ?mjf_qacc_warmstart:float ptr
+  -> ?mjf_ctrl:float ptr
+  -> ?mjf_qfrc_applied:float ptr
+  -> ?mjf_xfrc_applied:float ptr
+  -> ?mjf_qacc:float ptr
+  -> ?mjf_act_dot:float ptr
+  -> ?mjf_mocap_pos:float ptr
+  -> ?mjf_mocap_quat:float ptr
+  -> ?mjf_userdata:float ptr
+  -> ?mjf_sensordata:float ptr
+  -> ?mjf_xpos:float ptr
+  -> ?mjf_xquat:float ptr
+  -> ?mjf_xmat:float ptr
+  -> ?mjf_xipos:float ptr
+  -> ?mjf_ximat:float ptr
+  -> ?mjf_xanchor:float ptr
+  -> ?mjf_xaxis:float ptr
+  -> ?mjf_geom_xpos:float ptr
+  -> ?mjf_geom_xmat:float ptr
+  -> ?mjf_site_xpos:float ptr
+  -> ?mjf_site_xmat:float ptr
+  -> ?mjf_cam_xpos:float ptr
+  -> ?mjf_cam_xmat:float ptr
+  -> ?mjf_light_xpos:float ptr
+  -> ?mjf_light_xdir:float ptr
+  -> ?mjf_subtree_com:float ptr
+  -> ?mjf_cdof:float ptr
+  -> ?mjf_cinert:float ptr
+  -> ?mjf_ten_wrapadr:int ptr
+  -> ?mjf_ten_wrapnum:int ptr
+  -> ?mjf_ten_J_rownnz:int ptr
+  -> ?mjf_ten_J_rowadr:int ptr
+  -> ?mjf_ten_J_colind:int ptr
+  -> ?mjf_ten_length:float ptr
+  -> ?mjf_ten_J:float ptr
+  -> ?mjf_wrap_obj:int ptr
+  -> ?mjf_wrap_xpos:float ptr
+  -> ?mjf_actuator_length:float ptr
+  -> ?mjf_actuator_moment:float ptr
+  -> ?mjf_crb:float ptr
+  -> ?mjf_qM:float ptr
+  -> ?mjf_qLD:float ptr
+  -> ?mjf_qLDiagInv:float ptr
+  -> ?mjf_qLDiagSqrtInv:float ptr
+  -> ?mjf_contact:mjContact ptr
+  -> ?mjf_efc_type:int ptr
+  -> ?mjf_efc_id:int ptr
+  -> ?mjf_efc_J_rownnz:int ptr
+  -> ?mjf_efc_J_rowadr:int ptr
+  -> ?mjf_efc_J_rowsuper:int ptr
+  -> ?mjf_efc_J_colind:int ptr
+  -> ?mjf_efc_JT_rownnz:int ptr
+  -> ?mjf_efc_JT_rowadr:int ptr
+  -> ?mjf_efc_JT_rowsuper:int ptr
+  -> ?mjf_efc_JT_colind:int ptr
+  -> ?mjf_efc_J:float ptr
+  -> ?mjf_efc_JT:float ptr
+  -> ?mjf_efc_pos:float ptr
+  -> ?mjf_efc_margin:float ptr
+  -> ?mjf_efc_frictionloss:float ptr
+  -> ?mjf_efc_diagApprox:float ptr
+  -> ?mjf_efc_KBIP:float ptr
+  -> ?mjf_efc_D:float ptr
+  -> ?mjf_efc_R:float ptr
+  -> ?mjf_efc_AR_rownnz:int ptr
+  -> ?mjf_efc_AR_rowadr:int ptr
+  -> ?mjf_efc_AR_colind:int ptr
+  -> ?mjf_efc_AR:float ptr
+  -> ?mjf_ten_velocity:float ptr
+  -> ?mjf_actuator_velocity:float ptr
+  -> ?mjf_cvel:float ptr
+  -> ?mjf_cdof_dot:float ptr
+  -> ?mjf_qfrc_bias:float ptr
+  -> ?mjf_qfrc_passive:float ptr
+  -> ?mjf_efc_vel:float ptr
+  -> ?mjf_efc_aref:float ptr
+  -> ?mjf_subtree_linvel:float ptr
+  -> ?mjf_subtree_angmom:float ptr
+  -> ?mjf_actuator_force:float ptr
+  -> ?mjf_qfrc_actuator:float ptr
+  -> ?mjf_qfrc_unc:float ptr
+  -> ?mjf_qacc_unc:float ptr
+  -> ?mjf_efc_b:float ptr
+  -> ?mjf_efc_force:float ptr
+  -> ?mjf_efc_state:int ptr
+  -> ?mjf_qfrc_constraint:float ptr
+  -> ?mjf_qfrc_inverse:float ptr
+  -> ?mjf_cacc:float ptr
+  -> ?mjf_cfrc_int:float ptr
+  -> ?mjf_cfrc_ext:float ptr
+  -> unit
+  -> mjData
+
 (** convert mjtCatBit type to int *)
 val mjtCatBit_to_int : mjtCatBit -> int
 
@@ -3811,6 +4360,19 @@ val mjvPerturb_get_scale : mjvPerturb -> float
 (** set scale for mjvPerturb *)
 val mjvPerturb_set_scale : mjvPerturb -> float -> unit
 
+(** make mjvPerturb struct *)
+val mjvPerturb_make
+  :  ?mjf_select:int
+  -> ?mjf_skinselect:int
+  -> ?mjf_active:int
+  -> ?mjf_active2:int
+  -> ?mjf_refpos:float ptr
+  -> ?mjf_refquat:float ptr
+  -> ?mjf_localpos:float ptr
+  -> ?mjf_scale:float
+  -> unit
+  -> mjvPerturb
+
 (** allocate fresh mjvCamera struct *)
 val mjvCamera_allocate : unit -> mjvCamera
 
@@ -3858,6 +4420,18 @@ val mjvCamera_get_elevation : mjvCamera -> float
 
 (** set elevation for mjvCamera *)
 val mjvCamera_set_elevation : mjvCamera -> float -> unit
+
+(** make mjvCamera struct *)
+val mjvCamera_make
+  :  ?mjf_type:int
+  -> ?mjf_fixedcamid:int
+  -> ?mjf_trackbodyid:int
+  -> ?mjf_lookat:float ptr
+  -> ?mjf_distance:float
+  -> ?mjf_azimuth:float
+  -> ?mjf_elevation:float
+  -> unit
+  -> mjvCamera
 
 (** allocate fresh mjvGLCamera struct *)
 val mjvGLCamera_allocate : unit -> mjvGLCamera
@@ -3912,6 +4486,19 @@ val mjvGLCamera_get_frustum_far : mjvGLCamera -> float
 
 (** set frustum_far for mjvGLCamera *)
 val mjvGLCamera_set_frustum_far : mjvGLCamera -> float -> unit
+
+(** make mjvGLCamera struct *)
+val mjvGLCamera_make
+  :  ?mjf_pos:float ptr
+  -> ?mjf_forward:float ptr
+  -> ?mjf_up:float ptr
+  -> ?mjf_frustum_center:float
+  -> ?mjf_frustum_bottom:float
+  -> ?mjf_frustum_top:float
+  -> ?mjf_frustum_near:float
+  -> ?mjf_frustum_far:float
+  -> unit
+  -> mjvGLCamera
 
 (** allocate fresh mjvGeom struct *)
 val mjvGeom_allocate : unit -> mjvGeom
@@ -4051,6 +4638,33 @@ val mjvGeom_get_transparent : mjvGeom -> Unsigned.UChar.t
 (** set transparent for mjvGeom *)
 val mjvGeom_set_transparent : mjvGeom -> Unsigned.UChar.t -> unit
 
+(** make mjvGeom struct *)
+val mjvGeom_make
+  :  ?mjf_type:int
+  -> ?mjf_dataid:int
+  -> ?mjf_objtype:int
+  -> ?mjf_objid:int
+  -> ?mjf_category:int
+  -> ?mjf_texid:int
+  -> ?mjf_texuniform:int
+  -> ?mjf_texcoord:int
+  -> ?mjf_segid:int
+  -> ?mjf_texrepeat:float ptr
+  -> ?mjf_size:float ptr
+  -> ?mjf_pos:float ptr
+  -> ?mjf_mat:float ptr
+  -> ?mjf_rgba:float ptr
+  -> ?mjf_emission:float
+  -> ?mjf_specular:float
+  -> ?mjf_shininess:float
+  -> ?mjf_reflectance:float
+  -> ?mjf_label:string
+  -> ?mjf_camdist:float
+  -> ?mjf_modelrbound:float
+  -> ?mjf_transparent:Unsigned.UChar.t
+  -> unit
+  -> mjvGeom
+
 (** allocate fresh mjvLight struct *)
 val mjvLight_allocate : unit -> mjvLight
 
@@ -4123,6 +4737,22 @@ val mjvLight_get_castshadow : mjvLight -> Unsigned.UChar.t
 (** set castshadow for mjvLight *)
 val mjvLight_set_castshadow : mjvLight -> Unsigned.UChar.t -> unit
 
+(** make mjvLight struct *)
+val mjvLight_make
+  :  ?mjf_pos:float ptr
+  -> ?mjf_dir:float ptr
+  -> ?mjf_attenuation:float ptr
+  -> ?mjf_cutoff:float
+  -> ?mjf_exponent:float
+  -> ?mjf_ambient:float ptr
+  -> ?mjf_diffuse:float ptr
+  -> ?mjf_specular:float ptr
+  -> ?mjf_headlight:Unsigned.UChar.t
+  -> ?mjf_directional:Unsigned.UChar.t
+  -> ?mjf_castshadow:Unsigned.UChar.t
+  -> unit
+  -> mjvLight
+
 (** allocate fresh mjvOption struct *)
 val mjvOption_allocate : unit -> mjvOption
 
@@ -4176,6 +4806,19 @@ val mjvOption_get_flags : mjvOption -> Unsigned.UChar.t ptr
 
 (** set flags for mjvOption *)
 val mjvOption_set_flags : mjvOption -> Unsigned.UChar.t ptr -> unit
+
+(** make mjvOption struct *)
+val mjvOption_make
+  :  ?mjf_label:int
+  -> ?mjf_frame:int
+  -> ?mjf_geomgroup:Unsigned.UChar.t ptr
+  -> ?mjf_sitegroup:Unsigned.UChar.t ptr
+  -> ?mjf_jointgroup:Unsigned.UChar.t ptr
+  -> ?mjf_tendongroup:Unsigned.UChar.t ptr
+  -> ?mjf_actuatorgroup:Unsigned.UChar.t ptr
+  -> ?mjf_flags:Unsigned.UChar.t ptr
+  -> unit
+  -> mjvOption
 
 (** allocate fresh mjvScene struct *)
 val mjvScene_allocate : unit -> mjvScene
@@ -4308,6 +4951,32 @@ val mjvScene_get_framergb : mjvScene -> float ptr
 
 (** set framergb for mjvScene *)
 val mjvScene_set_framergb : mjvScene -> float ptr -> unit
+
+(** make mjvScene struct *)
+val mjvScene_make
+  :  ?mjf_maxgeom:int
+  -> ?mjf_ngeom:int
+  -> ?mjf_geoms:mjvGeom ptr
+  -> ?mjf_geomorder:int ptr
+  -> ?mjf_nskin:int
+  -> ?mjf_skinfacenum:int ptr
+  -> ?mjf_skinvertadr:int ptr
+  -> ?mjf_skinvertnum:int ptr
+  -> ?mjf_skinvert:float ptr
+  -> ?mjf_skinnormal:float ptr
+  -> ?mjf_nlight:int
+  -> ?mjf_lights:mjvLight ptr
+  -> ?mjf_camera:mjvGLCamera ptr
+  -> ?mjf_enabletransform:Unsigned.UChar.t
+  -> ?mjf_translate:float ptr
+  -> ?mjf_rotate:float ptr
+  -> ?mjf_scale:float
+  -> ?mjf_stereo:int
+  -> ?mjf_flags:Unsigned.UChar.t ptr
+  -> ?mjf_framewidth:int
+  -> ?mjf_framergb:float ptr
+  -> unit
+  -> mjvScene
 
 (** allocate fresh mjvFigure struct *)
 val mjvFigure_allocate : unit -> mjvFigure
@@ -4489,6 +5158,40 @@ val mjvFigure_get_yaxisdata : mjvFigure -> float ptr
 (** set yaxisdata for mjvFigure *)
 val mjvFigure_set_yaxisdata : mjvFigure -> float ptr -> unit
 
+(** make mjvFigure struct *)
+val mjvFigure_make
+  :  ?mjf_flg_legend:int
+  -> ?mjf_flg_ticklabel:int ptr
+  -> ?mjf_flg_extend:int
+  -> ?mjf_flg_barplot:int
+  -> ?mjf_flg_selection:int
+  -> ?mjf_flg_symmetric:int
+  -> ?mjf_linewidth:float
+  -> ?mjf_gridwidth:float
+  -> ?mjf_gridsize:int ptr
+  -> ?mjf_gridrgb:float ptr
+  -> ?mjf_figurergba:float ptr
+  -> ?mjf_panergba:float ptr
+  -> ?mjf_legendrgba:float ptr
+  -> ?mjf_textrgb:float ptr
+  -> ?mjf_xformat:string
+  -> ?mjf_yformat:string
+  -> ?mjf_minwidth:string
+  -> ?mjf_title:string
+  -> ?mjf_xlabel:string
+  -> ?mjf_legendoffset:int
+  -> ?mjf_subplot:int
+  -> ?mjf_highlight:int ptr
+  -> ?mjf_highlightid:int
+  -> ?mjf_selection:float
+  -> ?mjf_linepnt:int ptr
+  -> ?mjf_xaxispixel:int ptr
+  -> ?mjf_yaxispixel:int ptr
+  -> ?mjf_xaxisdata:float ptr
+  -> ?mjf_yaxisdata:float ptr
+  -> unit
+  -> mjvFigure
+
 (** convert mjtGridPos type to int *)
 val mjtGridPos_to_int : mjtGridPos -> int
 
@@ -4530,6 +5233,15 @@ val mjrRect_get_height : mjrRect -> int
 
 (** set height for mjrRect *)
 val mjrRect_set_height : mjrRect -> int -> unit
+
+(** make mjrRect struct *)
+val mjrRect_make
+  :  ?mjf_left:int
+  -> ?mjf_bottom:int
+  -> ?mjf_width:int
+  -> ?mjf_height:int
+  -> unit
+  -> mjrRect
 
 (** allocate fresh mjrContext struct *)
 val mjrContext_allocate : unit -> mjrContext
@@ -4729,6 +5441,43 @@ val mjrContext_get_currentBuffer : mjrContext -> int
 (** set currentBuffer for mjrContext *)
 val mjrContext_set_currentBuffer : mjrContext -> int -> unit
 
+(** make mjrContext struct *)
+val mjrContext_make
+  :  ?mjf_lineWidth:float
+  -> ?mjf_shadowClip:float
+  -> ?mjf_shadowScale:float
+  -> ?mjf_fogStart:float
+  -> ?mjf_fogEnd:float
+  -> ?mjf_fogRGBA:float ptr
+  -> ?mjf_shadowSize:int
+  -> ?mjf_offWidth:int
+  -> ?mjf_offHeight:int
+  -> ?mjf_offSamples:int
+  -> ?mjf_fontScale:int
+  -> ?mjf_auxWidth:int ptr
+  -> ?mjf_auxHeight:int ptr
+  -> ?mjf_auxSamples:int ptr
+  -> ?mjf_ntexture:int
+  -> ?mjf_textureType:int ptr
+  -> ?mjf_rangePlane:int
+  -> ?mjf_rangeMesh:int
+  -> ?mjf_rangeHField:int
+  -> ?mjf_rangeBuiltin:int
+  -> ?mjf_rangeFont:int
+  -> ?mjf_nskin:int
+  -> ?mjf_charWidth:int ptr
+  -> ?mjf_charWidthBig:int ptr
+  -> ?mjf_charHeight:int
+  -> ?mjf_charHeightBig:int
+  -> ?mjf_glewInitialized:int
+  -> ?mjf_windowAvailable:int
+  -> ?mjf_windowSamples:int
+  -> ?mjf_windowStereo:int
+  -> ?mjf_windowDoublebuffer:int
+  -> ?mjf_currentBuffer:int
+  -> unit
+  -> mjrContext
+
 (** convert mjtButton type to int *)
 val mjtButton_to_int : mjtButton -> int
 
@@ -4888,6 +5637,35 @@ val mjuiState_get_dragbutton : mjuiState -> int
 (** set dragbutton for mjuiState *)
 val mjuiState_set_dragbutton : mjuiState -> int -> unit
 
+(** make mjuiState struct *)
+val mjuiState_make
+  :  ?mjf_nrect:int
+  -> ?mjf_rect:mjrRect ptr
+  -> ?mjf_userdata:unit ptr
+  -> ?mjf_type:int
+  -> ?mjf_left:int
+  -> ?mjf_right:int
+  -> ?mjf_middle:int
+  -> ?mjf_doubleclick:int
+  -> ?mjf_button:int
+  -> ?mjf_buttontime:float
+  -> ?mjf_x:float
+  -> ?mjf_y:float
+  -> ?mjf_dx:float
+  -> ?mjf_dy:float
+  -> ?mjf_sx:float
+  -> ?mjf_sy:float
+  -> ?mjf_control:int
+  -> ?mjf_shift:int
+  -> ?mjf_alt:int
+  -> ?mjf_key:int
+  -> ?mjf_keytime:float
+  -> ?mjf_mouserect:int
+  -> ?mjf_dragrect:int
+  -> ?mjf_dragbutton:int
+  -> unit
+  -> mjuiState
+
 (** allocate fresh mjuiThemeSpacing struct *)
 val mjuiThemeSpacing_allocate : unit -> mjuiThemeSpacing
 
@@ -4959,6 +5737,22 @@ val mjuiThemeSpacing_get_samples : mjuiThemeSpacing -> int
 
 (** set samples for mjuiThemeSpacing *)
 val mjuiThemeSpacing_set_samples : mjuiThemeSpacing -> int -> unit
+
+(** make mjuiThemeSpacing struct *)
+val mjuiThemeSpacing_make
+  :  ?mjf_total:int
+  -> ?mjf_scroll:int
+  -> ?mjf_label:int
+  -> ?mjf_section:int
+  -> ?mjf_itemside:int
+  -> ?mjf_itemmid:int
+  -> ?mjf_itemver:int
+  -> ?mjf_texthor:int
+  -> ?mjf_textver:int
+  -> ?mjf_linescroll:int
+  -> ?mjf_samples:int
+  -> unit
+  -> mjuiThemeSpacing
 
 (** allocate fresh mjuiThemeColor struct *)
 val mjuiThemeColor_allocate : unit -> mjuiThemeColor
@@ -5092,6 +5886,32 @@ val mjuiThemeColor_get_cursor : mjuiThemeColor -> float ptr
 (** set cursor for mjuiThemeColor *)
 val mjuiThemeColor_set_cursor : mjuiThemeColor -> float ptr -> unit
 
+(** make mjuiThemeColor struct *)
+val mjuiThemeColor_make
+  :  ?mjf_master:float ptr
+  -> ?mjf_thumb:float ptr
+  -> ?mjf_secttitle:float ptr
+  -> ?mjf_sectfont:float ptr
+  -> ?mjf_sectsymbol:float ptr
+  -> ?mjf_sectpane:float ptr
+  -> ?mjf_shortcut:float ptr
+  -> ?mjf_fontactive:float ptr
+  -> ?mjf_fontinactive:float ptr
+  -> ?mjf_decorinactive:float ptr
+  -> ?mjf_decorinactive2:float ptr
+  -> ?mjf_button:float ptr
+  -> ?mjf_check:float ptr
+  -> ?mjf_radio:float ptr
+  -> ?mjf_select:float ptr
+  -> ?mjf_select2:float ptr
+  -> ?mjf_slider:float ptr
+  -> ?mjf_slider2:float ptr
+  -> ?mjf_edit:float ptr
+  -> ?mjf_edit2:float ptr
+  -> ?mjf_cursor:float ptr
+  -> unit
+  -> mjuiThemeColor
+
 (** allocate fresh mjuiItemSingle struct *)
 val mjuiItemSingle_allocate : unit -> mjuiItemSingle
 
@@ -5110,6 +5930,9 @@ val mjuiItemSingle_get_shortcut : mjuiItemSingle -> int
 (** set shortcut for mjuiItemSingle *)
 val mjuiItemSingle_set_shortcut : mjuiItemSingle -> int -> unit
 
+(** make mjuiItemSingle struct *)
+val mjuiItemSingle_make : ?mjf_modifier:int -> ?mjf_shortcut:int -> unit -> mjuiItemSingle
+
 (** allocate fresh mjuiItemMulti struct *)
 val mjuiItemMulti_allocate : unit -> mjuiItemMulti
 
@@ -5121,6 +5944,9 @@ val mjuiItemMulti_get_nelem : mjuiItemMulti -> int
 
 (** set nelem for mjuiItemMulti *)
 val mjuiItemMulti_set_nelem : mjuiItemMulti -> int -> unit
+
+(** make mjuiItemMulti struct *)
+val mjuiItemMulti_make : ?mjf_nelem:int -> unit -> mjuiItemMulti
 
 (** allocate fresh mjuiItemSlider struct *)
 val mjuiItemSlider_allocate : unit -> mjuiItemSlider
@@ -5140,6 +5966,13 @@ val mjuiItemSlider_get_divisions : mjuiItemSlider -> float
 (** set divisions for mjuiItemSlider *)
 val mjuiItemSlider_set_divisions : mjuiItemSlider -> float -> unit
 
+(** make mjuiItemSlider struct *)
+val mjuiItemSlider_make
+  :  ?mjf_range:float ptr
+  -> ?mjf_divisions:float
+  -> unit
+  -> mjuiItemSlider
+
 (** allocate fresh mjuiItemEdit struct *)
 val mjuiItemEdit_allocate : unit -> mjuiItemEdit
 
@@ -5151,6 +5984,9 @@ val mjuiItemEdit_get_nelem : mjuiItemEdit -> int
 
 (** set nelem for mjuiItemEdit *)
 val mjuiItemEdit_set_nelem : mjuiItemEdit -> int -> unit
+
+(** make mjuiItemEdit struct *)
+val mjuiItemEdit_make : ?mjf_nelem:int -> unit -> mjuiItemEdit
 
 (** allocate fresh mjuiItem struct *)
 val mjuiItem_allocate : unit -> mjuiItem
@@ -5193,6 +6029,17 @@ val mjuiItem_get_rect : mjuiItem -> mjrRect
 
 (** set rect for mjuiItem *)
 val mjuiItem_set_rect : mjuiItem -> mjrRect -> unit
+
+(** make mjuiItem struct *)
+val mjuiItem_make
+  :  ?mjf_type:int
+  -> ?mjf_name:string
+  -> ?mjf_state:int
+  -> ?mjf_sectionid:int
+  -> ?mjf_itemid:int
+  -> ?mjf_rect:mjrRect
+  -> unit
+  -> mjuiItem
 
 (** allocate fresh mjuiSection struct *)
 val mjuiSection_allocate : unit -> mjuiSection
@@ -5247,6 +6094,19 @@ val mjuiSection_get_rcontent : mjuiSection -> mjrRect
 
 (** set rcontent for mjuiSection *)
 val mjuiSection_set_rcontent : mjuiSection -> mjrRect -> unit
+
+(** make mjuiSection struct *)
+val mjuiSection_make
+  :  ?mjf_name:string
+  -> ?mjf_state:int
+  -> ?mjf_modifier:int
+  -> ?mjf_shortcut:int
+  -> ?mjf_nitem:int
+  -> ?mjf_item:mjuiItem ptr
+  -> ?mjf_rtitle:mjrRect
+  -> ?mjf_rcontent:mjrRect
+  -> unit
+  -> mjuiSection
 
 (** allocate fresh mjUI struct *)
 val mjUI_allocate : unit -> mjUI
@@ -5386,6 +6246,33 @@ val mjUI_get_sect : mjUI -> mjuiSection ptr
 (** set sect for mjUI *)
 val mjUI_set_sect : mjUI -> mjuiSection ptr -> unit
 
+(** make mjUI struct *)
+val mjUI_make
+  :  ?mjf_spacing:mjuiThemeSpacing
+  -> ?mjf_color:mjuiThemeColor
+  -> ?mjf_predicate:mjfItemEnable
+  -> ?mjf_userdata:unit ptr
+  -> ?mjf_rectid:int
+  -> ?mjf_auxid:int
+  -> ?mjf_radiocol:int
+  -> ?mjf_width:int
+  -> ?mjf_height:int
+  -> ?mjf_maxheight:int
+  -> ?mjf_scroll:int
+  -> ?mjf_mousesect:int
+  -> ?mjf_mouseitem:int
+  -> ?mjf_mousehelp:int
+  -> ?mjf_editsect:int
+  -> ?mjf_edititem:int
+  -> ?mjf_editcursor:int
+  -> ?mjf_editscroll:int
+  -> ?mjf_edittext:string
+  -> ?mjf_editchanged:mjuiItem ptr
+  -> ?mjf_nsect:int
+  -> ?mjf_sect:mjuiSection ptr
+  -> unit
+  -> mjUI
+
 (** allocate fresh mjuiDef struct *)
 val mjuiDef_allocate : unit -> mjuiDef
 
@@ -5421,6 +6308,16 @@ val mjuiDef_get_other : mjuiDef -> string
 
 (** set other for mjuiDef *)
 val mjuiDef_set_other : mjuiDef -> string -> unit
+
+(** make mjuiDef struct *)
+val mjuiDef_make
+  :  ?mjf_type:int
+  -> ?mjf_name:string
+  -> ?mjf_state:int
+  -> ?mjf_pdata:unit ptr
+  -> ?mjf_other:string
+  -> unit
+  -> mjuiDef
 
 (** Return 1 (for backward compatibility). *)
 val mj_activate : string -> int
