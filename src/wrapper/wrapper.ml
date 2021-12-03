@@ -6,7 +6,10 @@ module Bindings = Stubs.Bindings (Mujoco_generated)
 type 'a t = 'a Ctypes.structure
 type 'a ptr = 'a Ctypes_static.ptr
 
+(** get value of ptr *)
 let ( !@ ) = Ctypes.( !@ )
+
+(** get ptr of struct *)
 let ( !& ) = Ctypes.addr
 
 type mjfItemEnable = (int -> unit ptr -> int) Mujoco_generated.CI.static_funptr

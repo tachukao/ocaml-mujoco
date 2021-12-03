@@ -5,7 +5,10 @@ open Stubs
 type 'a t = 'a Ctypes.structure
 type 'a ptr = 'a Ctypes_static.ptr
 
+(** get value of ptr *)
 val ( !@ ) : 'a ptr -> 'a
+
+(** get ptr of struct *)
 val ( !& ) : 'a t -> 'a t ptr
 
 type mjfItemEnable = (int -> unit ptr -> int) Mujoco_generated.CI.static_funptr

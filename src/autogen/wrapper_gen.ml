@@ -170,8 +170,16 @@ let write_wrapper ~filename =
           pci "type 'a t = 'a Ctypes.structure";
           pc "type 'a ptr = 'a Ctypes_static.ptr";
           pci "type 'a ptr = 'a Ctypes_static.ptr";
+          pc "\n";
+          pci "\n";
+          pc "(** get value of ptr *)";
+          pci "(** get value of ptr *)";
           pc "let ( !@ ) = Ctypes.( !@ )";
           pci "val ( !@ ) : 'a ptr -> 'a";
+          pc "\n";
+          pci "\n";
+          pc "(** get ptr of struct *)";
+          pci "(** get ptr of struct *)";
           pc "let ( !& ) = Ctypes.addr";
           pci "val ( !& ): 'a t -> 'a t ptr";
           pc
