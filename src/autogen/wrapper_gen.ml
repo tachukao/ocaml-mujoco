@@ -172,8 +172,8 @@ let write_wrapper ~filename =
           pci "type 'a ptr = 'a Ctypes_static.ptr";
           pc "let ( !@ ) = Ctypes.( !@ )";
           pci "val ( !@ ) : 'a ptr -> 'a";
-          pc "let mj_addr = Ctypes.addr";
-          pci "val mj_addr : 'a t -> 'a t ptr";
+          pc "let ( !& ) = Ctypes.addr";
+          pci "val ( !& ): 'a t -> 'a t ptr";
           pc
             "type mjfItemEnable = (int -> unit ptr -> int) \
              Mujoco_generated.CI.static_funptr";

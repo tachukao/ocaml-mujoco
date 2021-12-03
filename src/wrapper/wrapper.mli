@@ -6,7 +6,7 @@ type 'a t = 'a Ctypes.structure
 type 'a ptr = 'a Ctypes_static.ptr
 
 val ( !@ ) : 'a ptr -> 'a
-val mj_addr : 'a t -> 'a t ptr
+val ( !& ) : 'a t -> 'a t ptr
 
 type mjfItemEnable = (int -> unit ptr -> int) Mujoco_generated.CI.static_funptr
 
@@ -6133,6 +6133,30 @@ val mjr_getError : unit -> int
 
 (** Find first rectangle containing mouse, -1: not found. *)
 val mjr_findRect : int -> int -> int -> mjrRect ptr -> int
+
+(** Get builtin UI theme spacing (ind: 0-1). *)
+val mjui_themeSpacing : int -> mjuiThemeSpacing
+
+(** Get builtin UI theme color (ind: 0-3). *)
+val mjui_themeColor : int -> mjuiThemeColor
+
+(** Add definitions to UI. *)
+val mjui_add : mjUI ptr -> mjuiDef ptr -> unit
+
+(** Add definitions to UI section. *)
+val mjui_addToSection : mjUI ptr -> int -> mjuiDef ptr -> unit
+
+(** Compute UI sizes. *)
+val mjui_resize : mjUI ptr -> mjrContext ptr -> unit
+
+(** Update specific section/item; -1: update all. *)
+val mjui_update : int -> int -> mjUI ptr -> mjuiState ptr -> mjrContext ptr -> unit
+
+(** Handle UI event, return pointer to changed item, NULL if no change. *)
+val mjui_event : mjUI ptr -> mjuiState ptr -> mjrContext ptr -> mjuiItem ptr
+
+(** Copy UI image to current buffer. *)
+val mjui_render : mjUI ptr -> mjuiState ptr -> mjrContext ptr -> unit
 
 (** Main error function; does not return to caller. *)
 val mju_error : string -> unit

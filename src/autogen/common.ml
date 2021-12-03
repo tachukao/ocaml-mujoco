@@ -111,7 +111,11 @@ let parse_func s =
       ; rep blank
       ; group
           (seq
-             [ str "mj"; opt (alt [ char 'u'; char 'v'; char 'r' ]); char '_'; rep wordc ])
+             [ str "mj"
+             ; opt (alt [ char 'u'; char 'v'; char 'r'; str "ui" ])
+             ; char '_'
+             ; rep wordc
+             ])
       ; char '('
       ; group (shortest (rep any))
       ; char ')'

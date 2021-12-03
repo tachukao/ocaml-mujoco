@@ -7,7 +7,7 @@ type 'a t = 'a Ctypes.structure
 type 'a ptr = 'a Ctypes_static.ptr
 
 let ( !@ ) = Ctypes.( !@ )
-let mj_addr = Ctypes.addr
+let ( !& ) = Ctypes.addr
 
 type mjfItemEnable = (int -> unit ptr -> int) Mujoco_generated.CI.static_funptr
 
@@ -6075,6 +6075,30 @@ let mjr_getError = Bindings.mjr_getError
 let mjr_findRect = Bindings.mjr_findRect
 
 (** ---------------------- UI framework --------------------------------------------------- *)
+
+(** Get builtin UI theme spacing (ind: 0-1). *)
+let mjui_themeSpacing = Bindings.mjui_themeSpacing
+
+(** Get builtin UI theme color (ind: 0-3). *)
+let mjui_themeColor = Bindings.mjui_themeColor
+
+(** Add definitions to UI. *)
+let mjui_add = Bindings.mjui_add
+
+(** Add definitions to UI section. *)
+let mjui_addToSection = Bindings.mjui_addToSection
+
+(** Compute UI sizes. *)
+let mjui_resize = Bindings.mjui_resize
+
+(** Update specific section/item; -1: update all. *)
+let mjui_update = Bindings.mjui_update
+
+(** Handle UI event, return pointer to changed item, NULL if no change. *)
+let mjui_event = Bindings.mjui_event
+
+(** Copy UI image to current buffer. *)
+let mjui_render = Bindings.mjui_render
 
 (** ---------------------- Error and memory ----------------------------------------------- *)
 

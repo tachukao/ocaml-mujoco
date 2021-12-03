@@ -1052,6 +1052,44 @@ module Bindings (F : FOREIGN) = struct
 
   (** ---------------------- UI framework --------------------------------------------------- *)
 
+  (** Get builtin UI theme spacing (ind: 0-1). *)
+  let mjui_themeSpacing = foreign "mjui_themeSpacing" (int @-> returning mjuiThemeSpacing)
+
+  (** Get builtin UI theme color (ind: 0-3). *)
+  let mjui_themeColor = foreign "mjui_themeColor" (int @-> returning mjuiThemeColor)
+
+  (** Add definitions to UI. *)
+  let mjui_add = foreign "mjui_add" (ptr mjUI @-> ptr mjuiDef @-> returning void)
+
+  (** Add definitions to UI section. *)
+  let mjui_addToSection =
+    foreign "mjui_addToSection" (ptr mjUI @-> int @-> ptr mjuiDef @-> returning void)
+
+
+  (** Compute UI sizes. *)
+  let mjui_resize = foreign "mjui_resize" (ptr mjUI @-> ptr mjrContext @-> returning void)
+
+  (** Update specific section/item; -1: update all. *)
+  let mjui_update =
+    foreign
+      "mjui_update"
+      (int @-> int @-> ptr mjUI @-> ptr mjuiState @-> ptr mjrContext @-> returning void)
+
+
+  (** Handle UI event, return pointer to changed item, NULL if no change. *)
+  let mjui_event =
+    foreign
+      "mjui_event"
+      (ptr mjUI @-> ptr mjuiState @-> ptr mjrContext @-> returning (ptr mjuiItem))
+
+
+  (** Copy UI image to current buffer. *)
+  let mjui_render =
+    foreign
+      "mjui_render"
+      (ptr mjUI @-> ptr mjuiState @-> ptr mjrContext @-> returning void)
+
+
   (** ---------------------- Error and memory ----------------------------------------------- *)
 
   (** Main error function; does not return to caller. *)
