@@ -105,6 +105,7 @@ let load_xml ~name xml =
   Bindings.mj_loadXML xml Ctypes.(from_voidp Typs.mjVFS null) name 1000
 
 
+let make_null_model () = Ctypes.(addr (make Typs.mjModel))
 let get_model_nv model = Ctypes.(getf !@model Typs.mjModel_nv)
 let get_model_option model = Ctypes.(getf !@model Typs.mjModel_opt)
 let delete_model = Bindings.mj_deleteModel
@@ -211,7 +212,15 @@ let update_vscene ?perturb model data opt cam catbit scn =
     Ctypes.(addr scn)
 
 
-let make_vscene model scene = Bindings.mjv_makeScene model Ctypes.(addr scene) 
+let make_vscene ?model scene =
+  let model =
+    match model with
+    | Some m -> m
+    | None   -> make_null_model ()
+  in
+  Bindings.mjv_makeScene model Ctypes.(addr scene)
+
+
 let free_vscene scene = Bindings.mjv_freeScene Ctypes.(addr scene)
 
 let make_rcontext model context fontscale =

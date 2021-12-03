@@ -75,7 +75,7 @@ let () =
   (* Make the window's context current *)
   GLFW.makeContextCurrent ~window:(Some window);
   (* Make scene and conext *)
-  Mujoco.(make_vscene model scn 2000);
+  Mujoco.(make_vscene ~model scn 2000);
   Mujoco.(make_rcontext model con MjFONTSCALE_150);
   (* Set various callbacks *)
   GLFW.setKeyCallback ~window ~f:(Some key_callback) |> ignore;
@@ -102,5 +102,4 @@ let () =
   done;
   Mujoco.delete_data data;
   Mujoco.delete_model model;
-  Mujoco.free_vscene scn;
-  Mujoco.free_rcontext con
+  Mujoco.free_vscene scn

@@ -99,6 +99,9 @@ val tsensor_to_int : tsensor -> int
 (** load model from xml string with name *)
 val load_xml : name:string -> string -> model
 
+(** make null model *)
+val make_null_model : unit -> model
+
 (** get model nv *)
 val get_model_nv : model -> int
 
@@ -213,7 +216,7 @@ val update_vscene
   -> unit
 
 (** make vscene with model for maxgeom *)
-val make_vscene : model -> vscene -> int -> unit 
+val make_vscene : ?model:model -> vscene -> int -> unit
 
 (** free vscene *)
 val free_vscene : vscene -> unit
