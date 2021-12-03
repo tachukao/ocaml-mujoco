@@ -1,146 +1,6 @@
 open Base
 open Common
 
-type cstruct_fields =
-  | Nested
-  | Flat of (string * string * string) list
-
-type cstruct =
-  { cstruct_name : string
-  ; cstruct_fields : cstruct_fields
-  }
-
-type cenum =
-  { cenum_name : string
-  ; cenum_docstr : string
-  ; cenum_states : (string * string) list
-  }
-
-let get_bname name =
-  assert (Char.(name.[0] = '_'));
-  String.sub ~pos:1 ~len:String.(length name - 1) name
-
-
-let get_enum_states s =
-  let open Re in
-  let s =
-    String.strip s
-    |> Printf.sprintf "%s,"
-    |> String.split_lines
-    |> List.map ~f:String.strip
-    |> List.filter ~f:(fun s -> String.(s <> ""))
-    |> String.concat ~sep:"\n"
-  in
-  let regex =
-    seq
-      [ bol
-      ; shortest (group (rep1 wordc))
-      ; alt [ space; char ',' ]
-      ; shortest (rep notnl)
-      ; char '/'
-      ; group (rep notnl)
-      ]
-  in
-  all (compile regex) s
-  |> List.map ~f:(fun group ->
-         let s = Group.get group 1 in
-         let docstr = convert_docstr ("/" ^ Group.(get group 2)) in
-         s, docstr)
-
-
-let parse_enum s =
-  let open Re in
-  let regex =
-    seq
-      [ bol
-      ; seq [ bow; str "typedef enum"; eow ]
-      ; space
-      ; group (rep wordc)
-      ; group (shortest (rep any))
-      ; str "{"
-      ; shortest (rep notnl)
-      ; eol
-      ; group (shortest (rep any))
-      ; str "}"
-      ]
-  in
-  all (compile regex) s
-  |> List.map ~f:(fun group ->
-         let cenum_name = Group.get group 1 in
-         let cenum_docstr = Group.get group 2 |> convert_docstr in
-         let cenum_states = Group.get group 3 |> get_enum_states in
-         { cenum_docstr; cenum_name; cenum_states })
-
-
-let is_nested_struct_fields s =
-  let open Re in
-  let regex =
-    seq
-      [ seq [ bow; str "struct"; eow ]
-      ; shortest (rep any)
-      ; str "{"
-      ; shortest (group (rep any))
-      ; seq [ str "}"; space; group (rep wordc) ]
-      ]
-  in
-  let matched = all (compile regex) s in
-  Int.(List.length matched > 0)
-
-
-let get_flat_struct_fields s =
-  let open Re in
-  let regex =
-    seq
-      [ bol
-      ; rep blank
-      ; shortest (group (rep (alt [ wordc; char '*' ])))
-      ; rep blank
-      ; shortest (group (rep (alt [ wordc ])))
-      ; opt (group (seq [ char '['; rep wordc; char ']' ]))
-      ; str ";"
-      ; group (rep notnl)
-      ]
-  in
-  let fields =
-    all (compile regex) s
-    |> List.map ~f:(fun group ->
-           let typ =
-             let typ = Group.get group 1 in
-             (match Group.(get_opt group 3) with
-             | None   -> typ
-             | Some _ -> typ ^ "*")
-             |> convert_typ
-           in
-           let field = Group.get group 2 in
-           let docstr = Group.(get group 4) |> convert_docstr in
-           typ, field, docstr)
-  in
-  Flat fields
-
-
-let parse_struct s =
-  let open Re in
-  let regex =
-    seq
-      [ bol
-      ; seq [ bow; str "struct"; eow ]
-      ; space
-      ; group (rep wordc)
-      ; shortest (rep any)
-      ; str "{"
-      ; shortest (group (rep any))
-      ; seq [ bol; str "};" ]
-      ]
-  in
-  all (compile regex) s
-  |> List.map ~f:(fun group ->
-         let name = Group.get group 1 in
-         let _fields = Group.get group 2 in
-         if is_nested_struct_fields _fields
-         then { cstruct_name = name; cstruct_fields = Nested }
-         else { cstruct_name = name; cstruct_fields = get_flat_struct_fields _fields })
-
-
 let p_filename_box ch filename =
   let width = 80 in
   let l = String.length filename in
@@ -157,7 +17,10 @@ let p_enum_part channel fs =
       let bname = get_bname name in
       let states = cenum.cenum_states in
       (* top *)
-      p channel "\n%s" cenum.cenum_docstr;
+      p channel "\n";
+      if String.(strip cenum.cenum_docstr = "(**  *)")
+      then p channel "(** %s *)" bname
+      else p channel "%s" cenum.cenum_docstr;
       p channel "type %s =" bname;
       List.iter states ~f:(fun (state, doc) ->
           p channel " | %s %s" String.(capitalize state) doc);
@@ -206,7 +69,7 @@ let p_struct_part channel fs =
 let write_stubs ~stubs_filename s =
   Stdio.Out_channel.with_file stubs_filename ~f:(fun channel ->
       let ps = p channel in
-      ps "(* THIS FILE IS GENERATED AUTOMATICALLY, DO NOT EDIT BY HAND *)\n";
+      p_auto channel;
       ps "open Ctypes";
       ps "module Bindings (S : Cstubs.Types.TYPE) = struct";
       ps "open S";
@@ -225,6 +88,4 @@ let write_stubs ~stubs_filename s =
 
 
 let write stubs_filename =
-  [ "mjmodel.h"; "mjdata.h"; "mjvisualize.h"; "mjrender.h"; "mjui.h" ]
-  |> List.map ~f:read_file
-  |> write_stubs ~stubs_filename
+  mujoco_type_file_names |> List.map ~f:read_file |> write_stubs ~stubs_filename

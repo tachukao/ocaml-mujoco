@@ -2020,7 +2020,7 @@ module Bindings (S : Cstubs.Types.TYPE) = struct
       ~unexpected:(fun _ -> failwith "unexpected mjtWarning element data type enum")
 
 
-  (**  *)
+  (** mjtTimer *)
   type mjtTimer =
     | MjTIMER_STEP (** step *)
     | MjTIMER_FORWARD (** forward *)
