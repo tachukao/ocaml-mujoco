@@ -7,11 +7,15 @@ open Typs
 module Bindings (F : FOREIGN) = struct
   open F
 
+  (** ---------------------- Activation ----------------------------------------------------- *)
+
   (**  Return 1 (for backward compatibility). *)
   let mj_activate = foreign "mj_activate" (string @-> returning int)
 
   (**  Do nothing (for backward compatibility). *)
   let mj_deactivate = foreign "mj_deactivate" (void @-> returning void)
+
+  (** ---------------------- Virtual file system -------------------------------------------- *)
 
   (**  Initialize VFS to empty (no deallocation). *)
   let mj_defaultVFS = foreign "mj_defaultVFS" (ptr mjVFS @-> returning void)
@@ -37,6 +41,8 @@ module Bindings (F : FOREIGN) = struct
   (**  Delete all files from VFS. *)
   let mj_deleteVFS = foreign "mj_deleteVFS" (ptr mjVFS @-> returning void)
 
+  (** ---------------------- Parse and compile ---------------------------------------------- *)
+
   (**  Parse XML file in MJCF or URDF format, compile it, return low-level model.
  If vfs is not NULL, look up files in vfs before reading from disk.
  If error is not NULL, it must have size error_sz. *)
@@ -59,6 +65,8 @@ module Bindings (F : FOREIGN) = struct
   let mj_printSchema =
     foreign "mj_printSchema" (string @-> string @-> int @-> int @-> int @-> returning int)
 
+
+  (** ---------------------- Main simulation ------------------------------------------------ *)
 
   (**  Advance simulation, use control callback to obtain external force and control. *)
   let mj_step = foreign "mj_step" (ptr mjModel @-> ptr mjData @-> returning void)
@@ -88,6 +96,8 @@ module Bindings (F : FOREIGN) = struct
       "mj_inverseSkip"
       (ptr mjModel @-> ptr mjData @-> int @-> int @-> returning void)
 
+
+  (** ---------------------- Initialization ------------------------------------------------- *)
 
   (**  Set default options for length range computation. *)
   let mj_defaultLROpt = foreign "mj_defaultLROpt" (ptr mjLROpt @-> returning void)
@@ -175,6 +185,8 @@ module Bindings (F : FOREIGN) = struct
       @-> returning int)
 
 
+  (** ---------------------- Printing ------------------------------------------------------- *)
+
   (**  Print model to text file. *)
   let mj_printModel = foreign "mj_printModel" (ptr mjModel @-> string @-> returning void)
 
@@ -192,6 +204,8 @@ module Bindings (F : FOREIGN) = struct
       "mju_printMatSparse"
       (ptr mjtNum @-> int @-> ptr int @-> ptr int @-> ptr int @-> returning void)
 
+
+  (** ---------------------- Components ----------------------------------------------------- *)
 
   (**  Run position-dependent computations. *)
   let mj_fwdPosition =
@@ -245,6 +259,8 @@ module Bindings (F : FOREIGN) = struct
   let mj_compareFwdInv =
     foreign "mj_compareFwdInv" (ptr mjModel @-> ptr mjData @-> returning void)
 
+
+  (** ---------------------- Sub components ------------------------------------------------- *)
 
   (**  Evaluate position-dependent sensors. *)
   let mj_sensorPos = foreign "mj_sensorPos" (ptr mjModel @-> ptr mjData @-> returning void)
@@ -355,6 +371,8 @@ module Bindings (F : FOREIGN) = struct
       "mj_constraintUpdate"
       (ptr mjModel @-> ptr mjData @-> ptr mjtNum @-> ptr mjtNum @-> int @-> returning void)
 
+
+  (** ---------------------- Support -------------------------------------------------------- *)
 
   (**  Add contact to d->contact list; return 0 if success; 1 if buffer full. *)
   let mj_addContact =
@@ -573,6 +591,8 @@ module Bindings (F : FOREIGN) = struct
   (**  Return version number: 1.0.2 is encoded as 102. *)
   let mj_version = foreign "mj_version" (void @-> returning int)
 
+  (** ---------------------- Ray collisions ------------------------------------------------- *)
+
   (**  Intersect ray (pnt+x*vec, x>=0) with visible geoms, except geoms in bodyexclude.
  Return geomid and distance (x) to nearest surface, or -1 if no intersection.
  geomgroup, flg_static are as in mjvOption; geomgroup==NULL skips group exclusion. *)
@@ -640,6 +660,8 @@ module Bindings (F : FOREIGN) = struct
       @-> ptr int
       @-> returning mjtNum)
 
+
+  (** ---------------------- Interaction ---------------------------------------------------- *)
 
   (**  Set default camera. *)
   let mjv_defaultCamera = foreign "mjv_defaultCamera" (ptr mjvCamera @-> returning void)
@@ -781,6 +803,8 @@ module Bindings (F : FOREIGN) = struct
       @-> returning int)
 
 
+  (** ---------------------- Visualization -------------------------------------------------- *)
+
   (**  Set default visualization options. *)
   let mjv_defaultOption = foreign "mjv_defaultOption" (ptr mjvOption @-> returning void)
 
@@ -875,6 +899,8 @@ module Bindings (F : FOREIGN) = struct
       "mjv_updateSkin"
       (ptr mjModel @-> ptr mjData @-> ptr mjvScene @-> returning void)
 
+
+  (** ---------------------- OpenGL rendering ----------------------------------------------- *)
 
   (**  Set default mjrContext. *)
   let mjr_defaultContext = foreign "mjr_defaultContext" (ptr mjrContext @-> returning void)
@@ -1024,6 +1050,10 @@ module Bindings (F : FOREIGN) = struct
     foreign "mjr_findRect" (int @-> int @-> int @-> ptr mjrRect @-> returning int)
 
 
+  (** ---------------------- UI framework --------------------------------------------------- *)
+
+  (** ---------------------- Error and memory ----------------------------------------------- *)
+
   (**  Main error function; does not return to caller. *)
   let mju_error = foreign "mju_error" (string @-> returning void)
 
@@ -1056,6 +1086,10 @@ module Bindings (F : FOREIGN) = struct
 
   (**  Write [datetime, type: message] to MUJOCO_LOG.TXT. *)
   let mju_writeLog = foreign "mju_writeLog" (string @-> string @-> returning void)
+
+  (** ---------------------- Standard math -------------------------------------------------- *)
+
+  (** ------------------------------ Vector math -------------------------------------------- *)
 
   (**  Set res = 0. *)
   let mju_zero3 = foreign "mju_zero3" (ptr mjtNum @-> returning void)
@@ -1256,6 +1290,8 @@ module Bindings (F : FOREIGN) = struct
       @-> returning void)
 
 
+  (** ---------------------- Quaternions ---------------------------------------------------- *)
+
   (**  Rotate vector by quaternion. *)
   let mju_rotVecQuat =
     foreign "mju_rotVecQuat" (ptr mjtNum @-> ptr mjtNum @-> ptr mjtNum @-> returning void)
@@ -1310,6 +1346,8 @@ module Bindings (F : FOREIGN) = struct
     foreign "mju_quatZ2Vec" (ptr mjtNum @-> ptr mjtNum @-> returning void)
 
 
+  (** ---------------------- Poses ---------------------------------------------------------- *)
+
   (**  Multiply two poses. *)
   let mju_mulPose =
     foreign
@@ -1337,6 +1375,8 @@ module Bindings (F : FOREIGN) = struct
       (ptr mjtNum @-> ptr mjtNum @-> ptr mjtNum @-> ptr mjtNum @-> returning void)
 
 
+  (** ---------------------- Decompositions -------------------------------------------------- *)
+
   (**  Cholesky decomposition: mat = L*L'; return rank. *)
   let mju_cholFactor =
     foreign "mju_cholFactor" (ptr mjtNum @-> int @-> mjtNum @-> returning int)
@@ -1360,6 +1400,8 @@ module Bindings (F : FOREIGN) = struct
       "mju_eig3"
       (ptr mjtNum @-> ptr mjtNum @-> ptr mjtNum @-> ptr mjtNum @-> returning int)
 
+
+  (** ---------------------- Miscellaneous -------------------------------------------------- *)
 
   (**  Muscle active force, prm = (range[2], force, scale, lmin, lmax, vmax, fpmax, fvmax). *)
   let mju_muscleGain =

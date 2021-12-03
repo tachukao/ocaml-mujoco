@@ -33,7 +33,13 @@ let convert_docstr s =
   "(** " ^ s ^ " *)"
 
 
-let parse s =
+let parse_sect s =
+  let open Re in
+  let regex = seq [ bol; group (seq [ str "//-"; rep notnl ]); str "\n" ] in
+  split_full (compile regex) s
+
+
+let parse_func s =
   let open Re in
   let regex =
     seq
@@ -66,29 +72,32 @@ let parse s =
          { docstr; rval; func; args })
 
 
-let write_stubs ~stubs_filename parsed =
-  let f ch =
-    let ps = p ch in
-    ps "(* THIS FILE IS GENERATED AUTOMATICALLY, DO NOT EDIT BY HAND *)\n";
-    ps "open Ctypes";
-    ps "module Typs = Typs";
-    ps "open Typs";
-    ps "module Bindings (F : FOREIGN) = struct";
-    ps "open F\n";
-    List.iter parsed ~f:(fun { docstr; func; args; rval } ->
-        p ch "%s" docstr;
-        p
-          ch
-          "let %s = foreign \"%s\" (%s @-> returning %s)"
-          func
-          func
-          String.(concat ~sep:" @-> " args)
-          rval;
-        p ch "\n");
-    ps "end"
-  in
-  Stdio.Out_channel.with_file stubs_filename ~f
+let write_stubs ~stubs_filename s =
+  let sections = parse_sect s in
+  Stdio.Out_channel.with_file stubs_filename ~f:(fun ch ->
+      let ps = p ch in
+      ps "(* THIS FILE IS GENERATED AUTOMATICALLY, DO NOT EDIT BY HAND *)\n";
+      ps "open Ctypes";
+      ps "module Typs = Typs";
+      ps "open Typs";
+      ps "module Bindings (F : FOREIGN) = struct";
+      ps "open F\n";
+      List.iter sections ~f:(fun section ->
+          match section with
+          | `Delim delim -> p ch "%s\n" (convert_docstr Re.Group.(get delim 1))
+          | `Text s      ->
+            List.iter (parse_func s) ~f:(fun cfunc ->
+                p ch "%s" cfunc.docstr;
+                p
+                  ch
+                  "let %s = foreign \"%s\" (%s @-> returning %s)"
+                  cfunc.func
+                  cfunc.func
+                  String.(concat ~sep:" @-> " cfunc.args)
+                  cfunc.rval;
+                p ch "\n"));
+      ps "end")
 
 
 let write stubs_filename =
-  snd Common.(read_file "mujoco.h") |> parse |> write_stubs ~stubs_filename
+  snd Common.(read_file "mujoco.h") |> write_stubs ~stubs_filename
