@@ -1,5 +1,10 @@
 open Base
 
+let convert_docstr s =
+  let s = s |> String.strip |> Str.global_replace Str.(regexp "//") "" in
+  "(** " ^ s ^ " *)"
+
+
 let read_file filename =
   let mujoco_dir =
     match Stdlib.Sys.getenv_opt "MUJOCO_DIR" with

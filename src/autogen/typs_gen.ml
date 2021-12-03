@@ -1,8 +1,9 @@
 open Base
+open Common
 
 type cstruct_fields =
   | Nested
-  | Flat of (string * string) list
+  | Flat of (string * string * string) list
 
 type cstruct =
   { cstruct_name : string
@@ -11,10 +12,9 @@ type cstruct =
 
 type cenum =
   { cenum_name : string
+  ; cenum_docstr : string
   ; cenum_states : string list
   }
-
-let p = Common.p
 
 let get_bname name =
   assert (Char.(name.[0] = '_'));
@@ -35,6 +35,19 @@ let get_enum_states s =
   all (compile regex) s |> List.map ~f:(fun group -> Group.get group 1)
 
 
+(*
+  let s =
+    String.strip s
+    |> Printf.sprintf "%s,"
+    |> String.split_lines
+    |> List.map ~f:String.strip
+    |> List.filter ~f:(fun s -> String.(s <> ""))
+    |> String.concat ~sep:"\n"
+  in
+  let regex = seq [ bol; shortest (group (rep1 wordc)); alt [ space; char ',' ] ] in
+  all (compile regex) s |> List.map ~f:(fun group -> Group.get group 1)
+  *)
+
 let parse_enum s =
   let open Re in
   let regex =
@@ -43,7 +56,7 @@ let parse_enum s =
       ; seq [ bow; str "typedef enum"; eow ]
       ; space
       ; group (rep wordc)
-      ; shortest (rep any)
+      ; group (shortest (rep any))
       ; str "{"
       ; shortest (rep notnl)
       ; eol
@@ -54,8 +67,9 @@ let parse_enum s =
   all (compile regex) s
   |> List.map ~f:(fun group ->
          let cenum_name = Group.get group 1 in
-         let cenum_states = Group.get group 2 |> get_enum_states in
-         { cenum_name; cenum_states })
+         let cenum_docstr = Group.get group 2 |> convert_docstr in
+         let cenum_states = Group.get group 3 |> get_enum_states in
+         { cenum_docstr; cenum_name; cenum_states })
 
 
 let is_nested_struct_fields s =
@@ -84,6 +98,7 @@ let get_flat_struct_fields s =
       ; shortest (group (rep (alt [ wordc ])))
       ; opt (group (seq [ char '['; rep wordc; char ']' ]))
       ; str ";"
+      ; group (rep notnl)
       ]
   in
   let fields =
@@ -94,10 +109,11 @@ let get_flat_struct_fields s =
              (match Group.(get_opt group 3) with
              | None   -> typ
              | Some _ -> typ ^ "*")
-             |> Common.convert_typ
+             |> convert_typ
            in
            let field = Group.get group 2 in
-           typ, field)
+           let docstr = Group.(get group 4) |> convert_docstr in
+           typ, field, docstr)
   in
   Flat fields
 
@@ -141,6 +157,7 @@ let p_enum_part channel fs =
       let bname = get_bname name in
       let states = cenum.cenum_states in
       (* top *)
+      p channel "\n%s" cenum.cenum_docstr;
       p channel "type %s =" bname;
       List.iter states ~f:(fun state -> p channel " | %s" String.(capitalize state));
       (* mid *)
@@ -166,7 +183,7 @@ let p_struct_part channel fs =
       (* top *)
       p
         channel
-        "type %s\nlet %s : %s structure typ = structure \"%s\""
+        "type %s\nlet %s : %s structure typ = structure \"%s\"\n"
         name
         name
         name
@@ -175,8 +192,9 @@ let p_struct_part channel fs =
       (match cstruct.cstruct_fields with
       | Nested      -> ()
       | Flat fields ->
-        List.iter fields ~f:(fun (typ, field) ->
-            p channel "let %s_%s = field %s \"%s\" %s" bname field name field typ);
+        List.iter fields ~f:(fun (typ, field, docstr) ->
+            p channel "%s" docstr;
+            p channel "let %s_%s = field %s \"%s\" %s\n" bname field name field typ);
         (* seal *)
         p channel "let () = seal %s" name);
       (* bottom *)
@@ -200,12 +218,12 @@ let write_stubs ~stubs_filename s =
           p_filename_box channel filename;
           (* enum part *)
           p_enum_part channel fs;
-          (* struct part *) 
+          (* struct part *)
           p_struct_part channel fs);
       ps "end")
 
 
 let write stubs_filename =
   [ "mjmodel.h"; "mjdata.h"; "mjvisualize.h"; "mjrender.h"; "mjui.h" ]
-  |> List.map ~f:Common.read_file
+  |> List.map ~f:read_file
   |> write_stubs ~stubs_filename

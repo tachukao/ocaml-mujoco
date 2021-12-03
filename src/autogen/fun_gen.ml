@@ -1,6 +1,5 @@
 open Base
-
-let p = Common.p
+open Common
 
 type cfunc =
   { docstr : string
@@ -25,12 +24,7 @@ let convert_arg s =
       |> fun x -> if String.contains vn '[' then x ^ "*" else x
     in
     (* convert typ *)
-    Common.convert_typ typ)
-
-
-let convert_docstr s =
-  let s = s |> String.strip |> Str.global_replace Str.(regexp "//") "" in
-  "(** " ^ s ^ " *)"
+    convert_typ typ)
 
 
 let parse_sect s =
@@ -61,7 +55,7 @@ let parse_func s =
   |> List.map ~f:(fun group ->
          let docstr = Group.(get group 1) |> convert_docstr in
          (* Stdio.printf "%s\n%!" docstr; *)
-         let rval = Group.get group 2 |> Common.convert_typ in
+         let rval = Group.get group 2 |> convert_typ in
          let func = Group.get group 3 in
          let args =
            Group.get group 4
@@ -99,5 +93,4 @@ let write_stubs ~stubs_filename s =
       ps "end")
 
 
-let write stubs_filename =
-  snd Common.(read_file "mujoco.h") |> write_stubs ~stubs_filename
+let write stubs_filename = snd (read_file "mujoco.h") |> write_stubs ~stubs_filename
