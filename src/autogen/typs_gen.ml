@@ -13,7 +13,7 @@ type cstruct =
 type cenum =
   { cenum_name : string
   ; cenum_docstr : string
-  ; cenum_states : string list
+  ; cenum_states : (string * string) list
   }
 
 let get_bname name =
@@ -31,22 +31,22 @@ let get_enum_states s =
     |> List.filter ~f:(fun s -> String.(s <> ""))
     |> String.concat ~sep:"\n"
   in
-  let regex = seq [ bol; shortest (group (rep1 wordc)); alt [ space; char ',' ] ] in
-  all (compile regex) s |> List.map ~f:(fun group -> Group.get group 1)
-
-
-(*
-  let s =
-    String.strip s
-    |> Printf.sprintf "%s,"
-    |> String.split_lines
-    |> List.map ~f:String.strip
-    |> List.filter ~f:(fun s -> String.(s <> ""))
-    |> String.concat ~sep:"\n"
+  let regex =
+    seq
+      [ bol
+      ; shortest (group (rep1 wordc))
+      ; alt [ space; char ',' ]
+      ; shortest (rep notnl)
+      ; char '/'
+      ; group (rep notnl)
+      ]
   in
-  let regex = seq [ bol; shortest (group (rep1 wordc)); alt [ space; char ',' ] ] in
-  all (compile regex) s |> List.map ~f:(fun group -> Group.get group 1)
-  *)
+  all (compile regex) s
+  |> List.map ~f:(fun group ->
+         let s = Group.get group 1 in
+         let docstr = convert_docstr ("/" ^ Group.(get group 2)) in
+         s, docstr)
+
 
 let parse_enum s =
   let open Re in
@@ -159,16 +159,17 @@ let p_enum_part channel fs =
       (* top *)
       p channel "\n%s" cenum.cenum_docstr;
       p channel "type %s =" bname;
-      List.iter states ~f:(fun state -> p channel " | %s" String.(capitalize state));
+      List.iter states ~f:(fun (state, doc) ->
+          p channel " | %s %s" String.(capitalize state) doc);
       (* mid *)
-      List.iter states ~f:(fun s -> p channel "let %s = constant \"%s\" int64_t" s s);
+      List.iter states ~f:(fun (s, _) -> p channel "let %s = constant \"%s\" int64_t" s s);
       (* bottom *)
       p channel "let %s =" bname;
       p channel " S.enum";
       p channel " \"%s\"" bname;
       p channel " ~typedef:true";
       p channel " [";
-      List.iter states ~f:(fun s -> p channel "%s , %s;" String.(capitalize s) s);
+      List.iter states ~f:(fun (s, _) -> p channel "%s , %s;" String.(capitalize s) s);
       p channel " ]";
       p
         channel

@@ -1,7 +1,7 @@
 open Base
 
 let convert_docstr s =
-  let s = s |> String.strip |> Str.global_replace Str.(regexp "//") "" in
+  let s = s |> String.strip |> Str.global_replace Str.(regexp "//") "" |> String.strip in
   "(** " ^ s ^ " *)"
 
 
