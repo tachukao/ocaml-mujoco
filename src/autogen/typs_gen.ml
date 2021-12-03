@@ -1,17 +1,6 @@
 open Base
 
-let read_file filename =
-  let mujoco_dir =
-    match Stdlib.Sys.getenv_opt "MUJOCO_DIR" with
-    | Some x -> x
-    | None   -> Printf.sprintf "%s/.mujoco/mujoco210" Unix.(getenv "HOME")
-  in
-  let s =
-    Printf.sprintf "%s/include/%s" mujoco_dir filename
-    |> Stdio.In_channel.with_file ~f:Stdio.In_channel.input_all
-  in
-  filename, s
-
+let p = Common.p
 
 let get_bname name =
   assert (Char.(name.[0] = '_'));
@@ -122,7 +111,7 @@ let convert_struct name fields =
                let typ = Group.get group 1 in
                (match Group.(get_opt group 3) with
                | None   -> typ
-               | Some _ -> Printf.sprintf "%s*" typ)
+               | Some _ -> typ ^ "*")
                |> Common.convert_typ
              in
              let field = Group.get group 2 in
@@ -168,32 +157,30 @@ let parse_struct s =
 
 
 let write_stubs ~stubs_filename parsed_list =
-  let open Stdio.Out_channel in
   let f channel =
-    fprintf
-      channel
-      "(* THIS FILE IS GENERATED AUTOMATICALLY, DO NOT EDIT BY HAND *)\n\n\
-       open Ctypes\n\
-       module Bindings (S : Cstubs.Types.TYPE) = struct\n\
-       open S\n\
-       type mjtByte = Unsigned.UChar.t\n\
-       let mjtByte = uchar\n\
-       type mjtNum = float\n\
-       let mjtNum = double\n\
-       let mjfItemEnable = static_funptr (int @-> ptr void @-> returning int)\n\n";
+    let ps = p channel in
+    ps "(* THIS FILE IS GENERATED AUTOMATICALLY, DO NOT EDIT BY HAND *)\n";
+    ps "open Ctypes";
+    ps "module Bindings (S : Cstubs.Types.TYPE) = struct";
+    ps "open S";
+    ps "type mjtByte = Unsigned.UChar.t";
+    ps "let mjtByte = uchar";
+    ps "type mjtNum = float";
+    ps "let mjtNum = double";
+    ps "let mjfItemEnable = static_funptr (int @-> ptr void @-> returning int)\n";
     List.iter
       ~f:(fun (filename, parsed) ->
-        fprintf
+        p
           channel
-          "(* %s %s %s *)\n\n%s\n"
+          "(* %s %s %s *)\n\n%s"
           String.(make 25 '-')
           filename
           String.(make 25 '-')
           parsed)
       parsed_list;
-    fprintf channel "end"
+    ps "end"
   in
-  with_file stubs_filename ~f
+  Stdio.Out_channel.with_file stubs_filename ~f
 
 
 let parse s =
@@ -204,6 +191,6 @@ let parse s =
 
 let write stubs_filename =
   [ "mjmodel.h"; "mjdata.h"; "mjvisualize.h"; "mjrender.h"; "mjui.h" ]
-  |> List.map ~f:read_file
+  |> List.map ~f:Common.read_file
   |> List.map ~f:(fun (n, x) -> n, parse x)
   |> write_stubs ~stubs_filename

@@ -1,5 +1,26 @@
 open Base
 
+let read_file filename =
+  let mujoco_dir =
+    match Stdlib.Sys.getenv_opt "MUJOCO_DIR" with
+    | Some x -> x
+    | None   -> Printf.sprintf "%s/.mujoco/mujoco210" Unix.(getenv "HOME")
+  in
+  let s =
+    Printf.sprintf "%s/include/%s" mujoco_dir filename
+    |> Stdio.In_channel.with_file ~f:Stdio.In_channel.input_all
+  in
+  filename, s
+
+
+let p out_channel s =
+  Printf.ksprintf
+    (fun line ->
+      Stdio.Out_channel.output_string out_channel line;
+      Stdio.Out_channel.output_char out_channel '\n')
+    s
+
+
 let to_ctypes x =
   match String.(strip x) with
   | "unsigned char" -> "uchar"

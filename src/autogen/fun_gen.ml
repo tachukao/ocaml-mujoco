@@ -1,5 +1,14 @@
 open Base
 
+let p = Common.p
+
+type cfunc =
+  { docstr : string
+  ; rval : string
+  ; args : string list
+  ; func : string
+  }
+
 let convert_arg s =
   if String.(s = "void")
   then "void"
@@ -13,57 +22,73 @@ let convert_arg s =
       split
       |> List.drop_last_exn
       |> String.concat ~sep:" "
-      |> fun x -> if String.contains vn '[' then Printf.sprintf "%s*" x else x
+      |> fun x -> if String.contains vn '[' then x ^ "*" else x
     in
     (* convert typ *)
     Common.convert_typ typ)
 
 
+let convert_docstr s =
+  let s = s |> String.strip |> Str.global_replace Str.(regexp "//") "" in
+  "(** " ^ s ^ " *)"
+
+
 let parse s =
   let open Re in
   let regex =
-    Pcre.re "[ ]*MJAPI ([^ \n]+)[ ]+(mj[uvr]?_[^\\(]+)\\(([^;]+)\\);" |> compile
+    seq
+      [ group (rep (seq [ str "//"; rep notnl; str "\n" ]))
+      ; bol
+      ; seq [ bow; str "MJAPI"; eow ]
+      ; rep blank
+      ; group (rep (alt [ wordc; char '*' ])) (* type *)
+      ; rep blank
+      ; group
+          (seq
+             [ str "mj"; opt (alt [ char 'u'; char 'v'; char 'r' ]); char '_'; rep wordc ])
+      ; char '('
+      ; group (shortest (rep any))
+      ; char ')'
+      ]
   in
-  all regex s
+  all (compile regex) s
   |> List.map ~f:(fun group ->
-         let _rval = Group.get group 1 |> Common.convert_typ in
-         let _fun = Group.get group 2 in
-         let _args =
-           Group.get group 3
+         let docstr = Group.(get group 1) |> convert_docstr in
+         (* Stdio.printf "%s\n%!" docstr; *)
+         let rval = Group.get group 2 |> Common.convert_typ in
+         let func = Group.get group 3 in
+         let args =
+           Group.get group 4
            |> Str.global_replace (Str.regexp "[ \n]+") " "
            |> String.split ~on:','
            |> List.map ~f:convert_arg
-           |> String.concat ~sep:" @-> "
          in
-         Printf.(
-           sprintf "let %s = foreign \"%s\" (%s @-> returning %s)" _fun _fun _args _rval))
+         { docstr; rval; func; args })
 
 
 let write_stubs ~stubs_filename parsed =
-  let open Stdio.Out_channel in
-  let f channel =
-    fprintf
-      channel
-      "(* THIS FILE IS GENERATED AUTOMATICALLY, DO NOT EDIT BY HAND *)\n\n\
-       open Ctypes\n\
-       module Typs = Typs\n\
-       open Typs\n\n\
-       module Bindings (F : FOREIGN) = struct\n\
-       open F\n";
-    List.iter ~f:(fprintf channel "%s\n") parsed;
-    fprintf channel "end"
+  let f ch =
+    let ps = p ch in
+    ps "(* THIS FILE IS GENERATED AUTOMATICALLY, DO NOT EDIT BY HAND *)\n";
+    ps "open Ctypes";
+    ps "module Typs = Typs";
+    ps "open Typs";
+    ps "module Bindings (F : FOREIGN) = struct";
+    ps "open F\n";
+    List.iter parsed ~f:(fun { docstr; func; args; rval } ->
+        p ch "%s" docstr;
+        p
+          ch
+          "let %s = foreign \"%s\" (%s @-> returning %s)"
+          func
+          func
+          String.(concat ~sep:" @-> " args)
+          rval;
+        p ch "\n");
+    ps "end"
   in
-  with_file stubs_filename ~f
+  Stdio.Out_channel.with_file stubs_filename ~f
 
 
 let write stubs_filename =
-  let mujoco_dir =
-    match Stdlib.Sys.getenv_opt "MUJOCO_DIR" with
-    | Some x -> x
-    | None   -> Printf.sprintf "%s/.mujoco/mujoco210" Unix.(getenv "HOME")
-  in
-  mujoco_dir
-  |> Printf.sprintf "%s/include/mujoco.h"
-  |> Stdio.In_channel.with_file ~f:Stdio.In_channel.input_all
-  |> parse
-  |> write_stubs ~stubs_filename
+  snd Common.(read_file "mujoco.h") |> parse |> write_stubs ~stubs_filename
