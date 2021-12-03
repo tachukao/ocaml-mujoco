@@ -552,124 +552,272 @@ type mjUI = Typs.mjUI t
 type mjuiDef = Typs.mjuiDef t
 
 (** convert mjtDisableBit type to int *)
-let mjtDisableBit_to_int mjtDisableBit =
-  Ctypes.(coerce Typs.mjtDisableBit uint32_t mjtDisableBit) |> Unsigned.UInt32.to_int
+let mjtDisableBit_to_int = function
+  | MjDSBL_CONSTRAINT   -> Typs.mjDSBL_CONSTRAINT |> Int64.to_int
+  | MjDSBL_EQUALITY     -> Typs.mjDSBL_EQUALITY |> Int64.to_int
+  | MjDSBL_FRICTIONLOSS -> Typs.mjDSBL_FRICTIONLOSS |> Int64.to_int
+  | MjDSBL_LIMIT        -> Typs.mjDSBL_LIMIT |> Int64.to_int
+  | MjDSBL_CONTACT      -> Typs.mjDSBL_CONTACT |> Int64.to_int
+  | MjDSBL_PASSIVE      -> Typs.mjDSBL_PASSIVE |> Int64.to_int
+  | MjDSBL_GRAVITY      -> Typs.mjDSBL_GRAVITY |> Int64.to_int
+  | MjDSBL_CLAMPCTRL    -> Typs.mjDSBL_CLAMPCTRL |> Int64.to_int
+  | MjDSBL_WARMSTART    -> Typs.mjDSBL_WARMSTART |> Int64.to_int
+  | MjDSBL_FILTERPARENT -> Typs.mjDSBL_FILTERPARENT |> Int64.to_int
+  | MjDSBL_ACTUATION    -> Typs.mjDSBL_ACTUATION |> Int64.to_int
+  | MjDSBL_REFSAFE      -> Typs.mjDSBL_REFSAFE |> Int64.to_int
+  | MjNDISABLE          -> Typs.mjNDISABLE |> Int64.to_int
 
 
 (** convert mjtEnableBit type to int *)
-let mjtEnableBit_to_int mjtEnableBit =
-  Ctypes.(coerce Typs.mjtEnableBit uint32_t mjtEnableBit) |> Unsigned.UInt32.to_int
+let mjtEnableBit_to_int = function
+  | MjENBL_OVERRIDE    -> Typs.mjENBL_OVERRIDE |> Int64.to_int
+  | MjENBL_ENERGY      -> Typs.mjENBL_ENERGY |> Int64.to_int
+  | MjENBL_FWDINV      -> Typs.mjENBL_FWDINV |> Int64.to_int
+  | MjENBL_SENSORNOISE -> Typs.mjENBL_SENSORNOISE |> Int64.to_int
+  | MjNENABLE          -> Typs.mjNENABLE |> Int64.to_int
 
 
 (** convert mjtJoint type to int *)
-let mjtJoint_to_int mjtJoint =
-  Ctypes.(coerce Typs.mjtJoint uint32_t mjtJoint) |> Unsigned.UInt32.to_int
+let mjtJoint_to_int = function
+  | MjJNT_FREE  -> Typs.mjJNT_FREE |> Int64.to_int
+  | MjJNT_BALL  -> Typs.mjJNT_BALL |> Int64.to_int
+  | MjJNT_SLIDE -> Typs.mjJNT_SLIDE |> Int64.to_int
+  | MjJNT_HINGE -> Typs.mjJNT_HINGE |> Int64.to_int
 
 
 (** convert mjtGeom type to int *)
-let mjtGeom_to_int mjtGeom =
-  Ctypes.(coerce Typs.mjtGeom uint32_t mjtGeom) |> Unsigned.UInt32.to_int
+let mjtGeom_to_int = function
+  | MjGEOM_PLANE     -> Typs.mjGEOM_PLANE |> Int64.to_int
+  | MjGEOM_HFIELD    -> Typs.mjGEOM_HFIELD |> Int64.to_int
+  | MjGEOM_SPHERE    -> Typs.mjGEOM_SPHERE |> Int64.to_int
+  | MjGEOM_CAPSULE   -> Typs.mjGEOM_CAPSULE |> Int64.to_int
+  | MjGEOM_ELLIPSOID -> Typs.mjGEOM_ELLIPSOID |> Int64.to_int
+  | MjGEOM_CYLINDER  -> Typs.mjGEOM_CYLINDER |> Int64.to_int
+  | MjGEOM_BOX       -> Typs.mjGEOM_BOX |> Int64.to_int
+  | MjGEOM_MESH      -> Typs.mjGEOM_MESH |> Int64.to_int
+  | MjNGEOMTYPES     -> Typs.mjNGEOMTYPES |> Int64.to_int
+  | MjGEOM_ARROW     -> Typs.mjGEOM_ARROW |> Int64.to_int
+  | MjGEOM_ARROW1    -> Typs.mjGEOM_ARROW1 |> Int64.to_int
+  | MjGEOM_ARROW2    -> Typs.mjGEOM_ARROW2 |> Int64.to_int
+  | MjGEOM_LINE      -> Typs.mjGEOM_LINE |> Int64.to_int
+  | MjGEOM_SKIN      -> Typs.mjGEOM_SKIN |> Int64.to_int
+  | MjGEOM_LABEL     -> Typs.mjGEOM_LABEL |> Int64.to_int
+  | MjGEOM_NONE      -> Typs.mjGEOM_NONE |> Int64.to_int
 
 
 (** convert mjtCamLight type to int *)
-let mjtCamLight_to_int mjtCamLight =
-  Ctypes.(coerce Typs.mjtCamLight uint32_t mjtCamLight) |> Unsigned.UInt32.to_int
+let mjtCamLight_to_int = function
+  | MjCAMLIGHT_FIXED         -> Typs.mjCAMLIGHT_FIXED |> Int64.to_int
+  | MjCAMLIGHT_TRACK         -> Typs.mjCAMLIGHT_TRACK |> Int64.to_int
+  | MjCAMLIGHT_TRACKCOM      -> Typs.mjCAMLIGHT_TRACKCOM |> Int64.to_int
+  | MjCAMLIGHT_TARGETBODY    -> Typs.mjCAMLIGHT_TARGETBODY |> Int64.to_int
+  | MjCAMLIGHT_TARGETBODYCOM -> Typs.mjCAMLIGHT_TARGETBODYCOM |> Int64.to_int
 
 
 (** convert mjtTexture type to int *)
-let mjtTexture_to_int mjtTexture =
-  Ctypes.(coerce Typs.mjtTexture uint32_t mjtTexture) |> Unsigned.UInt32.to_int
+let mjtTexture_to_int = function
+  | MjTEXTURE_2D     -> Typs.mjTEXTURE_2D |> Int64.to_int
+  | MjTEXTURE_CUBE   -> Typs.mjTEXTURE_CUBE |> Int64.to_int
+  | MjTEXTURE_SKYBOX -> Typs.mjTEXTURE_SKYBOX |> Int64.to_int
 
 
 (** convert mjtIntegrator type to int *)
-let mjtIntegrator_to_int mjtIntegrator =
-  Ctypes.(coerce Typs.mjtIntegrator uint32_t mjtIntegrator) |> Unsigned.UInt32.to_int
+let mjtIntegrator_to_int = function
+  | MjINT_EULER -> Typs.mjINT_EULER |> Int64.to_int
+  | MjINT_RK4   -> Typs.mjINT_RK4 |> Int64.to_int
 
 
 (** convert mjtCollision type to int *)
-let mjtCollision_to_int mjtCollision =
-  Ctypes.(coerce Typs.mjtCollision uint32_t mjtCollision) |> Unsigned.UInt32.to_int
+let mjtCollision_to_int = function
+  | MjCOL_ALL     -> Typs.mjCOL_ALL |> Int64.to_int
+  | MjCOL_PAIR    -> Typs.mjCOL_PAIR |> Int64.to_int
+  | MjCOL_DYNAMIC -> Typs.mjCOL_DYNAMIC |> Int64.to_int
 
 
 (** convert mjtCone type to int *)
-let mjtCone_to_int mjtCone =
-  Ctypes.(coerce Typs.mjtCone uint32_t mjtCone) |> Unsigned.UInt32.to_int
+let mjtCone_to_int = function
+  | MjCONE_PYRAMIDAL -> Typs.mjCONE_PYRAMIDAL |> Int64.to_int
+  | MjCONE_ELLIPTIC  -> Typs.mjCONE_ELLIPTIC |> Int64.to_int
 
 
 (** convert mjtJacobian type to int *)
-let mjtJacobian_to_int mjtJacobian =
-  Ctypes.(coerce Typs.mjtJacobian uint32_t mjtJacobian) |> Unsigned.UInt32.to_int
+let mjtJacobian_to_int = function
+  | MjJAC_DENSE  -> Typs.mjJAC_DENSE |> Int64.to_int
+  | MjJAC_SPARSE -> Typs.mjJAC_SPARSE |> Int64.to_int
+  | MjJAC_AUTO   -> Typs.mjJAC_AUTO |> Int64.to_int
 
 
 (** convert mjtSolver type to int *)
-let mjtSolver_to_int mjtSolver =
-  Ctypes.(coerce Typs.mjtSolver uint32_t mjtSolver) |> Unsigned.UInt32.to_int
+let mjtSolver_to_int = function
+  | MjSOL_PGS    -> Typs.mjSOL_PGS |> Int64.to_int
+  | MjSOL_CG     -> Typs.mjSOL_CG |> Int64.to_int
+  | MjSOL_NEWTON -> Typs.mjSOL_NEWTON |> Int64.to_int
 
 
 (** convert mjtEq type to int *)
-let mjtEq_to_int mjtEq =
-  Ctypes.(coerce Typs.mjtEq uint32_t mjtEq) |> Unsigned.UInt32.to_int
+let mjtEq_to_int = function
+  | MjEQ_CONNECT  -> Typs.mjEQ_CONNECT |> Int64.to_int
+  | MjEQ_WELD     -> Typs.mjEQ_WELD |> Int64.to_int
+  | MjEQ_JOINT    -> Typs.mjEQ_JOINT |> Int64.to_int
+  | MjEQ_TENDON   -> Typs.mjEQ_TENDON |> Int64.to_int
+  | MjEQ_DISTANCE -> Typs.mjEQ_DISTANCE |> Int64.to_int
 
 
 (** convert mjtWrap type to int *)
-let mjtWrap_to_int mjtWrap =
-  Ctypes.(coerce Typs.mjtWrap uint32_t mjtWrap) |> Unsigned.UInt32.to_int
+let mjtWrap_to_int = function
+  | MjWRAP_NONE     -> Typs.mjWRAP_NONE |> Int64.to_int
+  | MjWRAP_JOINT    -> Typs.mjWRAP_JOINT |> Int64.to_int
+  | MjWRAP_PULLEY   -> Typs.mjWRAP_PULLEY |> Int64.to_int
+  | MjWRAP_SITE     -> Typs.mjWRAP_SITE |> Int64.to_int
+  | MjWRAP_SPHERE   -> Typs.mjWRAP_SPHERE |> Int64.to_int
+  | MjWRAP_CYLINDER -> Typs.mjWRAP_CYLINDER |> Int64.to_int
 
 
 (** convert mjtTrn type to int *)
-let mjtTrn_to_int mjtTrn =
-  Ctypes.(coerce Typs.mjtTrn uint32_t mjtTrn) |> Unsigned.UInt32.to_int
+let mjtTrn_to_int = function
+  | MjTRN_JOINT         -> Typs.mjTRN_JOINT |> Int64.to_int
+  | MjTRN_JOINTINPARENT -> Typs.mjTRN_JOINTINPARENT |> Int64.to_int
+  | MjTRN_SLIDERCRANK   -> Typs.mjTRN_SLIDERCRANK |> Int64.to_int
+  | MjTRN_TENDON        -> Typs.mjTRN_TENDON |> Int64.to_int
+  | MjTRN_SITE          -> Typs.mjTRN_SITE |> Int64.to_int
+  | MjTRN_UNDEFINED     -> Typs.mjTRN_UNDEFINED |> Int64.to_int
 
 
 (** convert mjtDyn type to int *)
-let mjtDyn_to_int mjtDyn =
-  Ctypes.(coerce Typs.mjtDyn uint32_t mjtDyn) |> Unsigned.UInt32.to_int
+let mjtDyn_to_int = function
+  | MjDYN_NONE       -> Typs.mjDYN_NONE |> Int64.to_int
+  | MjDYN_INTEGRATOR -> Typs.mjDYN_INTEGRATOR |> Int64.to_int
+  | MjDYN_FILTER     -> Typs.mjDYN_FILTER |> Int64.to_int
+  | MjDYN_MUSCLE     -> Typs.mjDYN_MUSCLE |> Int64.to_int
+  | MjDYN_USER       -> Typs.mjDYN_USER |> Int64.to_int
 
 
 (** convert mjtGain type to int *)
-let mjtGain_to_int mjtGain =
-  Ctypes.(coerce Typs.mjtGain uint32_t mjtGain) |> Unsigned.UInt32.to_int
+let mjtGain_to_int = function
+  | MjGAIN_FIXED  -> Typs.mjGAIN_FIXED |> Int64.to_int
+  | MjGAIN_MUSCLE -> Typs.mjGAIN_MUSCLE |> Int64.to_int
+  | MjGAIN_USER   -> Typs.mjGAIN_USER |> Int64.to_int
 
 
 (** convert mjtBias type to int *)
-let mjtBias_to_int mjtBias =
-  Ctypes.(coerce Typs.mjtBias uint32_t mjtBias) |> Unsigned.UInt32.to_int
+let mjtBias_to_int = function
+  | MjBIAS_NONE   -> Typs.mjBIAS_NONE |> Int64.to_int
+  | MjBIAS_AFFINE -> Typs.mjBIAS_AFFINE |> Int64.to_int
+  | MjBIAS_MUSCLE -> Typs.mjBIAS_MUSCLE |> Int64.to_int
+  | MjBIAS_USER   -> Typs.mjBIAS_USER |> Int64.to_int
 
 
 (** convert mjtObj type to int *)
-let mjtObj_to_int mjtObj =
-  Ctypes.(coerce Typs.mjtObj uint32_t mjtObj) |> Unsigned.UInt32.to_int
+let mjtObj_to_int = function
+  | MjOBJ_UNKNOWN  -> Typs.mjOBJ_UNKNOWN |> Int64.to_int
+  | MjOBJ_BODY     -> Typs.mjOBJ_BODY |> Int64.to_int
+  | MjOBJ_XBODY    -> Typs.mjOBJ_XBODY |> Int64.to_int
+  | MjOBJ_JOINT    -> Typs.mjOBJ_JOINT |> Int64.to_int
+  | MjOBJ_DOF      -> Typs.mjOBJ_DOF |> Int64.to_int
+  | MjOBJ_GEOM     -> Typs.mjOBJ_GEOM |> Int64.to_int
+  | MjOBJ_SITE     -> Typs.mjOBJ_SITE |> Int64.to_int
+  | MjOBJ_CAMERA   -> Typs.mjOBJ_CAMERA |> Int64.to_int
+  | MjOBJ_LIGHT    -> Typs.mjOBJ_LIGHT |> Int64.to_int
+  | MjOBJ_MESH     -> Typs.mjOBJ_MESH |> Int64.to_int
+  | MjOBJ_SKIN     -> Typs.mjOBJ_SKIN |> Int64.to_int
+  | MjOBJ_HFIELD   -> Typs.mjOBJ_HFIELD |> Int64.to_int
+  | MjOBJ_TEXTURE  -> Typs.mjOBJ_TEXTURE |> Int64.to_int
+  | MjOBJ_MATERIAL -> Typs.mjOBJ_MATERIAL |> Int64.to_int
+  | MjOBJ_PAIR     -> Typs.mjOBJ_PAIR |> Int64.to_int
+  | MjOBJ_EXCLUDE  -> Typs.mjOBJ_EXCLUDE |> Int64.to_int
+  | MjOBJ_EQUALITY -> Typs.mjOBJ_EQUALITY |> Int64.to_int
+  | MjOBJ_TENDON   -> Typs.mjOBJ_TENDON |> Int64.to_int
+  | MjOBJ_ACTUATOR -> Typs.mjOBJ_ACTUATOR |> Int64.to_int
+  | MjOBJ_SENSOR   -> Typs.mjOBJ_SENSOR |> Int64.to_int
+  | MjOBJ_NUMERIC  -> Typs.mjOBJ_NUMERIC |> Int64.to_int
+  | MjOBJ_TEXT     -> Typs.mjOBJ_TEXT |> Int64.to_int
+  | MjOBJ_TUPLE    -> Typs.mjOBJ_TUPLE |> Int64.to_int
+  | MjOBJ_KEY      -> Typs.mjOBJ_KEY |> Int64.to_int
 
 
 (** convert mjtConstraint type to int *)
-let mjtConstraint_to_int mjtConstraint =
-  Ctypes.(coerce Typs.mjtConstraint uint32_t mjtConstraint) |> Unsigned.UInt32.to_int
+let mjtConstraint_to_int = function
+  | MjCNSTR_EQUALITY             -> Typs.mjCNSTR_EQUALITY |> Int64.to_int
+  | MjCNSTR_FRICTION_DOF         -> Typs.mjCNSTR_FRICTION_DOF |> Int64.to_int
+  | MjCNSTR_FRICTION_TENDON      -> Typs.mjCNSTR_FRICTION_TENDON |> Int64.to_int
+  | MjCNSTR_LIMIT_JOINT          -> Typs.mjCNSTR_LIMIT_JOINT |> Int64.to_int
+  | MjCNSTR_LIMIT_TENDON         -> Typs.mjCNSTR_LIMIT_TENDON |> Int64.to_int
+  | MjCNSTR_CONTACT_FRICTIONLESS -> Typs.mjCNSTR_CONTACT_FRICTIONLESS |> Int64.to_int
+  | MjCNSTR_CONTACT_PYRAMIDAL    -> Typs.mjCNSTR_CONTACT_PYRAMIDAL |> Int64.to_int
+  | MjCNSTR_CONTACT_ELLIPTIC     -> Typs.mjCNSTR_CONTACT_ELLIPTIC |> Int64.to_int
 
 
 (** convert mjtConstraintState type to int *)
-let mjtConstraintState_to_int mjtConstraintState =
-  Ctypes.(coerce Typs.mjtConstraintState uint32_t mjtConstraintState)
-  |> Unsigned.UInt32.to_int
+let mjtConstraintState_to_int = function
+  | MjCNSTRSTATE_SATISFIED -> Typs.mjCNSTRSTATE_SATISFIED |> Int64.to_int
+  | MjCNSTRSTATE_QUADRATIC -> Typs.mjCNSTRSTATE_QUADRATIC |> Int64.to_int
+  | MjCNSTRSTATE_LINEARNEG -> Typs.mjCNSTRSTATE_LINEARNEG |> Int64.to_int
+  | MjCNSTRSTATE_LINEARPOS -> Typs.mjCNSTRSTATE_LINEARPOS |> Int64.to_int
+  | MjCNSTRSTATE_CONE      -> Typs.mjCNSTRSTATE_CONE |> Int64.to_int
 
 
 (** convert mjtSensor type to int *)
-let mjtSensor_to_int mjtSensor =
-  Ctypes.(coerce Typs.mjtSensor uint32_t mjtSensor) |> Unsigned.UInt32.to_int
+let mjtSensor_to_int = function
+  | MjSENS_TOUCH          -> Typs.mjSENS_TOUCH |> Int64.to_int
+  | MjSENS_ACCELEROMETER  -> Typs.mjSENS_ACCELEROMETER |> Int64.to_int
+  | MjSENS_VELOCIMETER    -> Typs.mjSENS_VELOCIMETER |> Int64.to_int
+  | MjSENS_GYRO           -> Typs.mjSENS_GYRO |> Int64.to_int
+  | MjSENS_FORCE          -> Typs.mjSENS_FORCE |> Int64.to_int
+  | MjSENS_TORQUE         -> Typs.mjSENS_TORQUE |> Int64.to_int
+  | MjSENS_MAGNETOMETER   -> Typs.mjSENS_MAGNETOMETER |> Int64.to_int
+  | MjSENS_RANGEFINDER    -> Typs.mjSENS_RANGEFINDER |> Int64.to_int
+  | MjSENS_JOINTPOS       -> Typs.mjSENS_JOINTPOS |> Int64.to_int
+  | MjSENS_JOINTVEL       -> Typs.mjSENS_JOINTVEL |> Int64.to_int
+  | MjSENS_TENDONPOS      -> Typs.mjSENS_TENDONPOS |> Int64.to_int
+  | MjSENS_TENDONVEL      -> Typs.mjSENS_TENDONVEL |> Int64.to_int
+  | MjSENS_ACTUATORPOS    -> Typs.mjSENS_ACTUATORPOS |> Int64.to_int
+  | MjSENS_ACTUATORVEL    -> Typs.mjSENS_ACTUATORVEL |> Int64.to_int
+  | MjSENS_ACTUATORFRC    -> Typs.mjSENS_ACTUATORFRC |> Int64.to_int
+  | MjSENS_BALLQUAT       -> Typs.mjSENS_BALLQUAT |> Int64.to_int
+  | MjSENS_BALLANGVEL     -> Typs.mjSENS_BALLANGVEL |> Int64.to_int
+  | MjSENS_JOINTLIMITPOS  -> Typs.mjSENS_JOINTLIMITPOS |> Int64.to_int
+  | MjSENS_JOINTLIMITVEL  -> Typs.mjSENS_JOINTLIMITVEL |> Int64.to_int
+  | MjSENS_JOINTLIMITFRC  -> Typs.mjSENS_JOINTLIMITFRC |> Int64.to_int
+  | MjSENS_TENDONLIMITPOS -> Typs.mjSENS_TENDONLIMITPOS |> Int64.to_int
+  | MjSENS_TENDONLIMITVEL -> Typs.mjSENS_TENDONLIMITVEL |> Int64.to_int
+  | MjSENS_TENDONLIMITFRC -> Typs.mjSENS_TENDONLIMITFRC |> Int64.to_int
+  | MjSENS_FRAMEPOS       -> Typs.mjSENS_FRAMEPOS |> Int64.to_int
+  | MjSENS_FRAMEQUAT      -> Typs.mjSENS_FRAMEQUAT |> Int64.to_int
+  | MjSENS_FRAMEXAXIS     -> Typs.mjSENS_FRAMEXAXIS |> Int64.to_int
+  | MjSENS_FRAMEYAXIS     -> Typs.mjSENS_FRAMEYAXIS |> Int64.to_int
+  | MjSENS_FRAMEZAXIS     -> Typs.mjSENS_FRAMEZAXIS |> Int64.to_int
+  | MjSENS_FRAMELINVEL    -> Typs.mjSENS_FRAMELINVEL |> Int64.to_int
+  | MjSENS_FRAMEANGVEL    -> Typs.mjSENS_FRAMEANGVEL |> Int64.to_int
+  | MjSENS_FRAMELINACC    -> Typs.mjSENS_FRAMELINACC |> Int64.to_int
+  | MjSENS_FRAMEANGACC    -> Typs.mjSENS_FRAMEANGACC |> Int64.to_int
+  | MjSENS_SUBTREECOM     -> Typs.mjSENS_SUBTREECOM |> Int64.to_int
+  | MjSENS_SUBTREELINVEL  -> Typs.mjSENS_SUBTREELINVEL |> Int64.to_int
+  | MjSENS_SUBTREEANGMOM  -> Typs.mjSENS_SUBTREEANGMOM |> Int64.to_int
+  | MjSENS_USER           -> Typs.mjSENS_USER |> Int64.to_int
 
 
 (** convert mjtStage type to int *)
-let mjtStage_to_int mjtStage =
-  Ctypes.(coerce Typs.mjtStage uint32_t mjtStage) |> Unsigned.UInt32.to_int
+let mjtStage_to_int = function
+  | MjSTAGE_NONE -> Typs.mjSTAGE_NONE |> Int64.to_int
+  | MjSTAGE_POS  -> Typs.mjSTAGE_POS |> Int64.to_int
+  | MjSTAGE_VEL  -> Typs.mjSTAGE_VEL |> Int64.to_int
+  | MjSTAGE_ACC  -> Typs.mjSTAGE_ACC |> Int64.to_int
 
 
 (** convert mjtDataType type to int *)
-let mjtDataType_to_int mjtDataType =
-  Ctypes.(coerce Typs.mjtDataType uint32_t mjtDataType) |> Unsigned.UInt32.to_int
+let mjtDataType_to_int = function
+  | MjDATATYPE_REAL       -> Typs.mjDATATYPE_REAL |> Int64.to_int
+  | MjDATATYPE_POSITIVE   -> Typs.mjDATATYPE_POSITIVE |> Int64.to_int
+  | MjDATATYPE_AXIS       -> Typs.mjDATATYPE_AXIS |> Int64.to_int
+  | MjDATATYPE_QUATERNION -> Typs.mjDATATYPE_QUATERNION |> Int64.to_int
 
 
 (** convert mjtLRMode type to int *)
-let mjtLRMode_to_int mjtLRMode =
-  Ctypes.(coerce Typs.mjtLRMode uint32_t mjtLRMode) |> Unsigned.UInt32.to_int
+let mjtLRMode_to_int = function
+  | MjLRMODE_NONE       -> Typs.mjLRMODE_NONE |> Int64.to_int
+  | MjLRMODE_MUSCLE     -> Typs.mjLRMODE_MUSCLE |> Int64.to_int
+  | MjLRMODE_MUSCLEUSER -> Typs.mjLRMODE_MUSCLEUSER |> Int64.to_int
+  | MjLRMODE_ALL        -> Typs.mjLRMODE_ALL |> Int64.to_int
 
 
 (** allocate fresh mjLROpt struct *)
@@ -766,6 +914,9 @@ let mjLROpt_make
   x
 
 
+(** returns mjLROpt carray from list of mjLROpt *)
+let mjLROpt_to_carray = Ctypes.CArray.of_list Typs.mjLROpt
+
 (** allocate fresh mjVFS struct *)
 let mjVFS_allocate () = Ctypes.(make Typs.mjVFS)
 
@@ -798,6 +949,9 @@ let mjVFS_make ?mjf_nfile ?mjf_filesize ?mjf_filedata () =
   Option.iter (mjVFS_set_filedata x) mjf_filedata;
   x
 
+
+(** returns mjVFS carray from list of mjVFS *)
+let mjVFS_to_carray = Ctypes.CArray.of_list Typs.mjVFS
 
 (** allocate fresh mjOption struct *)
 let mjOption_allocate () = Ctypes.(make Typs.mjOption)
@@ -1005,6 +1159,9 @@ let mjOption_make
   x
 
 
+(** returns mjOption carray from list of mjOption *)
+let mjOption_to_carray = Ctypes.CArray.of_list Typs.mjOption
+
 (** allocate fresh mjStatistic struct *)
 let mjStatistic_allocate () = Ctypes.(make Typs.mjStatistic)
 
@@ -1058,6 +1215,9 @@ let mjStatistic_make
   Option.iter (mjStatistic_set_center x) mjf_center;
   x
 
+
+(** returns mjStatistic carray from list of mjStatistic *)
+let mjStatistic_to_carray = Ctypes.CArray.of_list Typs.mjStatistic
 
 (** allocate fresh mjModel struct *)
 let mjModel_allocate () = Ctypes.(make Typs.mjModel)
@@ -3707,14 +3867,38 @@ let mjModel_make
   x
 
 
+(** returns mjModel carray from list of mjModel *)
+let mjModel_to_carray = Ctypes.CArray.of_list Typs.mjModel
+
 (** convert mjtWarning type to int *)
-let mjtWarning_to_int mjtWarning =
-  Ctypes.(coerce Typs.mjtWarning uint32_t mjtWarning) |> Unsigned.UInt32.to_int
+let mjtWarning_to_int = function
+  | MjWARN_INERTIA     -> Typs.mjWARN_INERTIA |> Int64.to_int
+  | MjWARN_CONTACTFULL -> Typs.mjWARN_CONTACTFULL |> Int64.to_int
+  | MjWARN_CNSTRFULL   -> Typs.mjWARN_CNSTRFULL |> Int64.to_int
+  | MjWARN_VGEOMFULL   -> Typs.mjWARN_VGEOMFULL |> Int64.to_int
+  | MjWARN_BADQPOS     -> Typs.mjWARN_BADQPOS |> Int64.to_int
+  | MjWARN_BADQVEL     -> Typs.mjWARN_BADQVEL |> Int64.to_int
+  | MjWARN_BADQACC     -> Typs.mjWARN_BADQACC |> Int64.to_int
+  | MjWARN_BADCTRL     -> Typs.mjWARN_BADCTRL |> Int64.to_int
+  | MjNWARNING         -> Typs.mjNWARNING |> Int64.to_int
 
 
 (** convert mjtTimer type to int *)
-let mjtTimer_to_int mjtTimer =
-  Ctypes.(coerce Typs.mjtTimer uint32_t mjtTimer) |> Unsigned.UInt32.to_int
+let mjtTimer_to_int = function
+  | MjTIMER_STEP           -> Typs.mjTIMER_STEP |> Int64.to_int
+  | MjTIMER_FORWARD        -> Typs.mjTIMER_FORWARD |> Int64.to_int
+  | MjTIMER_INVERSE        -> Typs.mjTIMER_INVERSE |> Int64.to_int
+  | MjTIMER_POSITION       -> Typs.mjTIMER_POSITION |> Int64.to_int
+  | MjTIMER_VELOCITY       -> Typs.mjTIMER_VELOCITY |> Int64.to_int
+  | MjTIMER_ACTUATION      -> Typs.mjTIMER_ACTUATION |> Int64.to_int
+  | MjTIMER_ACCELERATION   -> Typs.mjTIMER_ACCELERATION |> Int64.to_int
+  | MjTIMER_CONSTRAINT     -> Typs.mjTIMER_CONSTRAINT |> Int64.to_int
+  | MjTIMER_POS_KINEMATICS -> Typs.mjTIMER_POS_KINEMATICS |> Int64.to_int
+  | MjTIMER_POS_INERTIA    -> Typs.mjTIMER_POS_INERTIA |> Int64.to_int
+  | MjTIMER_POS_COLLISION  -> Typs.mjTIMER_POS_COLLISION |> Int64.to_int
+  | MjTIMER_POS_MAKE       -> Typs.mjTIMER_POS_MAKE |> Int64.to_int
+  | MjTIMER_POS_PROJECT    -> Typs.mjTIMER_POS_PROJECT |> Int64.to_int
+  | MjNTIMER               -> Typs.mjNTIMER |> Int64.to_int
 
 
 (** allocate fresh mjContact struct *)
@@ -3843,6 +4027,9 @@ let mjContact_make
   x
 
 
+(** returns mjContact carray from list of mjContact *)
+let mjContact_to_carray = Ctypes.CArray.of_list Typs.mjContact
+
 (** allocate fresh mjWarningStat struct *)
 let mjWarningStat_allocate () = Ctypes.(make Typs.mjWarningStat)
 
@@ -3869,6 +4056,9 @@ let mjWarningStat_make ?mjf_lastinfo ?mjf_number () =
   x
 
 
+(** returns mjWarningStat carray from list of mjWarningStat *)
+let mjWarningStat_to_carray = Ctypes.CArray.of_list Typs.mjWarningStat
+
 (** allocate fresh mjTimerStat struct *)
 let mjTimerStat_allocate () = Ctypes.(make Typs.mjTimerStat)
 
@@ -3894,6 +4084,9 @@ let mjTimerStat_make ?mjf_duration ?mjf_number () =
   Option.iter (mjTimerStat_set_number x) mjf_number;
   x
 
+
+(** returns mjTimerStat carray from list of mjTimerStat *)
+let mjTimerStat_to_carray = Ctypes.CArray.of_list Typs.mjTimerStat
 
 (** allocate fresh mjSolverStat struct *)
 let mjSolverStat_allocate () = Ctypes.(make Typs.mjSolverStat)
@@ -3964,6 +4157,9 @@ let mjSolverStat_make
   Option.iter (mjSolverStat_set_nupdate x) mjf_nupdate;
   x
 
+
+(** returns mjSolverStat carray from list of mjSolverStat *)
+let mjSolverStat_to_carray = Ctypes.CArray.of_list Typs.mjSolverStat
 
 (** allocate fresh mjData struct *)
 let mjData_allocate () = Ctypes.(make Typs.mjData)
@@ -4883,49 +5079,119 @@ let mjData_make
   x
 
 
+(** returns mjData carray from list of mjData *)
+let mjData_to_carray = Ctypes.CArray.of_list Typs.mjData
+
 (** convert mjtCatBit type to int *)
-let mjtCatBit_to_int mjtCatBit =
-  Ctypes.(coerce Typs.mjtCatBit uint32_t mjtCatBit) |> Unsigned.UInt32.to_int
+let mjtCatBit_to_int = function
+  | MjCAT_STATIC  -> Typs.mjCAT_STATIC |> Int64.to_int
+  | MjCAT_DYNAMIC -> Typs.mjCAT_DYNAMIC |> Int64.to_int
+  | MjCAT_DECOR   -> Typs.mjCAT_DECOR |> Int64.to_int
+  | MjCAT_ALL     -> Typs.mjCAT_ALL |> Int64.to_int
 
 
 (** convert mjtMouse type to int *)
-let mjtMouse_to_int mjtMouse =
-  Ctypes.(coerce Typs.mjtMouse uint32_t mjtMouse) |> Unsigned.UInt32.to_int
+let mjtMouse_to_int = function
+  | MjMOUSE_NONE     -> Typs.mjMOUSE_NONE |> Int64.to_int
+  | MjMOUSE_ROTATE_V -> Typs.mjMOUSE_ROTATE_V |> Int64.to_int
+  | MjMOUSE_ROTATE_H -> Typs.mjMOUSE_ROTATE_H |> Int64.to_int
+  | MjMOUSE_MOVE_V   -> Typs.mjMOUSE_MOVE_V |> Int64.to_int
+  | MjMOUSE_MOVE_H   -> Typs.mjMOUSE_MOVE_H |> Int64.to_int
+  | MjMOUSE_ZOOM     -> Typs.mjMOUSE_ZOOM |> Int64.to_int
+  | MjMOUSE_SELECT   -> Typs.mjMOUSE_SELECT |> Int64.to_int
 
 
 (** convert mjtPertBit type to int *)
-let mjtPertBit_to_int mjtPertBit =
-  Ctypes.(coerce Typs.mjtPertBit uint32_t mjtPertBit) |> Unsigned.UInt32.to_int
+let mjtPertBit_to_int = function
+  | MjPERT_TRANSLATE -> Typs.mjPERT_TRANSLATE |> Int64.to_int
+  | MjPERT_ROTATE    -> Typs.mjPERT_ROTATE |> Int64.to_int
 
 
 (** convert mjtCamera type to int *)
-let mjtCamera_to_int mjtCamera =
-  Ctypes.(coerce Typs.mjtCamera uint32_t mjtCamera) |> Unsigned.UInt32.to_int
+let mjtCamera_to_int = function
+  | MjCAMERA_FREE     -> Typs.mjCAMERA_FREE |> Int64.to_int
+  | MjCAMERA_TRACKING -> Typs.mjCAMERA_TRACKING |> Int64.to_int
+  | MjCAMERA_FIXED    -> Typs.mjCAMERA_FIXED |> Int64.to_int
+  | MjCAMERA_USER     -> Typs.mjCAMERA_USER |> Int64.to_int
 
 
 (** convert mjtLabel type to int *)
-let mjtLabel_to_int mjtLabel =
-  Ctypes.(coerce Typs.mjtLabel uint32_t mjtLabel) |> Unsigned.UInt32.to_int
+let mjtLabel_to_int = function
+  | MjLABEL_NONE         -> Typs.mjLABEL_NONE |> Int64.to_int
+  | MjLABEL_BODY         -> Typs.mjLABEL_BODY |> Int64.to_int
+  | MjLABEL_JOINT        -> Typs.mjLABEL_JOINT |> Int64.to_int
+  | MjLABEL_GEOM         -> Typs.mjLABEL_GEOM |> Int64.to_int
+  | MjLABEL_SITE         -> Typs.mjLABEL_SITE |> Int64.to_int
+  | MjLABEL_CAMERA       -> Typs.mjLABEL_CAMERA |> Int64.to_int
+  | MjLABEL_LIGHT        -> Typs.mjLABEL_LIGHT |> Int64.to_int
+  | MjLABEL_TENDON       -> Typs.mjLABEL_TENDON |> Int64.to_int
+  | MjLABEL_ACTUATOR     -> Typs.mjLABEL_ACTUATOR |> Int64.to_int
+  | MjLABEL_CONSTRAINT   -> Typs.mjLABEL_CONSTRAINT |> Int64.to_int
+  | MjLABEL_SKIN         -> Typs.mjLABEL_SKIN |> Int64.to_int
+  | MjLABEL_SELECTION    -> Typs.mjLABEL_SELECTION |> Int64.to_int
+  | MjLABEL_SELPNT       -> Typs.mjLABEL_SELPNT |> Int64.to_int
+  | MjLABEL_CONTACTFORCE -> Typs.mjLABEL_CONTACTFORCE |> Int64.to_int
+  | MjNLABEL             -> Typs.mjNLABEL |> Int64.to_int
 
 
 (** convert mjtFrame type to int *)
-let mjtFrame_to_int mjtFrame =
-  Ctypes.(coerce Typs.mjtFrame uint32_t mjtFrame) |> Unsigned.UInt32.to_int
+let mjtFrame_to_int = function
+  | MjFRAME_NONE   -> Typs.mjFRAME_NONE |> Int64.to_int
+  | MjFRAME_BODY   -> Typs.mjFRAME_BODY |> Int64.to_int
+  | MjFRAME_GEOM   -> Typs.mjFRAME_GEOM |> Int64.to_int
+  | MjFRAME_SITE   -> Typs.mjFRAME_SITE |> Int64.to_int
+  | MjFRAME_CAMERA -> Typs.mjFRAME_CAMERA |> Int64.to_int
+  | MjFRAME_LIGHT  -> Typs.mjFRAME_LIGHT |> Int64.to_int
+  | MjFRAME_WORLD  -> Typs.mjFRAME_WORLD |> Int64.to_int
+  | MjNFRAME       -> Typs.mjNFRAME |> Int64.to_int
 
 
 (** convert mjtVisFlag type to int *)
-let mjtVisFlag_to_int mjtVisFlag =
-  Ctypes.(coerce Typs.mjtVisFlag uint32_t mjtVisFlag) |> Unsigned.UInt32.to_int
+let mjtVisFlag_to_int = function
+  | MjVIS_CONVEXHULL   -> Typs.mjVIS_CONVEXHULL |> Int64.to_int
+  | MjVIS_TEXTURE      -> Typs.mjVIS_TEXTURE |> Int64.to_int
+  | MjVIS_JOINT        -> Typs.mjVIS_JOINT |> Int64.to_int
+  | MjVIS_ACTUATOR     -> Typs.mjVIS_ACTUATOR |> Int64.to_int
+  | MjVIS_CAMERA       -> Typs.mjVIS_CAMERA |> Int64.to_int
+  | MjVIS_LIGHT        -> Typs.mjVIS_LIGHT |> Int64.to_int
+  | MjVIS_TENDON       -> Typs.mjVIS_TENDON |> Int64.to_int
+  | MjVIS_RANGEFINDER  -> Typs.mjVIS_RANGEFINDER |> Int64.to_int
+  | MjVIS_CONSTRAINT   -> Typs.mjVIS_CONSTRAINT |> Int64.to_int
+  | MjVIS_INERTIA      -> Typs.mjVIS_INERTIA |> Int64.to_int
+  | MjVIS_SCLINERTIA   -> Typs.mjVIS_SCLINERTIA |> Int64.to_int
+  | MjVIS_PERTFORCE    -> Typs.mjVIS_PERTFORCE |> Int64.to_int
+  | MjVIS_PERTOBJ      -> Typs.mjVIS_PERTOBJ |> Int64.to_int
+  | MjVIS_CONTACTPOINT -> Typs.mjVIS_CONTACTPOINT |> Int64.to_int
+  | MjVIS_CONTACTFORCE -> Typs.mjVIS_CONTACTFORCE |> Int64.to_int
+  | MjVIS_CONTACTSPLIT -> Typs.mjVIS_CONTACTSPLIT |> Int64.to_int
+  | MjVIS_TRANSPARENT  -> Typs.mjVIS_TRANSPARENT |> Int64.to_int
+  | MjVIS_AUTOCONNECT  -> Typs.mjVIS_AUTOCONNECT |> Int64.to_int
+  | MjVIS_COM          -> Typs.mjVIS_COM |> Int64.to_int
+  | MjVIS_SELECT       -> Typs.mjVIS_SELECT |> Int64.to_int
+  | MjVIS_STATIC       -> Typs.mjVIS_STATIC |> Int64.to_int
+  | MjVIS_SKIN         -> Typs.mjVIS_SKIN |> Int64.to_int
+  | MjNVISFLAG         -> Typs.mjNVISFLAG |> Int64.to_int
 
 
 (** convert mjtRndFlag type to int *)
-let mjtRndFlag_to_int mjtRndFlag =
-  Ctypes.(coerce Typs.mjtRndFlag uint32_t mjtRndFlag) |> Unsigned.UInt32.to_int
+let mjtRndFlag_to_int = function
+  | MjRND_SHADOW     -> Typs.mjRND_SHADOW |> Int64.to_int
+  | MjRND_WIREFRAME  -> Typs.mjRND_WIREFRAME |> Int64.to_int
+  | MjRND_REFLECTION -> Typs.mjRND_REFLECTION |> Int64.to_int
+  | MjRND_ADDITIVE   -> Typs.mjRND_ADDITIVE |> Int64.to_int
+  | MjRND_SKYBOX     -> Typs.mjRND_SKYBOX |> Int64.to_int
+  | MjRND_FOG        -> Typs.mjRND_FOG |> Int64.to_int
+  | MjRND_HAZE       -> Typs.mjRND_HAZE |> Int64.to_int
+  | MjRND_SEGMENT    -> Typs.mjRND_SEGMENT |> Int64.to_int
+  | MjRND_IDCOLOR    -> Typs.mjRND_IDCOLOR |> Int64.to_int
+  | MjNRNDFLAG       -> Typs.mjNRNDFLAG |> Int64.to_int
 
 
 (** convert mjtStereo type to int *)
-let mjtStereo_to_int mjtStereo =
-  Ctypes.(coerce Typs.mjtStereo uint32_t mjtStereo) |> Unsigned.UInt32.to_int
+let mjtStereo_to_int = function
+  | MjSTEREO_NONE         -> Typs.mjSTEREO_NONE |> Int64.to_int
+  | MjSTEREO_QUADBUFFERED -> Typs.mjSTEREO_QUADBUFFERED |> Int64.to_int
+  | MjSTEREO_SIDEBYSIDE   -> Typs.mjSTEREO_SIDEBYSIDE |> Int64.to_int
 
 
 (** allocate fresh mjvPerturb struct *)
@@ -5006,6 +5272,9 @@ let mjvPerturb_make
   x
 
 
+(** returns mjvPerturb carray from list of mjvPerturb *)
+let mjvPerturb_to_carray = Ctypes.CArray.of_list Typs.mjvPerturb
+
 (** allocate fresh mjvCamera struct *)
 let mjvCamera_allocate () = Ctypes.(make Typs.mjvCamera)
 
@@ -5075,6 +5344,9 @@ let mjvCamera_make
   Option.iter (mjvCamera_set_elevation x) mjf_elevation;
   x
 
+
+(** returns mjvCamera carray from list of mjvCamera *)
+let mjvCamera_to_carray = Ctypes.CArray.of_list Typs.mjvCamera
 
 (** allocate fresh mjvGLCamera struct *)
 let mjvGLCamera_allocate () = Ctypes.(make Typs.mjvGLCamera)
@@ -5153,6 +5425,9 @@ let mjvGLCamera_make
   Option.iter (mjvGLCamera_set_frustum_far x) mjf_frustum_far;
   x
 
+
+(** returns mjvGLCamera carray from list of mjvGLCamera *)
+let mjvGLCamera_to_carray = Ctypes.CArray.of_list Typs.mjvGLCamera
 
 (** allocate fresh mjvGeom struct *)
 let mjvGeom_allocate () = Ctypes.(make Typs.mjvGeom)
@@ -5344,6 +5619,9 @@ let mjvGeom_make
   x
 
 
+(** returns mjvGeom carray from list of mjvGeom *)
+let mjvGeom_to_carray = Ctypes.CArray.of_list Typs.mjvGeom
+
 (** allocate fresh mjvLight struct *)
 let mjvLight_allocate () = Ctypes.(make Typs.mjvLight)
 
@@ -5446,6 +5724,9 @@ let mjvLight_make
   x
 
 
+(** returns mjvLight carray from list of mjvLight *)
+let mjvLight_to_carray = Ctypes.CArray.of_list Typs.mjvLight
+
 (** allocate fresh mjvOption struct *)
 let mjvOption_allocate () = Ctypes.(make Typs.mjvOption)
 
@@ -5523,6 +5804,9 @@ let mjvOption_make
   Option.iter (mjvOption_set_flags x) mjf_flags;
   x
 
+
+(** returns mjvOption carray from list of mjvOption *)
+let mjvOption_to_carray = Ctypes.CArray.of_list Typs.mjvOption
 
 (** allocate fresh mjvScene struct *)
 let mjvScene_allocate () = Ctypes.(make Typs.mjvScene)
@@ -5705,6 +5989,9 @@ let mjvScene_make
   Option.iter (mjvScene_set_framergb x) mjf_framergb;
   x
 
+
+(** returns mjvScene carray from list of mjvScene *)
+let mjvScene_to_carray = Ctypes.CArray.of_list Typs.mjvScene
 
 (** allocate fresh mjvFigure struct *)
 let mjvFigure_allocate () = Ctypes.(make Typs.mjvFigure)
@@ -5952,24 +6239,38 @@ let mjvFigure_make
   x
 
 
+(** returns mjvFigure carray from list of mjvFigure *)
+let mjvFigure_to_carray = Ctypes.CArray.of_list Typs.mjvFigure
+
 (** convert mjtGridPos type to int *)
-let mjtGridPos_to_int mjtGridPos =
-  Ctypes.(coerce Typs.mjtGridPos uint32_t mjtGridPos) |> Unsigned.UInt32.to_int
+let mjtGridPos_to_int = function
+  | MjGRID_TOPLEFT     -> Typs.mjGRID_TOPLEFT |> Int64.to_int
+  | MjGRID_TOPRIGHT    -> Typs.mjGRID_TOPRIGHT |> Int64.to_int
+  | MjGRID_BOTTOMLEFT  -> Typs.mjGRID_BOTTOMLEFT |> Int64.to_int
+  | MjGRID_BOTTOMRIGHT -> Typs.mjGRID_BOTTOMRIGHT |> Int64.to_int
 
 
 (** convert mjtFramebuffer type to int *)
-let mjtFramebuffer_to_int mjtFramebuffer =
-  Ctypes.(coerce Typs.mjtFramebuffer uint32_t mjtFramebuffer) |> Unsigned.UInt32.to_int
+let mjtFramebuffer_to_int = function
+  | MjFB_WINDOW    -> Typs.mjFB_WINDOW |> Int64.to_int
+  | MjFB_OFFSCREEN -> Typs.mjFB_OFFSCREEN |> Int64.to_int
 
 
 (** convert mjtFontScale type to int *)
-let mjtFontScale_to_int mjtFontScale =
-  Ctypes.(coerce Typs.mjtFontScale uint32_t mjtFontScale) |> Unsigned.UInt32.to_int
+let mjtFontScale_to_int = function
+  | MjFONTSCALE_50  -> Typs.mjFONTSCALE_50 |> Int64.to_int
+  | MjFONTSCALE_100 -> Typs.mjFONTSCALE_100 |> Int64.to_int
+  | MjFONTSCALE_150 -> Typs.mjFONTSCALE_150 |> Int64.to_int
+  | MjFONTSCALE_200 -> Typs.mjFONTSCALE_200 |> Int64.to_int
+  | MjFONTSCALE_250 -> Typs.mjFONTSCALE_250 |> Int64.to_int
+  | MjFONTSCALE_300 -> Typs.mjFONTSCALE_300 |> Int64.to_int
 
 
 (** convert mjtFont type to int *)
-let mjtFont_to_int mjtFont =
-  Ctypes.(coerce Typs.mjtFont uint32_t mjtFont) |> Unsigned.UInt32.to_int
+let mjtFont_to_int = function
+  | MjFONT_NORMAL -> Typs.mjFONT_NORMAL |> Int64.to_int
+  | MjFONT_SHADOW -> Typs.mjFONT_SHADOW |> Int64.to_int
+  | MjFONT_BIG    -> Typs.mjFONT_BIG |> Int64.to_int
 
 
 (** allocate fresh mjrRect struct *)
@@ -6011,6 +6312,9 @@ let mjrRect_make ?mjf_left ?mjf_bottom ?mjf_width ?mjf_height () =
   Option.iter (mjrRect_set_height x) mjf_height;
   x
 
+
+(** returns mjrRect carray from list of mjrRect *)
+let mjrRect_to_carray = Ctypes.CArray.of_list Typs.mjrRect
 
 (** allocate fresh mjrContext struct *)
 let mjrContext_allocate () = Ctypes.(make Typs.mjrContext)
@@ -6286,19 +6590,46 @@ let mjrContext_make
   x
 
 
+(** returns mjrContext carray from list of mjrContext *)
+let mjrContext_to_carray = Ctypes.CArray.of_list Typs.mjrContext
+
 (** convert mjtButton type to int *)
-let mjtButton_to_int mjtButton =
-  Ctypes.(coerce Typs.mjtButton uint32_t mjtButton) |> Unsigned.UInt32.to_int
+let mjtButton_to_int = function
+  | MjBUTTON_NONE   -> Typs.mjBUTTON_NONE |> Int64.to_int
+  | MjBUTTON_LEFT   -> Typs.mjBUTTON_LEFT |> Int64.to_int
+  | MjBUTTON_RIGHT  -> Typs.mjBUTTON_RIGHT |> Int64.to_int
+  | MjBUTTON_MIDDLE -> Typs.mjBUTTON_MIDDLE |> Int64.to_int
 
 
 (** convert mjtEvent type to int *)
-let mjtEvent_to_int mjtEvent =
-  Ctypes.(coerce Typs.mjtEvent uint32_t mjtEvent) |> Unsigned.UInt32.to_int
+let mjtEvent_to_int = function
+  | MjEVENT_NONE    -> Typs.mjEVENT_NONE |> Int64.to_int
+  | MjEVENT_MOVE    -> Typs.mjEVENT_MOVE |> Int64.to_int
+  | MjEVENT_PRESS   -> Typs.mjEVENT_PRESS |> Int64.to_int
+  | MjEVENT_RELEASE -> Typs.mjEVENT_RELEASE |> Int64.to_int
+  | MjEVENT_SCROLL  -> Typs.mjEVENT_SCROLL |> Int64.to_int
+  | MjEVENT_KEY     -> Typs.mjEVENT_KEY |> Int64.to_int
+  | MjEVENT_RESIZE  -> Typs.mjEVENT_RESIZE |> Int64.to_int
 
 
 (** convert mjtItem type to int *)
-let mjtItem_to_int mjtItem =
-  Ctypes.(coerce Typs.mjtItem uint32_t mjtItem) |> Unsigned.UInt32.to_int
+let mjtItem_to_int = function
+  | MjITEM_END       -> Typs.mjITEM_END |> Int64.to_int
+  | MjITEM_SECTION   -> Typs.mjITEM_SECTION |> Int64.to_int
+  | MjITEM_SEPARATOR -> Typs.mjITEM_SEPARATOR |> Int64.to_int
+  | MjITEM_STATIC    -> Typs.mjITEM_STATIC |> Int64.to_int
+  | MjITEM_BUTTON    -> Typs.mjITEM_BUTTON |> Int64.to_int
+  | MjITEM_CHECKINT  -> Typs.mjITEM_CHECKINT |> Int64.to_int
+  | MjITEM_CHECKBYTE -> Typs.mjITEM_CHECKBYTE |> Int64.to_int
+  | MjITEM_RADIO     -> Typs.mjITEM_RADIO |> Int64.to_int
+  | MjITEM_RADIOLINE -> Typs.mjITEM_RADIOLINE |> Int64.to_int
+  | MjITEM_SELECT    -> Typs.mjITEM_SELECT |> Int64.to_int
+  | MjITEM_SLIDERINT -> Typs.mjITEM_SLIDERINT |> Int64.to_int
+  | MjITEM_SLIDERNUM -> Typs.mjITEM_SLIDERNUM |> Int64.to_int
+  | MjITEM_EDITINT   -> Typs.mjITEM_EDITINT |> Int64.to_int
+  | MjITEM_EDITNUM   -> Typs.mjITEM_EDITNUM |> Int64.to_int
+  | MjITEM_EDITTXT   -> Typs.mjITEM_EDITTXT |> Int64.to_int
+  | MjNITEM          -> Typs.mjNITEM |> Int64.to_int
 
 
 (** allocate fresh mjuiState struct *)
@@ -6507,6 +6838,9 @@ let mjuiState_make
   x
 
 
+(** returns mjuiState carray from list of mjuiState *)
+let mjuiState_to_carray = Ctypes.CArray.of_list Typs.mjuiState
+
 (** allocate fresh mjuiThemeSpacing struct *)
 let mjuiThemeSpacing_allocate () = Ctypes.(make Typs.mjuiThemeSpacing)
 
@@ -6610,6 +6944,9 @@ let mjuiThemeSpacing_make
   Option.iter (mjuiThemeSpacing_set_samples x) mjf_samples;
   x
 
+
+(** returns mjuiThemeSpacing carray from list of mjuiThemeSpacing *)
+let mjuiThemeSpacing_to_carray = Ctypes.CArray.of_list Typs.mjuiThemeSpacing
 
 (** allocate fresh mjuiThemeColor struct *)
 let mjuiThemeColor_allocate () = Ctypes.(make Typs.mjuiThemeColor)
@@ -6801,6 +7138,9 @@ let mjuiThemeColor_make
   x
 
 
+(** returns mjuiThemeColor carray from list of mjuiThemeColor *)
+let mjuiThemeColor_to_carray = Ctypes.CArray.of_list Typs.mjuiThemeColor
+
 (** allocate fresh mjuiItemSingle struct *)
 let mjuiItemSingle_allocate () = Ctypes.(make Typs.mjuiItemSingle)
 
@@ -6827,6 +7167,9 @@ let mjuiItemSingle_make ?mjf_modifier ?mjf_shortcut () =
   x
 
 
+(** returns mjuiItemSingle carray from list of mjuiItemSingle *)
+let mjuiItemSingle_to_carray = Ctypes.CArray.of_list Typs.mjuiItemSingle
+
 (** allocate fresh mjuiItemMulti struct *)
 let mjuiItemMulti_allocate () = Ctypes.(make Typs.mjuiItemMulti)
 
@@ -6845,6 +7188,9 @@ let mjuiItemMulti_make ?mjf_nelem () =
   Option.iter (mjuiItemMulti_set_nelem x) mjf_nelem;
   x
 
+
+(** returns mjuiItemMulti carray from list of mjuiItemMulti *)
+let mjuiItemMulti_to_carray = Ctypes.CArray.of_list Typs.mjuiItemMulti
 
 (** allocate fresh mjuiItemSlider struct *)
 let mjuiItemSlider_allocate () = Ctypes.(make Typs.mjuiItemSlider)
@@ -6872,6 +7218,9 @@ let mjuiItemSlider_make ?mjf_range ?mjf_divisions () =
   x
 
 
+(** returns mjuiItemSlider carray from list of mjuiItemSlider *)
+let mjuiItemSlider_to_carray = Ctypes.CArray.of_list Typs.mjuiItemSlider
+
 (** allocate fresh mjuiItemEdit struct *)
 let mjuiItemEdit_allocate () = Ctypes.(make Typs.mjuiItemEdit)
 
@@ -6890,6 +7239,9 @@ let mjuiItemEdit_make ?mjf_nelem () =
   Option.iter (mjuiItemEdit_set_nelem x) mjf_nelem;
   x
 
+
+(** returns mjuiItemEdit carray from list of mjuiItemEdit *)
+let mjuiItemEdit_to_carray = Ctypes.CArray.of_list Typs.mjuiItemEdit
 
 (** allocate fresh mjuiItem struct *)
 let mjuiItem_allocate () = Ctypes.(make Typs.mjuiItem)
@@ -6944,6 +7296,9 @@ let mjuiItem_make ?mjf_type ?mjf_name ?mjf_state ?mjf_sectionid ?mjf_itemid ?mjf
   Option.iter (mjuiItem_set_rect x) mjf_rect;
   x
 
+
+(** returns mjuiItem carray from list of mjuiItem *)
+let mjuiItem_to_carray = Ctypes.CArray.of_list Typs.mjuiItem
 
 (** allocate fresh mjuiSection struct *)
 let mjuiSection_allocate () = Ctypes.(make Typs.mjuiSection)
@@ -7022,6 +7377,9 @@ let mjuiSection_make
   Option.iter (mjuiSection_set_rcontent x) mjf_rcontent;
   x
 
+
+(** returns mjuiSection carray from list of mjuiSection *)
+let mjuiSection_to_carray = Ctypes.CArray.of_list Typs.mjuiSection
 
 (** allocate fresh mjUI struct *)
 let mjUI_allocate () = Ctypes.(make Typs.mjUI)
@@ -7213,6 +7571,9 @@ let mjUI_make
   x
 
 
+(** returns mjUI carray from list of mjUI *)
+let mjUI_to_carray = Ctypes.CArray.of_list Typs.mjUI
+
 (** allocate fresh mjuiDef struct *)
 let mjuiDef_allocate () = Ctypes.(make Typs.mjuiDef)
 
@@ -7259,6 +7620,9 @@ let mjuiDef_make ?mjf_type ?mjf_name ?mjf_state ?mjf_pdata ?mjf_other () =
   Option.iter (mjuiDef_set_other x) mjf_other;
   x
 
+
+(** returns mjuiDef carray from list of mjuiDef *)
+let mjuiDef_to_carray = Ctypes.CArray.of_list Typs.mjuiDef
 
 (** ---------------------- Activation ----------------------------------------------------- *)
 

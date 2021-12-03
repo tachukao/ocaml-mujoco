@@ -1,6 +1,7 @@
 (* THIS FILE IS GENERATED AUTOMATICALLY, DO NOT EDIT BY HAND *)
 
 open Stubs
+module Typs : module type of Typs
 
 type 'a t = 'a Ctypes.structure
 type 'a ptr = 'a Ctypes_static.ptr
@@ -703,6 +704,9 @@ val mjLROpt_make
   -> unit
   -> mjLROpt
 
+(** returns mjLROpt carray from list of mjLROpt *)
+val mjLROpt_to_carray : mjLROpt list -> mjLROpt Ctypes.carray
+
 (** allocate fresh mjVFS struct *)
 val mjVFS_allocate : unit -> mjVFS
 
@@ -734,6 +738,9 @@ val mjVFS_make
   -> ?mjf_filedata:unit ptr ptr
   -> unit
   -> mjVFS
+
+(** returns mjVFS carray from list of mjVFS *)
+val mjVFS_to_carray : mjVFS list -> mjVFS Ctypes.carray
 
 (** allocate fresh mjOption struct *)
 val mjOption_allocate : unit -> mjOption
@@ -914,6 +921,9 @@ val mjOption_make
   -> unit
   -> mjOption
 
+(** returns mjOption carray from list of mjOption *)
+val mjOption_to_carray : mjOption list -> mjOption Ctypes.carray
+
 (** allocate fresh mjStatistic struct *)
 val mjStatistic_allocate : unit -> mjStatistic
 
@@ -959,6 +969,9 @@ val mjStatistic_make
   -> ?mjf_center:float ptr
   -> unit
   -> mjStatistic
+
+(** returns mjStatistic carray from list of mjStatistic *)
+val mjStatistic_to_carray : mjStatistic list -> mjStatistic Ctypes.carray
 
 (** allocate fresh mjModel struct *)
 val mjModel_allocate : unit -> mjModel
@@ -3260,6 +3273,9 @@ val mjModel_make
   -> unit
   -> mjModel
 
+(** returns mjModel carray from list of mjModel *)
+val mjModel_to_carray : mjModel list -> mjModel Ctypes.carray
+
 (** convert mjtWarning type to int *)
 val mjtWarning_to_int : mjtWarning -> int
 
@@ -3375,6 +3391,9 @@ val mjContact_make
   -> unit
   -> mjContact
 
+(** returns mjContact carray from list of mjContact *)
+val mjContact_to_carray : mjContact list -> mjContact Ctypes.carray
+
 (** allocate fresh mjWarningStat struct *)
 val mjWarningStat_allocate : unit -> mjWarningStat
 
@@ -3396,6 +3415,9 @@ val mjWarningStat_set_number : mjWarningStat -> int -> unit
 (** make mjWarningStat struct *)
 val mjWarningStat_make : ?mjf_lastinfo:int -> ?mjf_number:int -> unit -> mjWarningStat
 
+(** returns mjWarningStat carray from list of mjWarningStat *)
+val mjWarningStat_to_carray : mjWarningStat list -> mjWarningStat Ctypes.carray
+
 (** allocate fresh mjTimerStat struct *)
 val mjTimerStat_allocate : unit -> mjTimerStat
 
@@ -3416,6 +3438,9 @@ val mjTimerStat_set_number : mjTimerStat -> int -> unit
 
 (** make mjTimerStat struct *)
 val mjTimerStat_make : ?mjf_duration:float -> ?mjf_number:int -> unit -> mjTimerStat
+
+(** returns mjTimerStat carray from list of mjTimerStat *)
+val mjTimerStat_to_carray : mjTimerStat list -> mjTimerStat Ctypes.carray
 
 (** allocate fresh mjSolverStat struct *)
 val mjSolverStat_allocate : unit -> mjSolverStat
@@ -3476,6 +3501,9 @@ val mjSolverStat_make
   -> ?mjf_nupdate:int
   -> unit
   -> mjSolverStat
+
+(** returns mjSolverStat carray from list of mjSolverStat *)
+val mjSolverStat_to_carray : mjSolverStat list -> mjSolverStat Ctypes.carray
 
 (** allocate fresh mjData struct *)
 val mjData_allocate : unit -> mjData
@@ -4279,6 +4307,9 @@ val mjData_make
   -> unit
   -> mjData
 
+(** returns mjData carray from list of mjData *)
+val mjData_to_carray : mjData list -> mjData Ctypes.carray
+
 (** convert mjtCatBit type to int *)
 val mjtCatBit_to_int : mjtCatBit -> int
 
@@ -4373,6 +4404,9 @@ val mjvPerturb_make
   -> unit
   -> mjvPerturb
 
+(** returns mjvPerturb carray from list of mjvPerturb *)
+val mjvPerturb_to_carray : mjvPerturb list -> mjvPerturb Ctypes.carray
+
 (** allocate fresh mjvCamera struct *)
 val mjvCamera_allocate : unit -> mjvCamera
 
@@ -4432,6 +4466,9 @@ val mjvCamera_make
   -> ?mjf_elevation:float
   -> unit
   -> mjvCamera
+
+(** returns mjvCamera carray from list of mjvCamera *)
+val mjvCamera_to_carray : mjvCamera list -> mjvCamera Ctypes.carray
 
 (** allocate fresh mjvGLCamera struct *)
 val mjvGLCamera_allocate : unit -> mjvGLCamera
@@ -4499,6 +4536,9 @@ val mjvGLCamera_make
   -> ?mjf_frustum_far:float
   -> unit
   -> mjvGLCamera
+
+(** returns mjvGLCamera carray from list of mjvGLCamera *)
+val mjvGLCamera_to_carray : mjvGLCamera list -> mjvGLCamera Ctypes.carray
 
 (** allocate fresh mjvGeom struct *)
 val mjvGeom_allocate : unit -> mjvGeom
@@ -4665,6 +4705,9 @@ val mjvGeom_make
   -> unit
   -> mjvGeom
 
+(** returns mjvGeom carray from list of mjvGeom *)
+val mjvGeom_to_carray : mjvGeom list -> mjvGeom Ctypes.carray
+
 (** allocate fresh mjvLight struct *)
 val mjvLight_allocate : unit -> mjvLight
 
@@ -4753,6 +4796,9 @@ val mjvLight_make
   -> unit
   -> mjvLight
 
+(** returns mjvLight carray from list of mjvLight *)
+val mjvLight_to_carray : mjvLight list -> mjvLight Ctypes.carray
+
 (** allocate fresh mjvOption struct *)
 val mjvOption_allocate : unit -> mjvOption
 
@@ -4819,6 +4865,9 @@ val mjvOption_make
   -> ?mjf_flags:Unsigned.UChar.t ptr
   -> unit
   -> mjvOption
+
+(** returns mjvOption carray from list of mjvOption *)
+val mjvOption_to_carray : mjvOption list -> mjvOption Ctypes.carray
 
 (** allocate fresh mjvScene struct *)
 val mjvScene_allocate : unit -> mjvScene
@@ -4977,6 +5026,9 @@ val mjvScene_make
   -> ?mjf_framergb:float ptr
   -> unit
   -> mjvScene
+
+(** returns mjvScene carray from list of mjvScene *)
+val mjvScene_to_carray : mjvScene list -> mjvScene Ctypes.carray
 
 (** allocate fresh mjvFigure struct *)
 val mjvFigure_allocate : unit -> mjvFigure
@@ -5192,6 +5244,9 @@ val mjvFigure_make
   -> unit
   -> mjvFigure
 
+(** returns mjvFigure carray from list of mjvFigure *)
+val mjvFigure_to_carray : mjvFigure list -> mjvFigure Ctypes.carray
+
 (** convert mjtGridPos type to int *)
 val mjtGridPos_to_int : mjtGridPos -> int
 
@@ -5242,6 +5297,9 @@ val mjrRect_make
   -> ?mjf_height:int
   -> unit
   -> mjrRect
+
+(** returns mjrRect carray from list of mjrRect *)
+val mjrRect_to_carray : mjrRect list -> mjrRect Ctypes.carray
 
 (** allocate fresh mjrContext struct *)
 val mjrContext_allocate : unit -> mjrContext
@@ -5478,6 +5536,9 @@ val mjrContext_make
   -> unit
   -> mjrContext
 
+(** returns mjrContext carray from list of mjrContext *)
+val mjrContext_to_carray : mjrContext list -> mjrContext Ctypes.carray
+
 (** convert mjtButton type to int *)
 val mjtButton_to_int : mjtButton -> int
 
@@ -5666,6 +5727,9 @@ val mjuiState_make
   -> unit
   -> mjuiState
 
+(** returns mjuiState carray from list of mjuiState *)
+val mjuiState_to_carray : mjuiState list -> mjuiState Ctypes.carray
+
 (** allocate fresh mjuiThemeSpacing struct *)
 val mjuiThemeSpacing_allocate : unit -> mjuiThemeSpacing
 
@@ -5753,6 +5817,9 @@ val mjuiThemeSpacing_make
   -> ?mjf_samples:int
   -> unit
   -> mjuiThemeSpacing
+
+(** returns mjuiThemeSpacing carray from list of mjuiThemeSpacing *)
+val mjuiThemeSpacing_to_carray : mjuiThemeSpacing list -> mjuiThemeSpacing Ctypes.carray
 
 (** allocate fresh mjuiThemeColor struct *)
 val mjuiThemeColor_allocate : unit -> mjuiThemeColor
@@ -5912,6 +5979,9 @@ val mjuiThemeColor_make
   -> unit
   -> mjuiThemeColor
 
+(** returns mjuiThemeColor carray from list of mjuiThemeColor *)
+val mjuiThemeColor_to_carray : mjuiThemeColor list -> mjuiThemeColor Ctypes.carray
+
 (** allocate fresh mjuiItemSingle struct *)
 val mjuiItemSingle_allocate : unit -> mjuiItemSingle
 
@@ -5933,6 +6003,9 @@ val mjuiItemSingle_set_shortcut : mjuiItemSingle -> int -> unit
 (** make mjuiItemSingle struct *)
 val mjuiItemSingle_make : ?mjf_modifier:int -> ?mjf_shortcut:int -> unit -> mjuiItemSingle
 
+(** returns mjuiItemSingle carray from list of mjuiItemSingle *)
+val mjuiItemSingle_to_carray : mjuiItemSingle list -> mjuiItemSingle Ctypes.carray
+
 (** allocate fresh mjuiItemMulti struct *)
 val mjuiItemMulti_allocate : unit -> mjuiItemMulti
 
@@ -5947,6 +6020,9 @@ val mjuiItemMulti_set_nelem : mjuiItemMulti -> int -> unit
 
 (** make mjuiItemMulti struct *)
 val mjuiItemMulti_make : ?mjf_nelem:int -> unit -> mjuiItemMulti
+
+(** returns mjuiItemMulti carray from list of mjuiItemMulti *)
+val mjuiItemMulti_to_carray : mjuiItemMulti list -> mjuiItemMulti Ctypes.carray
 
 (** allocate fresh mjuiItemSlider struct *)
 val mjuiItemSlider_allocate : unit -> mjuiItemSlider
@@ -5973,6 +6049,9 @@ val mjuiItemSlider_make
   -> unit
   -> mjuiItemSlider
 
+(** returns mjuiItemSlider carray from list of mjuiItemSlider *)
+val mjuiItemSlider_to_carray : mjuiItemSlider list -> mjuiItemSlider Ctypes.carray
+
 (** allocate fresh mjuiItemEdit struct *)
 val mjuiItemEdit_allocate : unit -> mjuiItemEdit
 
@@ -5987,6 +6066,9 @@ val mjuiItemEdit_set_nelem : mjuiItemEdit -> int -> unit
 
 (** make mjuiItemEdit struct *)
 val mjuiItemEdit_make : ?mjf_nelem:int -> unit -> mjuiItemEdit
+
+(** returns mjuiItemEdit carray from list of mjuiItemEdit *)
+val mjuiItemEdit_to_carray : mjuiItemEdit list -> mjuiItemEdit Ctypes.carray
 
 (** allocate fresh mjuiItem struct *)
 val mjuiItem_allocate : unit -> mjuiItem
@@ -6040,6 +6122,9 @@ val mjuiItem_make
   -> ?mjf_rect:mjrRect
   -> unit
   -> mjuiItem
+
+(** returns mjuiItem carray from list of mjuiItem *)
+val mjuiItem_to_carray : mjuiItem list -> mjuiItem Ctypes.carray
 
 (** allocate fresh mjuiSection struct *)
 val mjuiSection_allocate : unit -> mjuiSection
@@ -6107,6 +6192,9 @@ val mjuiSection_make
   -> ?mjf_rcontent:mjrRect
   -> unit
   -> mjuiSection
+
+(** returns mjuiSection carray from list of mjuiSection *)
+val mjuiSection_to_carray : mjuiSection list -> mjuiSection Ctypes.carray
 
 (** allocate fresh mjUI struct *)
 val mjUI_allocate : unit -> mjUI
@@ -6273,6 +6361,9 @@ val mjUI_make
   -> unit
   -> mjUI
 
+(** returns mjUI carray from list of mjUI *)
+val mjUI_to_carray : mjUI list -> mjUI Ctypes.carray
+
 (** allocate fresh mjuiDef struct *)
 val mjuiDef_allocate : unit -> mjuiDef
 
@@ -6318,6 +6409,9 @@ val mjuiDef_make
   -> ?mjf_other:string
   -> unit
   -> mjuiDef
+
+(** returns mjuiDef carray from list of mjuiDef *)
+val mjuiDef_to_carray : mjuiDef list -> mjuiDef Ctypes.carray
 
 (** Return 1 (for backward compatibility). *)
 val mj_activate : string -> int

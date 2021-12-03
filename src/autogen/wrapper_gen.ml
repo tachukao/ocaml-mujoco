@@ -65,12 +65,9 @@ let p_types ch chi =
               (* type to int *)
               p ch "(** convert %s type to int *)" bname;
               p chi "(** convert %s type to int *)" bname;
-              p ch "let %s_to_int %s =" bname bname;
-              p
-                ch
-                "Ctypes.(coerce Typs.%s uint32_t %s) |> Unsigned.UInt32.to_int"
-                bname
-                bname;
+              p ch "let %s_to_int = function" bname;
+              List.iter states ~f:(fun (state, _) ->
+                  p ch " | %s -> Typs.%s |> Int64.to_int" String.(capitalize state) state);
               p chi "val %s_to_int : %s -> int" bname bname
             in
             callback)
@@ -149,7 +146,14 @@ let p_types ch chi =
                 p ch "  let x = %s_allocate () in" bname;
                 List.iter fields ~f:(fun (_, field, _) ->
                     p ch "  Option.iter (%s_set_%s x) %s;" bname field (mjf field));
-                p ch "  x"
+                p ch "  x";
+                (* to carray *)
+                p ch "\n";
+                p chi "\n";
+                p ch "(** returns %s carray from list of %s *)" bname bname;
+                p chi "(** returns %s carray from list of %s *)" bname bname;
+                p ch "let %s_to_carray= Ctypes.CArray.of_list Typs.%s" bname bname;
+                p chi "val %s_to_carray: %s list -> %s Ctypes.carray" bname bname bname
             in
             callback)
       in
@@ -188,7 +192,7 @@ let write_wrapper ~filename =
           pc "module Typs = Stubs.Typs";
           pc "module Bindings = Stubs.Bindings (Mujoco_generated)";
           pci "open Stubs";
-          (* pci "module Typs : module type of Typs"; *)
+          pci "module Typs : module type of Typs";
           (* pci "module Bindings : module type of Stubs.Bindings (Mujoco_generated)"; *)
           pc "type 'a t = 'a Ctypes.structure";
           pci "type 'a t = 'a Ctypes.structure";
