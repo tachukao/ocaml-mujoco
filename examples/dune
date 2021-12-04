@@ -1,3 +1,4 @@
 (executables
  (names basic derivative simulate)
- (libraries stdio base mujoco cmdargs glfw-ocaml))
+ (libraries stdio base mujoco cmdargs glfw-ocaml ctypes.foreign)
+ (flags :standard -cclib))

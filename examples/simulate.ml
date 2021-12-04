@@ -1,22 +1,93 @@
-(*
+open Wrapper
 open Base
 
+let memset =
+  let open Ctypes in
+  let open Foreign in
+  foreign "memset" (ptr void @-> int @-> size_t @-> returning void)
+
+
+let apple = true
+
+(* UI settings not contained in MuJoCo structures *)
+
 type settings =
-  { exit_request : bool ref
-  ; vsync : int ref
+  { exitrequest : int Ctypes.ptr
+  ; spacing : int Ctypes.ptr
+  ; color : int Ctypes.ptr
+  ; font : int Ctypes.ptr
+  ; ui0 : int Ctypes.ptr
+  ; ui1 : int Ctypes.ptr
+  ; help : int Ctypes.ptr
+  ; info : int Ctypes.ptr
+  ; profiler : int Ctypes.ptr
+  ; sensor : int Ctypes.ptr
+  ; fullscreen : int Ctypes.ptr
+  ; vsync : int Ctypes.ptr
+  ; busywait : int Ctypes.ptr (* simulation *)
+  ; run : int Ctypes.ptr
+  ; key : int Ctypes.ptr
+  ; loadrequest : int Ctypes.ptr (* watch *)
+  ; field : char Ctypes.ptr
+  ; index : int Ctypes.ptr (* physics: need sync *)
+  ; disable : int Ctypes.ptr
+  ; enable : int Ctypes.ptr (* rendering: need sync *)
+  ; camera : int Ctypes.ptr
   }
 
-let settings = { exit_request = ref false; vsync = ref 1 }
+let settings =
+  let alloc = Ctypes.allocate Ctypes.int in
+  { (* file *)
+    exitrequest = alloc 0
+  ; (* option *)
+    spacing = alloc 0
+  ; color = alloc 0
+  ; font = alloc 0
+  ; ui0 = alloc 1
+  ; ui1 = alloc 1
+  ; help = alloc 0
+  ; info = alloc 0
+  ; profiler = alloc 0
+  ; sensor = alloc 0
+  ; fullscreen = alloc 0
+  ; vsync = alloc 1
+  ; busywait = alloc 0
+  ; (* simulation *)
+    run = alloc 1
+  ; key = alloc 0
+  ; loadrequest = alloc 0
+  ; (* watch *)
+    field =
+      (let arr = Ctypes.CArray.make Ctypes.char 300 in
+       let s = "qpos" in
+       for i = 0 to String.(length s) - 1 do
+         Ctypes.CArray.set arr i s.[i]
+       done;
+       Ctypes.CArray.start arr)
+  ; index = alloc 0
+  ; (* physics: need sync *)
+    disable = Ctypes.allocate_n Ctypes.int ~count:(mjtDisableBit_to_int MjNDISABLE)
+  ; enable = Ctypes.allocate_n Ctypes.int ~count:(mjtEnableBit_to_int MjNENABLE)
+  ; (* rendering: need sync *)
+    camera = alloc 0
+  }
+
+
 let model_xml = Cmdargs.(get_string "-xml" |> force ~usage:"model XML")
-let model = Mujoco.load_xml ~name:"Example" model_xml
-let data = Mujoco.make_data model
-let cam = Mujoco.make_default_vcamera ()
-let opt = Mujoco.make_default_voption ()
-let scn = Mujoco.make_default_vscene ()
-let con = Mujoco.make_default_rcontext ()
+let model = mj_loadXML model_xml (mjVFS_null ()) "Example" 1000
+let data = mj_makeData model
+let cam = mjvCamera_allocate ()
+let opt = mjvOption_allocate ()
+let scn = mjvScene_allocate ()
+let con = mjrContext_allocate ()
+let uistate = mjuiState_allocate ()
+let ui0 = mjUI_allocate ()
+let ui1 = mjUI_allocate ()
 let maxgeom = 5000
 let syncmisalign = 0.1
 let refreshfactor = 0.7
+let window_pos = ref (0, 0)
+let window_size = ref (0, 0)
 
 (* help strings *)
 let help_content =
@@ -67,14 +138,130 @@ let help_title =
     ]
 
 
+let d x1 x2 x3 x4 =
+  mjuiDef_make
+    ~mjf_type:(mjtItem_to_int x1)
+    ~mjf_name:x2
+    ~mjf_state:x3
+    ~mjf_pdata:Ctypes.null
+    ~mjf_other:x4
+    ()
+
+
+let d2 x1 x2 x3 x4 x5 =
+  mjuiDef_make
+    ~mjf_type:(mjtItem_to_int x1)
+    ~mjf_name:x2
+    ~mjf_state:x3
+    ~mjf_pdata:(Ctypes.to_voidp x4)
+    ~mjf_other:x5
+    ()
+
+
+(* file section of UI *)
+let defFile =
+  let arr = Ctypes.CArray.make Typs.mjuiDef 7 in
+  let l =
+    [| d MjITEM_SECTION "File" 1 "AF"
+     ; d MjITEM_BUTTON "Save xml" 2 ""
+     ; d MjITEM_BUTTON "Save mjb" 2 ""
+     ; d MjITEM_BUTTON "Print model" 2 "CM"
+     ; d MjITEM_BUTTON "Print data" 2 "CD"
+     ; d MjITEM_BUTTON "Quit" 1 "CQ"
+     ; mjuiDef_make ~mjf_type:(mjtItem_to_int MjITEM_END) ()
+    |]
+  in
+  for i = 0 to 6 do
+    Ctypes.CArray.set arr i l.(i)
+  done;
+  Ctypes.CArray.start arr
+
+
+(* option section of UI *)
+let defOption =
+  [ d MjITEM_SECTION "Option" 1 "AO"
+  ; d2 MjITEM_SECTION "Color" 1 settings.spacing "Tight\nWide"
+  ; d2 MjITEM_SECTION "Color" 1 settings.color "Default\nOrange\nWhite\nBlack"
+  ; d2 MjITEM_SECTION "Font" 1 settings.font "50 %\n100 %\n200 %\n250 %\n300 %"
+  ; d2 MjITEM_CHECKINT "Left UI (Tab)" 1 settings.ui0 " #258"
+  ; d2 MjITEM_CHECKINT "Right UI" 1 settings.ui1 "S#258"
+  ; d2 MjITEM_CHECKINT "Help" 2 settings.help " #290"
+  ; d2 MjITEM_CHECKINT "Info" 2 settings.info " #291"
+  ; d2 MjITEM_CHECKINT "Profiler" 2 settings.profiler " #292"
+  ; d2 MjITEM_CHECKINT "Sensor" 2 settings.sensor " #293"
+  ; (if apple
+    then d2 MjITEM_CHECKINT "Fullscreen" 0 settings.fullscreen " #294"
+    else d2 MjITEM_CHECKINT "Fullscreen" 1 settings.fullscreen " #294")
+  ; d2 MjITEM_CHECKINT "Vertical Sync" 1 settings.vsync " #295"
+  ; d2 MjITEM_CHECKINT "Busy Wait" 1 settings.busywait " #296"
+  ; mjuiDef_make ~mjf_type:(mjtItem_to_int MjITEM_END) ()
+  ]
+  |> mjuiDef_to_carray
+  |> Ctypes.CArray.start
+
+
+(* simulation section of UI *)
+let defSimulation =
+  [ d MjITEM_SECTION "Simulation" 1 "AS"
+  ; d2 MjITEM_RADIO "" 2 settings.run "Pause\nRun"
+  ; d MjITEM_BUTTON "Reset" 2 " #259"
+  ; d MjITEM_BUTTON "Reload" 2 "CL"
+  ; d MjITEM_BUTTON "Align" 2 "CA"
+  ; d MjITEM_BUTTON "Copy pose" 2 "CC"
+  ; d2 MjITEM_SLIDERINT "Key" 3 settings.key "0 0"
+  ; mjuiDef_make
+      ~mjf_type:(mjtItem_to_int MjITEM_BUTTON)
+      ~mjf_name:"Reset to key"
+      ~mjf_state:3
+      ()
+  ; mjuiDef_make
+      ~mjf_type:(mjtItem_to_int MjITEM_BUTTON)
+      ~mjf_name:"Set key"
+      ~mjf_state:3
+      ()
+  ; mjuiDef_make ~mjf_type:(mjtItem_to_int MjITEM_END) ()
+  ]
+  |> mjuiDef_to_carray
+  |> Ctypes.CArray.start
+
+
+(* watch section of UI *)
+let defWatch =
+  [ d MjITEM_SECTION "Watch" 0 "AW"
+  ; d2 MjITEM_EDITTXT "Field" 2 settings.field "qpos"
+  ; d2 MjITEM_EDITINT "Index" 2 settings.index "1"
+  ; d MjITEM_STATIC "Value" 2 " "
+  ; mjuiDef_make ~mjf_type:(mjtItem_to_int MjITEM_END) ()
+  ]
+  |> mjuiDef_to_carray
+  |> Ctypes.CArray.start
+
+
 let render _ = ()
 let drop _ _ = ()
 let profilerinit () = ()
 let sensorinit () = ()
 
+(* determine enable/disable item state given category *)
+let uiPredicate =
+  let f category _ =
+    match category with
+    (* require model *)
+    | 2 -> if Ctypes.is_null model then 0 else 1
+    (* require model and nkey *)
+    | 3 ->
+      if (not Ctypes.(is_null model)) && Int.(mjModel_get_nkey !@model > 0) then 1 else 0
+    (* require model and paused *)
+    | 4 -> if (not Ctypes.(is_null model)) && Int.(!@(settings.run) > 0) then 1 else 0
+    | _ -> 1
+  in
+  let g = Ctypes.(int @-> ptr void @-> returning int) in
+  Ctypes.coerce Foreign.(funptr g) Typs.mjfItemEnable f
+
+
 let init () =
   (* print version, check compatibility *)
-  Stdio.printf "MuJoCo Pro version %i\n" Mujoco.version;
+  Stdio.printf "MuJoCo Pro version %i\n" 210;
   (* Initialize the GLFW library *)
   GLFW.init ();
   Caml.at_exit GLFW.terminate;
@@ -92,65 +279,71 @@ let init () =
       ()
   in
   (* save window position and size *)
-  let window_pos = GLFW.getWindowPos ~window in
-  let window_size = GLFW.getWindowSize ~window in
+  window_pos := GLFW.getWindowPos ~window;
+  window_size := GLFW.getWindowSize ~window;
   (* make context current, set v-sync *)
   GLFW.makeContextCurrent ~window:(Some window);
-  GLFW.swapInterval ~interval:!(settings.vsync);
+  GLFW.swapInterval ~interval:!@(settings.vsync);
   (* init abstract visualization *)
+  mjv_defaultCamera !&cam;
+  mjv_defaultOption !&opt;
   profilerinit ();
   sensorinit ();
-  Mujoco.(make_vscene ~model scn maxgeom);
+  mjv_defaultScene !&scn;
+  mjv_makeScene model !&scn maxgeom;
   (* select default font *)
   (*
     int fontscale = uiFontScale(window);
     settings.font = fontscale/50 - 1;
     *)
   (* make empty context *)
-  Mujoco.(make_rcontext model con MjFONTSCALE_150);
+  mjr_makeContext model !&con (mjtFontScale_to_int MjFONTSCALE_150);
   (* set GLFW callbacks *)
-  (* uiSetCallback(window, &uistate, uiEvent, uiLayout); *)
+  (* TODO: uiSetCallback(window, &uistate, uiEvent, uiLayout); *)
+  let w = Ctypes.to_voidp window in
+  Bindings.uiSetCallback (Ctypes.to_voidp window) !@uistate |> ignore;
   GLFW.setWindowRefreshCallback ~window ~f:(Some render) |> ignore;
-  GLFW.setDropCallback ~window ~f:(Some drop) |> ignore
+  GLFW.setDropCallback ~window ~f:(Some drop) |> ignore;
+  (* init state and uis *)
+  let reset z =
+    memset
+      Ctypes.(to_voidp (addr z))
+      0
+      Unsigned.Size_t.(of_int Ctypes.(sizeof (reference_type (addr z))))
+  in
+  reset uistate;
+  reset ui0;
+  reset ui1;
+  mjUI_set_spacing ui0 (mjui_themeSpacing !@(settings.spacing));
+  mjUI_set_color ui0 (mjui_themeColor !@(settings.color));
+  mjUI_set_predicate ui0 uiPredicate;
+  mjUI_set_rectid ui0 1;
+  mjUI_set_auxid ui0 0;
+  mjUI_set_spacing ui1 (mjui_themeSpacing !@(settings.spacing));
+  mjUI_set_color ui1 (mjui_themeColor !@(settings.color));
+  mjUI_set_predicate ui1 uiPredicate;
+  mjUI_set_rectid ui1 2;
+  mjUI_set_auxid ui1 1;
+  (* populate uis with standard sections *)
+  mjui_add !&ui0 defFile;
+  (* mjui_add !&ui0 defOption; *)
+  (* mjui_add !&ui0 defSimulation; *)
+  (* mjui_add !&ui0 defWatch; *)
+  (* TODO: uiModify(window, &ui0, &uistate, &con); *)
+  (* TODO: uiModify(window, &ui1, &uistate, &con); *)
+  window
 
-
-(* // init state and uis *)
-(* memset(&uistate, 0, sizeof(mjuiState));
-    memset(&ui0, 0, sizeof(mjUI));
-    memset(&ui1, 0, sizeof(mjUI));
-    ui0.spacing = mjui_themeSpacing(settings.spacing);
-    ui0.color = mjui_themeColor(settings.color);
-    ui0.predicate = uiPredicate;
-    ui0.rectid = 1;
-    ui0.auxid = 0;
-    ui1.spacing = mjui_themeSpacing(settings.spacing);
-    ui1.color = mjui_themeColor(settings.color);
-    ui1.predicate = uiPredicate;
-    ui1.rectid = 2;
-    ui1.auxid = 1;
- *)
-
-(*
-    (* populate uis with standard sections *)
-    mjui_add(&ui0, defFile);
-    mjui_add(&ui0, defOption);
-    mjui_add(&ui0, defSimulation);
-    mjui_add(&ui0, defWatch);
-    uiModify(window, &ui0, &uistate, &con);
-    uiModify(window, &ui1, &uistate, &con);
-    *)
 
 let simulate () = ()
 let prepare () = ()
 
 let () =
-  init ();
-  (* Create a windowed mode window and its OpenGL context *)
-  let window = GLFW.createWindow ~width:1200 ~height:900 ~title:"Demo" () in
+  let _window = init () in
+  (*
   (* start simulation thread *)
   let simthread = Thread.create simulate () in
   (* event loop *)
-  while not (GLFW.windowShouldClose ~window && not !(settings.exit_request)) do
+  while not (GLFW.windowShouldClose ~window && not Int.(!@(settings.exitrequest) = 1)) do
     (* start exclusive access (block simulation thread) *)
     let mtx = Mutex.create () in
     Mutex.lock mtx;
@@ -165,16 +358,15 @@ let () =
     (* prepare to render *)
     prepare ();
     (* end exclusive access (allow simulation thread to run) *)
-    Mutex.unlock mtx;
+    Mutex.unlock mtx
     (* render while simulation is running *)
-    render window
+    (* render window *)
   done;
   (* // stop simulation thread *)
   (* settings.exitrequest = 1; *)
   Thread.join simthread;
-  Mujoco.delete_data data;
-  Mujoco.delete_model model;
-  Mujoco.free_vscene scn;
-  Mujoco.free_rcontext con
-
   *)
+  mj_deleteData data;
+  mj_deleteModel model;
+  mjv_freeScene !&scn;
+  mjr_freeContext !&con
