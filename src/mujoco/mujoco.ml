@@ -1,234 +1,286 @@
-(*
+open Bigarray
 open Wrapper
 
+type tensor = (float, float64_elt, c_layout) Genarray.t
+type camera = mjvCamera
+type option = mjvOption
+type scene = mjvScene
+type context = mjrContext
 
-let version = 210
+module Model = struct
+  type t = { ptr : mjModel ptr }
 
-type 'a cptr = 'a Ctypes.structure Ctypes_static.ptr
-type 'a cstruct = 'a Ctypes.structure
-type model = Typs.mjModel cptr
-type data = Typs.mjData cptr
-type vcamera = Typs.mjvCamera cstruct
-type vscene = Typs.mjvScene cstruct
-type rrect = Typs.mjrRect cstruct
-type option = Typs.mjOption cstruct
-type voption = Typs.mjvOption cstruct
-type rcontext = Typs.mjrContext cstruct
-type vperturb = Typs.mjvPerturb cptr
-
-type mouse = Typs.mjtMouse =
-  | MjMOUSE_NONE
-  | MjMOUSE_ROTATE_V
-  | MjMOUSE_ROTATE_H
-  | MjMOUSE_MOVE_V
-  | MjMOUSE_MOVE_H
-  | MjMOUSE_ZOOM
-  | MjMOUSE_SELECT
-
-let mouse_to_int mouse =
-  Ctypes.(coerce Typs.mjtMouse uint32_t mouse) |> Unsigned.UInt32.to_int
+  let load_xml ~name xml =
+    let m = mj_loadXML xml (mjVFS_null ()) name 1000 in
+    Gc.finalise mj_deleteModel m;
+    { ptr = m }
 
 
-type fontscale = Typs.mjtFontScale =
-  | MjFONTSCALE_50
-  | MjFONTSCALE_100
-  | MjFONTSCALE_150
-  | MjFONTSCALE_200
-  | MjFONTSCALE_250
-  | MjFONTSCALE_300
+  let nv m = mjModel_get_nv !@(m.ptr)
+  let nu m = mjModel_get_nu !@(m.ptr)
+end
 
-let fontscale_to_int fontscale =
-  Ctypes.(coerce Typs.mjtFontScale uint32_t fontscale) |> Unsigned.UInt32.to_int
+module Data = struct
+  type t =
+    { ptr : mjData ptr
+    ; qpos : tensor
+    ; qvel : tensor
+    ; ctrl : tensor
+    }
 
-
-type catbit = Typs.mjtCatBit =
-  | MjCAT_STATIC
-  | MjCAT_DYNAMIC
-  | MjCAT_DECOR
-  | MjCAT_ALL
-
-let catbit_to_int catbit =
-  Ctypes.(coerce Typs.mjtCatBit uint32_t catbit) |> Unsigned.UInt32.to_int
-
-
-type tstage = Typs.mjtStage =
-  | MjSTAGE_NONE
-  | MjSTAGE_POS
-  | MjSTAGE_VEL
-  | MjSTAGE_ACC
-
-let tstage_to_int stage =
-  Ctypes.(coerce Typs.mjtStage uint32_t stage) |> Unsigned.UInt32.to_int
+  let make m =
+    let ptr = mj_makeData Model.(m.ptr) in
+    Gc.finalise mj_deleteData ptr;
+    let nq = mjModel_get_nq !@(m.ptr) in
+    let qpos_ptr = mjData_get_qpos !@ptr in
+    let qpos = Ctypes.(bigarray_of_ptr genarray) [| nq |] float64 qpos_ptr in
+    let qvel_ptr = mjData_get_qvel !@ptr in
+    let qvel = Ctypes.(bigarray_of_ptr genarray) [| nq |] float64 qvel_ptr in
+    let nu = Model.nu m in
+    let ctrl_ptr = mjData_get_ctrl !@ptr in
+    let ctrl = Ctypes.(bigarray_of_ptr genarray) [| nu |] float64 ctrl_ptr in
+    { ptr; qpos; qvel; ctrl }
 
 
-type tsensor = Typs.mjtSensor =
-  | MjSENS_TOUCH
-  | MjSENS_ACCELEROMETER
-  | MjSENS_VELOCIMETER
-  | MjSENS_GYRO
-  | MjSENS_FORCE
-  | MjSENS_TORQUE
-  | MjSENS_MAGNETOMETER
-  | MjSENS_RANGEFINDER
-  | MjSENS_JOINTPOS
-  | MjSENS_JOINTVEL
-  | MjSENS_TENDONPOS
-  | MjSENS_TENDONVEL
-  | MjSENS_ACTUATORPOS
-  | MjSENS_ACTUATORVEL
-  | MjSENS_ACTUATORFRC
-  | MjSENS_BALLQUAT
-  | MjSENS_BALLANGVEL
-  | MjSENS_JOINTLIMITPOS
-  | MjSENS_JOINTLIMITVEL
-  | MjSENS_JOINTLIMITFRC
-  | MjSENS_TENDONLIMITPOS
-  | MjSENS_TENDONLIMITVEL
-  | MjSENS_TENDONLIMITFRC
-  | MjSENS_FRAMEPOS
-  | MjSENS_FRAMEQUAT
-  | MjSENS_FRAMEXAXIS
-  | MjSENS_FRAMEYAXIS
-  | MjSENS_FRAMEZAXIS
-  | MjSENS_FRAMELINVEL
-  | MjSENS_FRAMEANGVEL
-  | MjSENS_FRAMELINACC
-  | MjSENS_FRAMEANGACC
-  | MjSENS_SUBTREECOM
-  | MjSENS_SUBTREELINVEL
-  | MjSENS_SUBTREEANGMOM
-  | MjSENS_USER
+  let reset m d = mj_resetData Model.(m.ptr) d.ptr
+  let time d = mjData_get_time !@(d.ptr)
+end
 
-let tsensor_to_int sensor =
-  Ctypes.(coerce Typs.mjtSensor uint32_t sensor) |> Unsigned.UInt32.to_int
+let step m d = mj_step Model.(m.ptr) Data.(d.ptr)
+let step1 m d = mj_step1 Model.(m.ptr) Data.(d.ptr)
+let step2 m d = mj_step2 Model.(m.ptr) Data.(d.ptr)
+let forward m d = mj_forward Model.(m.ptr) Data.(d.ptr)
 
+module Viewport = struct
+  type t = mjrRect
 
-let load_xml ~name xml =
-  Bindings.mj_loadXML xml Ctypes.(from_voidp Typs.mjVFS null) name 1000
+  let make ~left ~width ~bottom ~height =
+    mjrRect_make ~mjf_left:left ~mjf_width:width ~mjf_bottom:bottom ~mjf_height:height ()
+end
 
-
-let make_null_model () = Ctypes.(addr (make Typs.mjModel))
-let get_model_nv model = Ctypes.(getf !@model Typs.mjModel_nv)
-let get_model_option model = Ctypes.(getf !@model Typs.mjModel_opt)
-let delete_model = Bindings.mj_deleteModel
-let forward = Bindings.mj_forward
-
-let forward_skip model data stage sensor =
-  Bindings.mj_forwardSkip model data (tstage_to_int stage) (tsensor_to_int sensor)
-
-
-let inverse = Bindings.mj_inverse
-let step = Bindings.mj_step
-let step1 = Bindings.mj_step1
-let step2 = Bindings.mj_step2
-let make_data = Bindings.mj_makeData
-let get_data_nefc data = Ctypes.(getf !@data Typs.mjData_nefc)
-let get_data_qacc data = Ctypes.(getf !@data Typs.mjData_qacc)
-let get_data_qfrc_inverse data = Ctypes.(getf !@data Typs.mjData_qfrc_inverse)
-let reset_data = Bindings.mj_resetData
-let delete_data = Bindings.mj_deleteData
-let get_data_time data = Ctypes.(getf !@data Typs.mjData_time)
-let get_option_iterations option = Ctypes.(getf option Typs.mjOption_iterations)
-let get_option_tolerance option = Ctypes.(getf option Typs.mjOption_tolerance)
-
-let set_option_iterations option iterations =
-  Ctypes.(setf option Typs.mjOption_iterations iterations)
-
-
-let set_option_tolerance option tolerance =
-  Ctypes.(setf option Typs.mjOption_tolerance tolerance)
-
-
-let make_null_vcamera () = Ctypes.make Typs.mjvCamera
-let set_default_vcamera cam = Bindings.mjv_defaultCamera (Ctypes.addr cam)
-
-let make_default_vcamera () =
-  let cam = make_null_vcamera () in
-  set_default_vcamera cam;
+let default_camera () =
+  let cam = mjvCamera_allocate () in
+  mjv_defaultCamera !&cam;
   cam
 
 
-let make_null_voption () = Ctypes.make Typs.mjvOption
-let set_default_voption opt = Bindings.mjv_defaultOption (Ctypes.addr opt)
-
-let make_default_voption () =
-  let opt = make_null_voption () in
-  set_default_voption opt;
+let default_option () =
+  let opt = mjvOption_allocate () in
+  mjv_defaultOption !&opt;
   opt
 
 
-let make_null_vscene () = Ctypes.make Typs.mjvScene
-let set_default_vscene scn = Bindings.mjv_defaultScene (Ctypes.addr scn)
-
-let make_default_vscene () =
-  let scn = Ctypes.make Typs.mjvScene in
-  set_default_vscene scn;
+let default_scene () =
+  let scn = mjvScene_allocate () in
+  Gc.finalise mjv_freeScene !&scn;
+  mjv_defaultScene !&scn;
   scn
 
 
-let make_null_rcontext () = Ctypes.make Typs.mjrContext
-let set_default_rcontext con = Bindings.mjr_defaultContext (Ctypes.addr con)
-
-let make_default_rcontext () =
-  let con = make_null_rcontext () in
-  set_default_rcontext con;
+let default_context () =
+  let con = mjrContext_allocate () in
+  Gc.finalise mjr_freeContext !&con;
+  mjr_defaultContext !&con;
   con
 
 
-let move_vcamera model action dx dy scn cam =
-  Bindings.mjv_moveCamera
-    model
-    (mouse_to_int action)
-    dx
-    dy
-    Ctypes.(addr scn)
-    Ctypes.(addr cam)
-
-
-let make_rrect ~left ~width ~bottom ~height =
-  let rect = Ctypes.make Typs.mjrRect in
-  Ctypes.setf rect Typs.mjrRect_left left;
-  Ctypes.setf rect Typs.mjrRect_width width;
-  Ctypes.setf rect Typs.mjrRect_bottom bottom;
-  Ctypes.setf rect Typs.mjrRect_height height;
-  rect
-
-
-let render viewport scn con =
-  Bindings.mjr_render viewport Ctypes.(addr scn) Ctypes.(addr con)
-
-
-let update_vscene ?perturb model data opt cam catbit scn =
-  let perturb =
-    match perturb with
-    | None         -> Ctypes.(from_voidp Typs.mjvPerturb null)
-    | Some perturb -> perturb
+let default_callbacks ~cam ~scn ~model ~data =
+  let button_left = ref false in
+  let button_middle = ref false in
+  let button_right = ref false in
+  let lastx = ref 0. in
+  let lasty = ref 0. in
+  (* key callback *)
+  let key_callback _ k _ act _ =
+    if k = GLFW.Backspace && act = GLFW.Press
+    then (
+      Data.reset model data;
+      forward model data)
   in
-  Bindings.mjv_updateScene
+  (* mouse button callback *)
+  let mouse_button window _ _ _ =
+    (button_left := GLFW.(getMouseButton ~window ~button:GLFW.mouse_button_left));
+    (button_middle := GLFW.(getMouseButton ~window ~button:GLFW.mouse_button_middle));
+    (button_right := GLFW.(getMouseButton ~window ~button:GLFW.mouse_button_right));
+    let x, y = GLFW.getCursorPos ~window in
+    lastx := x;
+    lasty := y
+  in
+  (* mouse move callback *)
+  let mouse_move window xpos ypos =
+    if not ((not !button_left) && (not !button_middle) && not !button_right)
+    then (
+      let dx = xpos -. !lastx in
+      let dy = ypos -. !lasty in
+      lastx := xpos;
+      lasty := ypos;
+      let width, height = GLFW.getWindowSize ~window in
+      let mod_shift =
+        GLFW.(getKey ~window ~key:GLFW.LeftShift)
+        || GLFW.(getKey ~window ~key:GLFW.RightShift)
+      in
+      let action =
+        if !button_right
+        then if mod_shift then MjMOUSE_MOVE_H else MjMOUSE_MOVE_V
+        else if !button_left
+        then if mod_shift then MjMOUSE_ROTATE_H else MjMOUSE_ROTATE_V
+        else MjMOUSE_ZOOM
+      in
+      mjv_moveCamera
+        Model.(model.ptr)
+        (mjtMouse_to_int action)
+        (dx /. Int.to_float width)
+        (dy /. Int.to_float height)
+        !&scn
+        !&cam)
+  in
+  (* scroll callback *)
+  let scroll_callback _ _ yoffset =
+    mjv_moveCamera
+      Model.(model.ptr)
+      (mjtMouse_to_int MjMOUSE_ZOOM)
+      0.
+      (-0.05 *. yoffset)
+      !&scn
+      !&cam
+  in
+  key_callback, mouse_button, mouse_move, scroll_callback
+
+
+let visualise ~loop model data =
+  let width = 1200 in
+  let height = 900 in
+  let cam = default_camera () in
+  let opt = default_option () in
+  let scn = default_scene () in
+  let con = default_context () in
+  let open Wrapper in
+  let key_callback, mouse_button, mouse_move, scroll_callback =
+    default_callbacks ~cam ~scn ~model ~data
+  in
+  (* Initialize the GLFW library *)
+  GLFW.init ();
+  at_exit GLFW.terminate;
+  (* Create a windowed mode window and its OpenGL context *)
+  let window = GLFW.createWindow ~width ~height ~title:"Demo" () in
+  (* Make the window's context current *)
+  GLFW.makeContextCurrent ~window:(Some window);
+  (* Make scene and conext *)
+  mjv_makeScene Model.(model.ptr) !&scn 2000;
+  mjr_makeContext Model.(model.ptr) !&con 150;
+  (* Set various callbacks *)
+  GLFW.setKeyCallback ~window ~f:(Some key_callback) |> ignore;
+  GLFW.setCursorPosCallback ~window ~f:(Some mouse_move) |> ignore;
+  GLFW.setMouseButtonCallback ~window ~f:(Some mouse_button) |> ignore;
+  GLFW.setScrollCallback ~window ~f:(Some scroll_callback) |> ignore;
+  (* Loop until the user closes the window *)
+  while not (GLFW.windowShouldClose ~window) do
+    let t0 = Data.time data in
+    (* Run the simulation loop *)
+    loop ~t0 model data ();
+    let width, height = GLFW.getFramebufferSize ~window in
+    let viewport = Viewport.make ~left:0 ~width ~bottom:0 ~height in
+    (* Update Mujoco Scene *)
+    mjv_updateScene
+      model.ptr
+      data.ptr
+      !&opt
+      (mjvPerturb_null ())
+      !&cam
+      (mjtCatBit_to_int MjCAT_ALL)
+      !&scn;
+    (* Render on window  *)
+    mjr_render viewport !&scn !&con;
+    (* Swap front and back buffers *)
+    GLFW.swapBuffers ~window;
+    (* Poll for and process events *)
+    GLFW.pollEvents ()
+  done
+
+
+let record
+    ?(width = 1200)
+    ?(height = 900)
+    ?(camera_scale = 1.5)
+    ~duration
+    ~fps
+    ~advance
     model
     data
-    Ctypes.(addr opt)
-    perturb
-    (Ctypes.addr cam)
-    (catbit_to_int catbit)
-    Ctypes.(addr scn)
-
-
-let make_vscene ?model scene =
-  let model =
-    match model with
-    | Some m -> m
-    | None   -> make_null_model ()
+    file
+  =
+  let cam = default_camera () in
+  let opt = default_option () in
+  let scn = default_scene () in
+  let con = default_context () in
+  (* Initialize the GLFW library *)
+  GLFW.init ();
+  at_exit GLFW.terminate;
+  (* Create a windowed mode window and its OpenGL context *)
+  GLFW.windowHint ~hint:GLFW.Visible ~value:false;
+  GLFW.windowHint ~hint:GLFW.DoubleBuffer ~value:false;
+  let window = GLFW.createWindow ~width ~height ~title:"Invisible window" () in
+  (* Make the window's context current *)
+  GLFW.makeContextCurrent ~window:(Some window);
+  (* Make scene and conext *)
+  mjv_makeScene Model.(model.ptr) !&scn 2000;
+  mjr_makeContext Model.(model.ptr) !&con 150;
+  (* center and scale view *)
+  let lookat = mjvCamera_get_lookat cam |> Ctypes.(bigarray_of_ptr array1) 3 float64 in
+  let stat = !@Ctypes.(model.ptr |-> Typs.mjModel_stat) in
+  let center =
+    !@Ctypes.(model.ptr |-> Typs.mjModel_stat |-> Typs.mjStatistic_center)
+    |> Ctypes.(bigarray_of_ptr array1) 3 float64
   in
-  Bindings.mjv_makeScene model Ctypes.(addr scene)
-
-
-let free_vscene scene = Bindings.mjv_freeScene Ctypes.(addr scene)
-
-let make_rcontext model context fontscale =
-  Bindings.mjr_makeContext model Ctypes.(addr context) (fontscale_to_int fontscale)
-
-
-let free_rcontext rcontext = Bindings.mjr_freeContext Ctypes.(addr rcontext)
-
-*)
+  Bigarray.Array1.(blit center lookat);
+  mjvCamera_set_distance cam (camera_scale *. mjStatistic_get_extent stat);
+  let viewport = mjr_maxViewport !&con in
+  let width = mjrRect_get_width viewport in
+  let height = mjrRect_get_height viewport in
+  let rgb_arr = Ctypes.(CArray.make int8_t (3 * width * height)) in
+  let rgb = Ctypes.CArray.start rgb_arr in
+  let depth = Ctypes.allocate_n Ctypes.float ~count:(width * height) in
+  mjr_setBuffer (mjtFramebuffer_to_int MjFB_OFFSCREEN) !&con;
+  let rec aux ch frametime framecount =
+    (* Loop until the user closes the window *)
+    if Data.time data < duration
+    then
+      if Data.time data -. frametime > 1. /. fps || frametime = 0.
+      then (
+        (* Update Mujoco Scene *)
+        mjv_updateScene
+          model.ptr
+          data.ptr
+          !&opt
+          (mjvPerturb_null ())
+          !&cam
+          (mjtCatBit_to_int MjCAT_ALL)
+          !&scn;
+        (* Render on window  *)
+        mjr_render viewport !&scn !&con;
+        (* overlay time steps *)
+        let overlay = Printf.sprintf "Time = %.3f" Data.(time data) in
+        mjr_overlay
+          (mjtFont_to_int MjFONT_NORMAL)
+          (mjtGridPos_to_int MjGRID_TOPLEFT)
+          viewport
+          overlay
+          ""
+          !&con;
+        (* read rgb and depth buffers *)
+        mjr_readPixels Ctypes.(coerce (ptr int8_t) (ptr uchar) rgb) depth viewport !&con;
+        Ctypes.CArray.iter (fun x -> Stdio.Out_channel.output_byte ch x) rgb_arr;
+        (* save rgb image *)
+        let frametime = Data.time data in
+        let framecount = succ framecount in
+        if mjr_getError () = 1 then Stdio.printf "x%!" else Stdio.printf ".%!";
+        advance model data ();
+        aux ch frametime framecount)
+      else (
+        (* Advance simulation *)
+        advance model data ();
+        aux ch frametime framecount)
+    else Stdio.print_endline "\nSIMULATION FINISHED"
+  in
+  Stdio.print_endline "BEGIN SIMULATION";
+  Stdio.Out_channel.with_file file ~f:(fun ch -> aux ch 0. 0)
