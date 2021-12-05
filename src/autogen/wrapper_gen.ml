@@ -29,7 +29,7 @@ let to_ocaml_type =
     | "(ptr mjtNum)"     -> "float ptr"
     | "(ptr mjtByte)"    -> "Unsigned.UChar.t ptr"
     | "(ptr float)"      -> "float ptr"
-    | "(ptr char)"      -> "char ptr"
+    | "(ptr char)"       -> "char ptr"
     | "(ptr double)"     -> "float ptr"
     | "(ptr void)"       -> "unit ptr"
     | "(ptr (ptr void))" -> "unit ptr ptr"

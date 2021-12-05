@@ -61,14 +61,14 @@ let to_ctypes x =
 
 
 let convert_typ s =
-    match String.split ~on:'*' s with
-    | []       -> failwith "Split string should not reach here"
-    | [ hd ]   -> to_ctypes hd
-    | hd :: tl ->
-      let n = List.length tl in
-      let left = List.init n ~f:(fun _ -> "(ptr ") |> String.concat ~sep:"" in
-      let right = List.init n ~f:(fun _ -> ")") |> String.concat ~sep:"" in
-      Printf.sprintf "%s%s%s" left (to_ctypes hd) right
+  match String.split ~on:'*' s with
+  | []       -> failwith "Split string should not reach here"
+  | [ hd ]   -> to_ctypes hd
+  | hd :: tl ->
+    let n = List.length tl in
+    let left = List.init n ~f:(fun _ -> "(ptr ") |> String.concat ~sep:"" in
+    let right = List.init n ~f:(fun _ -> ")") |> String.concat ~sep:"" in
+    Printf.sprintf "%s%s%s" left (to_ctypes hd) right
 
 
 let convert_arg s =
