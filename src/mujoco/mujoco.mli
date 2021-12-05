@@ -77,8 +77,8 @@ val visualise
   -> unit
 
 (** [record ?(width=1200) ?(height=900) ?(camera_scale=3.) ~duration ~fps ~advance m d file] 
-    saves [width]x[height] video of simulation with [advance] function to [file] with 
-    [camera_scale], [duration], [fps]. *)
+    simulate using the [advance] function and save the simulation as a video to [file] with 
+    dimensions ([width],[height]), [camera_scale], [duration], and frame per second [fps]. *)
 val record
   :  ?width:int
   -> ?height:int
