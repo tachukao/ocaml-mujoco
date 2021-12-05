@@ -124,7 +124,7 @@ let p_types ch chi =
                     p ch "  Ctypes.(setf x Typs.%s_%s y)" bname field;
                     p chi "val %s_set_%s : %s -> %s -> unit" bname field bname typ);
                 (* make struct *)
-                let mjf x = "mjf_" ^ x in
+                let f_ x = "f_" ^ x in
                 p ch "\n";
                 p chi "\n";
                 p ch "(** make %s struct *)" bname;
@@ -134,18 +134,18 @@ let p_types ch chi =
                   "val %s_make : %s -> unit -> %s"
                   bname
                   (List.map fields ~f:(fun (typ, field, _) ->
-                       "?" ^ mjf field ^ ":" ^ to_ocaml_type typ)
+                       "?" ^ f_ field ^ ":" ^ to_ocaml_type typ)
                   |> String.concat ~sep:" -> ")
                   bname;
                 p
                   ch
                   "let %s_make %s () ="
                   bname
-                  (List.map fields ~f:(fun (_, field, _) -> "?" ^ mjf field)
+                  (List.map fields ~f:(fun (_, field, _) -> "?" ^ f_ field)
                   |> String.concat ~sep:" ");
                 p ch "  let x = %s_allocate () in" bname;
                 List.iter fields ~f:(fun (_, field, _) ->
-                    p ch "  Option.iter (%s_set_%s x) %s;" bname field (mjf field));
+                    p ch "  Option.iter (%s_set_%s x) %s;" bname field (f_ field));
                 p ch "  x";
                 (* to carray *)
                 p ch "\n";

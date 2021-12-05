@@ -55,7 +55,7 @@ module Viewport = struct
   type t = mjrRect
 
   let make ~left ~width ~bottom ~height =
-    mjrRect_make ~mjf_left:left ~mjf_width:width ~mjf_bottom:bottom ~mjf_height:height ()
+    mjrRect_make ~f_left:left ~f_width:width ~f_bottom:bottom ~f_height:height ()
 end
 
 let default_camera () =
@@ -289,8 +289,8 @@ let record
   let command =
     Printf.(
       sprintf
-        "ffmpeg -f rawvideo -pixel_format rgb24 -video_size %ix%i -framerate %i -i  \
-         %s -vf \"vflip\" %s")
+        "ffmpeg -f rawvideo -pixel_format rgb24 -video_size %ix%i -framerate %i -i  %s \
+         -vf \"vflip\" %s")
       width
       height
       fps

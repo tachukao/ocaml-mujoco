@@ -95,8 +95,8 @@ let () =
     while mjData_get_time Ctypes.(!@data) -. simstart < 1.0 /. 60.0 do
       mj_step model data
     done;
-    let mjf_width, mjf_height = GLFW.getFramebufferSize ~window in
-    let viewport = mjrRect_make ~mjf_left:0 ~mjf_width ~mjf_bottom:0 ~mjf_height () in
+    let f_width, f_height = GLFW.getFramebufferSize ~window in
+    let viewport = mjrRect_make ~f_left:0 ~f_width ~f_bottom:0 ~f_height () in
     (* Update Mujoco Scene *)
     mjv_updateScene
       model

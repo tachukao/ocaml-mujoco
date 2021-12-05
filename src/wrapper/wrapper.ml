@@ -888,29 +888,29 @@ let mjLROpt_set_tolrange x y = Ctypes.(setf x Typs.mjLROpt_tolrange y)
 
 (** make mjLROpt struct *)
 let mjLROpt_make
-    ?mjf_mode
-    ?mjf_useexisting
-    ?mjf_uselimit
-    ?mjf_accel
-    ?mjf_maxforce
-    ?mjf_timeconst
-    ?mjf_timestep
-    ?mjf_inttotal
-    ?mjf_inteval
-    ?mjf_tolrange
+    ?f_mode
+    ?f_useexisting
+    ?f_uselimit
+    ?f_accel
+    ?f_maxforce
+    ?f_timeconst
+    ?f_timestep
+    ?f_inttotal
+    ?f_inteval
+    ?f_tolrange
     ()
   =
   let x = mjLROpt_allocate () in
-  Option.iter (mjLROpt_set_mode x) mjf_mode;
-  Option.iter (mjLROpt_set_useexisting x) mjf_useexisting;
-  Option.iter (mjLROpt_set_uselimit x) mjf_uselimit;
-  Option.iter (mjLROpt_set_accel x) mjf_accel;
-  Option.iter (mjLROpt_set_maxforce x) mjf_maxforce;
-  Option.iter (mjLROpt_set_timeconst x) mjf_timeconst;
-  Option.iter (mjLROpt_set_timestep x) mjf_timestep;
-  Option.iter (mjLROpt_set_inttotal x) mjf_inttotal;
-  Option.iter (mjLROpt_set_inteval x) mjf_inteval;
-  Option.iter (mjLROpt_set_tolrange x) mjf_tolrange;
+  Option.iter (mjLROpt_set_mode x) f_mode;
+  Option.iter (mjLROpt_set_useexisting x) f_useexisting;
+  Option.iter (mjLROpt_set_uselimit x) f_uselimit;
+  Option.iter (mjLROpt_set_accel x) f_accel;
+  Option.iter (mjLROpt_set_maxforce x) f_maxforce;
+  Option.iter (mjLROpt_set_timeconst x) f_timeconst;
+  Option.iter (mjLROpt_set_timestep x) f_timestep;
+  Option.iter (mjLROpt_set_inttotal x) f_inttotal;
+  Option.iter (mjLROpt_set_inteval x) f_inteval;
+  Option.iter (mjLROpt_set_tolrange x) f_tolrange;
   x
 
 
@@ -942,11 +942,11 @@ let mjVFS_get_filedata x = Ctypes.(getf x Typs.mjVFS_filedata)
 let mjVFS_set_filedata x y = Ctypes.(setf x Typs.mjVFS_filedata y)
 
 (** make mjVFS struct *)
-let mjVFS_make ?mjf_nfile ?mjf_filesize ?mjf_filedata () =
+let mjVFS_make ?f_nfile ?f_filesize ?f_filedata () =
   let x = mjVFS_allocate () in
-  Option.iter (mjVFS_set_nfile x) mjf_nfile;
-  Option.iter (mjVFS_set_filesize x) mjf_filesize;
-  Option.iter (mjVFS_set_filedata x) mjf_filedata;
+  Option.iter (mjVFS_set_nfile x) f_nfile;
+  Option.iter (mjVFS_set_filesize x) f_filesize;
+  Option.iter (mjVFS_set_filedata x) f_filedata;
   x
 
 
@@ -1105,57 +1105,57 @@ let mjOption_set_enableflags x y = Ctypes.(setf x Typs.mjOption_enableflags y)
 
 (** make mjOption struct *)
 let mjOption_make
-    ?mjf_timestep
-    ?mjf_apirate
-    ?mjf_impratio
-    ?mjf_tolerance
-    ?mjf_noslip_tolerance
-    ?mjf_mpr_tolerance
-    ?mjf_gravity
-    ?mjf_wind
-    ?mjf_magnetic
-    ?mjf_density
-    ?mjf_viscosity
-    ?mjf_o_margin
-    ?mjf_o_solref
-    ?mjf_o_solimp
-    ?mjf_integrator
-    ?mjf_collision
-    ?mjf_cone
-    ?mjf_jacobian
-    ?mjf_solver
-    ?mjf_iterations
-    ?mjf_noslip_iterations
-    ?mjf_mpr_iterations
-    ?mjf_disableflags
-    ?mjf_enableflags
+    ?f_timestep
+    ?f_apirate
+    ?f_impratio
+    ?f_tolerance
+    ?f_noslip_tolerance
+    ?f_mpr_tolerance
+    ?f_gravity
+    ?f_wind
+    ?f_magnetic
+    ?f_density
+    ?f_viscosity
+    ?f_o_margin
+    ?f_o_solref
+    ?f_o_solimp
+    ?f_integrator
+    ?f_collision
+    ?f_cone
+    ?f_jacobian
+    ?f_solver
+    ?f_iterations
+    ?f_noslip_iterations
+    ?f_mpr_iterations
+    ?f_disableflags
+    ?f_enableflags
     ()
   =
   let x = mjOption_allocate () in
-  Option.iter (mjOption_set_timestep x) mjf_timestep;
-  Option.iter (mjOption_set_apirate x) mjf_apirate;
-  Option.iter (mjOption_set_impratio x) mjf_impratio;
-  Option.iter (mjOption_set_tolerance x) mjf_tolerance;
-  Option.iter (mjOption_set_noslip_tolerance x) mjf_noslip_tolerance;
-  Option.iter (mjOption_set_mpr_tolerance x) mjf_mpr_tolerance;
-  Option.iter (mjOption_set_gravity x) mjf_gravity;
-  Option.iter (mjOption_set_wind x) mjf_wind;
-  Option.iter (mjOption_set_magnetic x) mjf_magnetic;
-  Option.iter (mjOption_set_density x) mjf_density;
-  Option.iter (mjOption_set_viscosity x) mjf_viscosity;
-  Option.iter (mjOption_set_o_margin x) mjf_o_margin;
-  Option.iter (mjOption_set_o_solref x) mjf_o_solref;
-  Option.iter (mjOption_set_o_solimp x) mjf_o_solimp;
-  Option.iter (mjOption_set_integrator x) mjf_integrator;
-  Option.iter (mjOption_set_collision x) mjf_collision;
-  Option.iter (mjOption_set_cone x) mjf_cone;
-  Option.iter (mjOption_set_jacobian x) mjf_jacobian;
-  Option.iter (mjOption_set_solver x) mjf_solver;
-  Option.iter (mjOption_set_iterations x) mjf_iterations;
-  Option.iter (mjOption_set_noslip_iterations x) mjf_noslip_iterations;
-  Option.iter (mjOption_set_mpr_iterations x) mjf_mpr_iterations;
-  Option.iter (mjOption_set_disableflags x) mjf_disableflags;
-  Option.iter (mjOption_set_enableflags x) mjf_enableflags;
+  Option.iter (mjOption_set_timestep x) f_timestep;
+  Option.iter (mjOption_set_apirate x) f_apirate;
+  Option.iter (mjOption_set_impratio x) f_impratio;
+  Option.iter (mjOption_set_tolerance x) f_tolerance;
+  Option.iter (mjOption_set_noslip_tolerance x) f_noslip_tolerance;
+  Option.iter (mjOption_set_mpr_tolerance x) f_mpr_tolerance;
+  Option.iter (mjOption_set_gravity x) f_gravity;
+  Option.iter (mjOption_set_wind x) f_wind;
+  Option.iter (mjOption_set_magnetic x) f_magnetic;
+  Option.iter (mjOption_set_density x) f_density;
+  Option.iter (mjOption_set_viscosity x) f_viscosity;
+  Option.iter (mjOption_set_o_margin x) f_o_margin;
+  Option.iter (mjOption_set_o_solref x) f_o_solref;
+  Option.iter (mjOption_set_o_solimp x) f_o_solimp;
+  Option.iter (mjOption_set_integrator x) f_integrator;
+  Option.iter (mjOption_set_collision x) f_collision;
+  Option.iter (mjOption_set_cone x) f_cone;
+  Option.iter (mjOption_set_jacobian x) f_jacobian;
+  Option.iter (mjOption_set_solver x) f_solver;
+  Option.iter (mjOption_set_iterations x) f_iterations;
+  Option.iter (mjOption_set_noslip_iterations x) f_noslip_iterations;
+  Option.iter (mjOption_set_mpr_iterations x) f_mpr_iterations;
+  Option.iter (mjOption_set_disableflags x) f_disableflags;
+  Option.iter (mjOption_set_enableflags x) f_enableflags;
   x
 
 
@@ -1199,20 +1199,13 @@ let mjStatistic_get_center x = Ctypes.(getf x Typs.mjStatistic_center)
 let mjStatistic_set_center x y = Ctypes.(setf x Typs.mjStatistic_center y)
 
 (** make mjStatistic struct *)
-let mjStatistic_make
-    ?mjf_meaninertia
-    ?mjf_meanmass
-    ?mjf_meansize
-    ?mjf_extent
-    ?mjf_center
-    ()
-  =
+let mjStatistic_make ?f_meaninertia ?f_meanmass ?f_meansize ?f_extent ?f_center () =
   let x = mjStatistic_allocate () in
-  Option.iter (mjStatistic_set_meaninertia x) mjf_meaninertia;
-  Option.iter (mjStatistic_set_meanmass x) mjf_meanmass;
-  Option.iter (mjStatistic_set_meansize x) mjf_meansize;
-  Option.iter (mjStatistic_set_extent x) mjf_extent;
-  Option.iter (mjStatistic_set_center x) mjf_center;
+  Option.iter (mjStatistic_set_meaninertia x) f_meaninertia;
+  Option.iter (mjStatistic_set_meanmass x) f_meanmass;
+  Option.iter (mjStatistic_set_meansize x) f_meansize;
+  Option.iter (mjStatistic_set_extent x) f_extent;
+  Option.iter (mjStatistic_set_center x) f_center;
   x
 
 
@@ -3207,663 +3200,663 @@ let mjModel_set_names x y = Ctypes.(setf x Typs.mjModel_names y)
 
 (** make mjModel struct *)
 let mjModel_make
-    ?mjf_nq
-    ?mjf_nv
-    ?mjf_nu
-    ?mjf_na
-    ?mjf_nbody
-    ?mjf_njnt
-    ?mjf_ngeom
-    ?mjf_nsite
-    ?mjf_ncam
-    ?mjf_nlight
-    ?mjf_nmesh
-    ?mjf_nmeshvert
-    ?mjf_nmeshtexvert
-    ?mjf_nmeshface
-    ?mjf_nmeshgraph
-    ?mjf_nskin
-    ?mjf_nskinvert
-    ?mjf_nskintexvert
-    ?mjf_nskinface
-    ?mjf_nskinbone
-    ?mjf_nskinbonevert
-    ?mjf_nhfield
-    ?mjf_nhfielddata
-    ?mjf_ntex
-    ?mjf_ntexdata
-    ?mjf_nmat
-    ?mjf_npair
-    ?mjf_nexclude
-    ?mjf_neq
-    ?mjf_ntendon
-    ?mjf_nwrap
-    ?mjf_nsensor
-    ?mjf_nnumeric
-    ?mjf_nnumericdata
-    ?mjf_ntext
-    ?mjf_ntextdata
-    ?mjf_ntuple
-    ?mjf_ntupledata
-    ?mjf_nkey
-    ?mjf_nmocap
-    ?mjf_nuser_body
-    ?mjf_nuser_jnt
-    ?mjf_nuser_geom
-    ?mjf_nuser_site
-    ?mjf_nuser_cam
-    ?mjf_nuser_tendon
-    ?mjf_nuser_actuator
-    ?mjf_nuser_sensor
-    ?mjf_nnames
-    ?mjf_nM
-    ?mjf_nemax
-    ?mjf_njmax
-    ?mjf_nconmax
-    ?mjf_nstack
-    ?mjf_nuserdata
-    ?mjf_nsensordata
-    ?mjf_nbuffer
-    ?mjf_opt
-    ?mjf_vis
-    ?mjf_stat
-    ?mjf_buffer
-    ?mjf_qpos0
-    ?mjf_qpos_spring
-    ?mjf_body_parentid
-    ?mjf_body_rootid
-    ?mjf_body_weldid
-    ?mjf_body_mocapid
-    ?mjf_body_jntnum
-    ?mjf_body_jntadr
-    ?mjf_body_dofnum
-    ?mjf_body_dofadr
-    ?mjf_body_geomnum
-    ?mjf_body_geomadr
-    ?mjf_body_simple
-    ?mjf_body_sameframe
-    ?mjf_body_pos
-    ?mjf_body_quat
-    ?mjf_body_ipos
-    ?mjf_body_iquat
-    ?mjf_body_mass
-    ?mjf_body_subtreemass
-    ?mjf_body_inertia
-    ?mjf_body_invweight0
-    ?mjf_body_user
-    ?mjf_jnt_type
-    ?mjf_jnt_qposadr
-    ?mjf_jnt_dofadr
-    ?mjf_jnt_bodyid
-    ?mjf_jnt_group
-    ?mjf_jnt_limited
-    ?mjf_jnt_solref
-    ?mjf_jnt_solimp
-    ?mjf_jnt_pos
-    ?mjf_jnt_axis
-    ?mjf_jnt_stiffness
-    ?mjf_jnt_range
-    ?mjf_jnt_margin
-    ?mjf_jnt_user
-    ?mjf_dof_bodyid
-    ?mjf_dof_jntid
-    ?mjf_dof_parentid
-    ?mjf_dof_Madr
-    ?mjf_dof_simplenum
-    ?mjf_dof_solref
-    ?mjf_dof_solimp
-    ?mjf_dof_frictionloss
-    ?mjf_dof_armature
-    ?mjf_dof_damping
-    ?mjf_dof_invweight0
-    ?mjf_dof_M0
-    ?mjf_geom_type
-    ?mjf_geom_contype
-    ?mjf_geom_conaffinity
-    ?mjf_geom_condim
-    ?mjf_geom_bodyid
-    ?mjf_geom_dataid
-    ?mjf_geom_matid
-    ?mjf_geom_group
-    ?mjf_geom_priority
-    ?mjf_geom_sameframe
-    ?mjf_geom_solmix
-    ?mjf_geom_solref
-    ?mjf_geom_solimp
-    ?mjf_geom_size
-    ?mjf_geom_rbound
-    ?mjf_geom_pos
-    ?mjf_geom_quat
-    ?mjf_geom_friction
-    ?mjf_geom_margin
-    ?mjf_geom_gap
-    ?mjf_geom_user
-    ?mjf_geom_rgba
-    ?mjf_site_type
-    ?mjf_site_bodyid
-    ?mjf_site_matid
-    ?mjf_site_group
-    ?mjf_site_sameframe
-    ?mjf_site_size
-    ?mjf_site_pos
-    ?mjf_site_quat
-    ?mjf_site_user
-    ?mjf_site_rgba
-    ?mjf_cam_mode
-    ?mjf_cam_bodyid
-    ?mjf_cam_targetbodyid
-    ?mjf_cam_pos
-    ?mjf_cam_quat
-    ?mjf_cam_poscom0
-    ?mjf_cam_pos0
-    ?mjf_cam_mat0
-    ?mjf_cam_fovy
-    ?mjf_cam_ipd
-    ?mjf_cam_user
-    ?mjf_light_mode
-    ?mjf_light_bodyid
-    ?mjf_light_targetbodyid
-    ?mjf_light_directional
-    ?mjf_light_castshadow
-    ?mjf_light_active
-    ?mjf_light_pos
-    ?mjf_light_dir
-    ?mjf_light_poscom0
-    ?mjf_light_pos0
-    ?mjf_light_dir0
-    ?mjf_light_attenuation
-    ?mjf_light_cutoff
-    ?mjf_light_exponent
-    ?mjf_light_ambient
-    ?mjf_light_diffuse
-    ?mjf_light_specular
-    ?mjf_mesh_vertadr
-    ?mjf_mesh_vertnum
-    ?mjf_mesh_texcoordadr
-    ?mjf_mesh_faceadr
-    ?mjf_mesh_facenum
-    ?mjf_mesh_graphadr
-    ?mjf_mesh_vert
-    ?mjf_mesh_normal
-    ?mjf_mesh_texcoord
-    ?mjf_mesh_face
-    ?mjf_mesh_graph
-    ?mjf_skin_matid
-    ?mjf_skin_rgba
-    ?mjf_skin_inflate
-    ?mjf_skin_vertadr
-    ?mjf_skin_vertnum
-    ?mjf_skin_texcoordadr
-    ?mjf_skin_faceadr
-    ?mjf_skin_facenum
-    ?mjf_skin_boneadr
-    ?mjf_skin_bonenum
-    ?mjf_skin_vert
-    ?mjf_skin_texcoord
-    ?mjf_skin_face
-    ?mjf_skin_bonevertadr
-    ?mjf_skin_bonevertnum
-    ?mjf_skin_bonebindpos
-    ?mjf_skin_bonebindquat
-    ?mjf_skin_bonebodyid
-    ?mjf_skin_bonevertid
-    ?mjf_skin_bonevertweight
-    ?mjf_hfield_size
-    ?mjf_hfield_nrow
-    ?mjf_hfield_ncol
-    ?mjf_hfield_adr
-    ?mjf_hfield_data
-    ?mjf_tex_type
-    ?mjf_tex_height
-    ?mjf_tex_width
-    ?mjf_tex_adr
-    ?mjf_tex_rgb
-    ?mjf_mat_texid
-    ?mjf_mat_texuniform
-    ?mjf_mat_texrepeat
-    ?mjf_mat_emission
-    ?mjf_mat_specular
-    ?mjf_mat_shininess
-    ?mjf_mat_reflectance
-    ?mjf_mat_rgba
-    ?mjf_pair_dim
-    ?mjf_pair_geom1
-    ?mjf_pair_geom2
-    ?mjf_pair_signature
-    ?mjf_pair_solref
-    ?mjf_pair_solimp
-    ?mjf_pair_margin
-    ?mjf_pair_gap
-    ?mjf_pair_friction
-    ?mjf_exclude_signature
-    ?mjf_eq_type
-    ?mjf_eq_obj1id
-    ?mjf_eq_obj2id
-    ?mjf_eq_active
-    ?mjf_eq_solref
-    ?mjf_eq_solimp
-    ?mjf_eq_data
-    ?mjf_tendon_adr
-    ?mjf_tendon_num
-    ?mjf_tendon_matid
-    ?mjf_tendon_group
-    ?mjf_tendon_limited
-    ?mjf_tendon_width
-    ?mjf_tendon_solref_lim
-    ?mjf_tendon_solimp_lim
-    ?mjf_tendon_solref_fri
-    ?mjf_tendon_solimp_fri
-    ?mjf_tendon_range
-    ?mjf_tendon_margin
-    ?mjf_tendon_stiffness
-    ?mjf_tendon_damping
-    ?mjf_tendon_frictionloss
-    ?mjf_tendon_lengthspring
-    ?mjf_tendon_length0
-    ?mjf_tendon_invweight0
-    ?mjf_tendon_user
-    ?mjf_tendon_rgba
-    ?mjf_wrap_type
-    ?mjf_wrap_objid
-    ?mjf_wrap_prm
-    ?mjf_actuator_trntype
-    ?mjf_actuator_dyntype
-    ?mjf_actuator_gaintype
-    ?mjf_actuator_biastype
-    ?mjf_actuator_trnid
-    ?mjf_actuator_group
-    ?mjf_actuator_ctrllimited
-    ?mjf_actuator_forcelimited
-    ?mjf_actuator_dynprm
-    ?mjf_actuator_gainprm
-    ?mjf_actuator_biasprm
-    ?mjf_actuator_ctrlrange
-    ?mjf_actuator_forcerange
-    ?mjf_actuator_gear
-    ?mjf_actuator_cranklength
-    ?mjf_actuator_acc0
-    ?mjf_actuator_length0
-    ?mjf_actuator_lengthrange
-    ?mjf_actuator_user
-    ?mjf_sensor_type
-    ?mjf_sensor_datatype
-    ?mjf_sensor_needstage
-    ?mjf_sensor_objtype
-    ?mjf_sensor_objid
-    ?mjf_sensor_dim
-    ?mjf_sensor_adr
-    ?mjf_sensor_cutoff
-    ?mjf_sensor_noise
-    ?mjf_sensor_user
-    ?mjf_numeric_adr
-    ?mjf_numeric_size
-    ?mjf_numeric_data
-    ?mjf_text_adr
-    ?mjf_text_size
-    ?mjf_text_data
-    ?mjf_tuple_adr
-    ?mjf_tuple_size
-    ?mjf_tuple_objtype
-    ?mjf_tuple_objid
-    ?mjf_tuple_objprm
-    ?mjf_key_time
-    ?mjf_key_qpos
-    ?mjf_key_qvel
-    ?mjf_key_act
-    ?mjf_key_mpos
-    ?mjf_key_mquat
-    ?mjf_name_bodyadr
-    ?mjf_name_jntadr
-    ?mjf_name_geomadr
-    ?mjf_name_siteadr
-    ?mjf_name_camadr
-    ?mjf_name_lightadr
-    ?mjf_name_meshadr
-    ?mjf_name_skinadr
-    ?mjf_name_hfieldadr
-    ?mjf_name_texadr
-    ?mjf_name_matadr
-    ?mjf_name_pairadr
-    ?mjf_name_excludeadr
-    ?mjf_name_eqadr
-    ?mjf_name_tendonadr
-    ?mjf_name_actuatoradr
-    ?mjf_name_sensoradr
-    ?mjf_name_numericadr
-    ?mjf_name_textadr
-    ?mjf_name_tupleadr
-    ?mjf_name_keyadr
-    ?mjf_names
+    ?f_nq
+    ?f_nv
+    ?f_nu
+    ?f_na
+    ?f_nbody
+    ?f_njnt
+    ?f_ngeom
+    ?f_nsite
+    ?f_ncam
+    ?f_nlight
+    ?f_nmesh
+    ?f_nmeshvert
+    ?f_nmeshtexvert
+    ?f_nmeshface
+    ?f_nmeshgraph
+    ?f_nskin
+    ?f_nskinvert
+    ?f_nskintexvert
+    ?f_nskinface
+    ?f_nskinbone
+    ?f_nskinbonevert
+    ?f_nhfield
+    ?f_nhfielddata
+    ?f_ntex
+    ?f_ntexdata
+    ?f_nmat
+    ?f_npair
+    ?f_nexclude
+    ?f_neq
+    ?f_ntendon
+    ?f_nwrap
+    ?f_nsensor
+    ?f_nnumeric
+    ?f_nnumericdata
+    ?f_ntext
+    ?f_ntextdata
+    ?f_ntuple
+    ?f_ntupledata
+    ?f_nkey
+    ?f_nmocap
+    ?f_nuser_body
+    ?f_nuser_jnt
+    ?f_nuser_geom
+    ?f_nuser_site
+    ?f_nuser_cam
+    ?f_nuser_tendon
+    ?f_nuser_actuator
+    ?f_nuser_sensor
+    ?f_nnames
+    ?f_nM
+    ?f_nemax
+    ?f_njmax
+    ?f_nconmax
+    ?f_nstack
+    ?f_nuserdata
+    ?f_nsensordata
+    ?f_nbuffer
+    ?f_opt
+    ?f_vis
+    ?f_stat
+    ?f_buffer
+    ?f_qpos0
+    ?f_qpos_spring
+    ?f_body_parentid
+    ?f_body_rootid
+    ?f_body_weldid
+    ?f_body_mocapid
+    ?f_body_jntnum
+    ?f_body_jntadr
+    ?f_body_dofnum
+    ?f_body_dofadr
+    ?f_body_geomnum
+    ?f_body_geomadr
+    ?f_body_simple
+    ?f_body_sameframe
+    ?f_body_pos
+    ?f_body_quat
+    ?f_body_ipos
+    ?f_body_iquat
+    ?f_body_mass
+    ?f_body_subtreemass
+    ?f_body_inertia
+    ?f_body_invweight0
+    ?f_body_user
+    ?f_jnt_type
+    ?f_jnt_qposadr
+    ?f_jnt_dofadr
+    ?f_jnt_bodyid
+    ?f_jnt_group
+    ?f_jnt_limited
+    ?f_jnt_solref
+    ?f_jnt_solimp
+    ?f_jnt_pos
+    ?f_jnt_axis
+    ?f_jnt_stiffness
+    ?f_jnt_range
+    ?f_jnt_margin
+    ?f_jnt_user
+    ?f_dof_bodyid
+    ?f_dof_jntid
+    ?f_dof_parentid
+    ?f_dof_Madr
+    ?f_dof_simplenum
+    ?f_dof_solref
+    ?f_dof_solimp
+    ?f_dof_frictionloss
+    ?f_dof_armature
+    ?f_dof_damping
+    ?f_dof_invweight0
+    ?f_dof_M0
+    ?f_geom_type
+    ?f_geom_contype
+    ?f_geom_conaffinity
+    ?f_geom_condim
+    ?f_geom_bodyid
+    ?f_geom_dataid
+    ?f_geom_matid
+    ?f_geom_group
+    ?f_geom_priority
+    ?f_geom_sameframe
+    ?f_geom_solmix
+    ?f_geom_solref
+    ?f_geom_solimp
+    ?f_geom_size
+    ?f_geom_rbound
+    ?f_geom_pos
+    ?f_geom_quat
+    ?f_geom_friction
+    ?f_geom_margin
+    ?f_geom_gap
+    ?f_geom_user
+    ?f_geom_rgba
+    ?f_site_type
+    ?f_site_bodyid
+    ?f_site_matid
+    ?f_site_group
+    ?f_site_sameframe
+    ?f_site_size
+    ?f_site_pos
+    ?f_site_quat
+    ?f_site_user
+    ?f_site_rgba
+    ?f_cam_mode
+    ?f_cam_bodyid
+    ?f_cam_targetbodyid
+    ?f_cam_pos
+    ?f_cam_quat
+    ?f_cam_poscom0
+    ?f_cam_pos0
+    ?f_cam_mat0
+    ?f_cam_fovy
+    ?f_cam_ipd
+    ?f_cam_user
+    ?f_light_mode
+    ?f_light_bodyid
+    ?f_light_targetbodyid
+    ?f_light_directional
+    ?f_light_castshadow
+    ?f_light_active
+    ?f_light_pos
+    ?f_light_dir
+    ?f_light_poscom0
+    ?f_light_pos0
+    ?f_light_dir0
+    ?f_light_attenuation
+    ?f_light_cutoff
+    ?f_light_exponent
+    ?f_light_ambient
+    ?f_light_diffuse
+    ?f_light_specular
+    ?f_mesh_vertadr
+    ?f_mesh_vertnum
+    ?f_mesh_texcoordadr
+    ?f_mesh_faceadr
+    ?f_mesh_facenum
+    ?f_mesh_graphadr
+    ?f_mesh_vert
+    ?f_mesh_normal
+    ?f_mesh_texcoord
+    ?f_mesh_face
+    ?f_mesh_graph
+    ?f_skin_matid
+    ?f_skin_rgba
+    ?f_skin_inflate
+    ?f_skin_vertadr
+    ?f_skin_vertnum
+    ?f_skin_texcoordadr
+    ?f_skin_faceadr
+    ?f_skin_facenum
+    ?f_skin_boneadr
+    ?f_skin_bonenum
+    ?f_skin_vert
+    ?f_skin_texcoord
+    ?f_skin_face
+    ?f_skin_bonevertadr
+    ?f_skin_bonevertnum
+    ?f_skin_bonebindpos
+    ?f_skin_bonebindquat
+    ?f_skin_bonebodyid
+    ?f_skin_bonevertid
+    ?f_skin_bonevertweight
+    ?f_hfield_size
+    ?f_hfield_nrow
+    ?f_hfield_ncol
+    ?f_hfield_adr
+    ?f_hfield_data
+    ?f_tex_type
+    ?f_tex_height
+    ?f_tex_width
+    ?f_tex_adr
+    ?f_tex_rgb
+    ?f_mat_texid
+    ?f_mat_texuniform
+    ?f_mat_texrepeat
+    ?f_mat_emission
+    ?f_mat_specular
+    ?f_mat_shininess
+    ?f_mat_reflectance
+    ?f_mat_rgba
+    ?f_pair_dim
+    ?f_pair_geom1
+    ?f_pair_geom2
+    ?f_pair_signature
+    ?f_pair_solref
+    ?f_pair_solimp
+    ?f_pair_margin
+    ?f_pair_gap
+    ?f_pair_friction
+    ?f_exclude_signature
+    ?f_eq_type
+    ?f_eq_obj1id
+    ?f_eq_obj2id
+    ?f_eq_active
+    ?f_eq_solref
+    ?f_eq_solimp
+    ?f_eq_data
+    ?f_tendon_adr
+    ?f_tendon_num
+    ?f_tendon_matid
+    ?f_tendon_group
+    ?f_tendon_limited
+    ?f_tendon_width
+    ?f_tendon_solref_lim
+    ?f_tendon_solimp_lim
+    ?f_tendon_solref_fri
+    ?f_tendon_solimp_fri
+    ?f_tendon_range
+    ?f_tendon_margin
+    ?f_tendon_stiffness
+    ?f_tendon_damping
+    ?f_tendon_frictionloss
+    ?f_tendon_lengthspring
+    ?f_tendon_length0
+    ?f_tendon_invweight0
+    ?f_tendon_user
+    ?f_tendon_rgba
+    ?f_wrap_type
+    ?f_wrap_objid
+    ?f_wrap_prm
+    ?f_actuator_trntype
+    ?f_actuator_dyntype
+    ?f_actuator_gaintype
+    ?f_actuator_biastype
+    ?f_actuator_trnid
+    ?f_actuator_group
+    ?f_actuator_ctrllimited
+    ?f_actuator_forcelimited
+    ?f_actuator_dynprm
+    ?f_actuator_gainprm
+    ?f_actuator_biasprm
+    ?f_actuator_ctrlrange
+    ?f_actuator_forcerange
+    ?f_actuator_gear
+    ?f_actuator_cranklength
+    ?f_actuator_acc0
+    ?f_actuator_length0
+    ?f_actuator_lengthrange
+    ?f_actuator_user
+    ?f_sensor_type
+    ?f_sensor_datatype
+    ?f_sensor_needstage
+    ?f_sensor_objtype
+    ?f_sensor_objid
+    ?f_sensor_dim
+    ?f_sensor_adr
+    ?f_sensor_cutoff
+    ?f_sensor_noise
+    ?f_sensor_user
+    ?f_numeric_adr
+    ?f_numeric_size
+    ?f_numeric_data
+    ?f_text_adr
+    ?f_text_size
+    ?f_text_data
+    ?f_tuple_adr
+    ?f_tuple_size
+    ?f_tuple_objtype
+    ?f_tuple_objid
+    ?f_tuple_objprm
+    ?f_key_time
+    ?f_key_qpos
+    ?f_key_qvel
+    ?f_key_act
+    ?f_key_mpos
+    ?f_key_mquat
+    ?f_name_bodyadr
+    ?f_name_jntadr
+    ?f_name_geomadr
+    ?f_name_siteadr
+    ?f_name_camadr
+    ?f_name_lightadr
+    ?f_name_meshadr
+    ?f_name_skinadr
+    ?f_name_hfieldadr
+    ?f_name_texadr
+    ?f_name_matadr
+    ?f_name_pairadr
+    ?f_name_excludeadr
+    ?f_name_eqadr
+    ?f_name_tendonadr
+    ?f_name_actuatoradr
+    ?f_name_sensoradr
+    ?f_name_numericadr
+    ?f_name_textadr
+    ?f_name_tupleadr
+    ?f_name_keyadr
+    ?f_names
     ()
   =
   let x = mjModel_allocate () in
-  Option.iter (mjModel_set_nq x) mjf_nq;
-  Option.iter (mjModel_set_nv x) mjf_nv;
-  Option.iter (mjModel_set_nu x) mjf_nu;
-  Option.iter (mjModel_set_na x) mjf_na;
-  Option.iter (mjModel_set_nbody x) mjf_nbody;
-  Option.iter (mjModel_set_njnt x) mjf_njnt;
-  Option.iter (mjModel_set_ngeom x) mjf_ngeom;
-  Option.iter (mjModel_set_nsite x) mjf_nsite;
-  Option.iter (mjModel_set_ncam x) mjf_ncam;
-  Option.iter (mjModel_set_nlight x) mjf_nlight;
-  Option.iter (mjModel_set_nmesh x) mjf_nmesh;
-  Option.iter (mjModel_set_nmeshvert x) mjf_nmeshvert;
-  Option.iter (mjModel_set_nmeshtexvert x) mjf_nmeshtexvert;
-  Option.iter (mjModel_set_nmeshface x) mjf_nmeshface;
-  Option.iter (mjModel_set_nmeshgraph x) mjf_nmeshgraph;
-  Option.iter (mjModel_set_nskin x) mjf_nskin;
-  Option.iter (mjModel_set_nskinvert x) mjf_nskinvert;
-  Option.iter (mjModel_set_nskintexvert x) mjf_nskintexvert;
-  Option.iter (mjModel_set_nskinface x) mjf_nskinface;
-  Option.iter (mjModel_set_nskinbone x) mjf_nskinbone;
-  Option.iter (mjModel_set_nskinbonevert x) mjf_nskinbonevert;
-  Option.iter (mjModel_set_nhfield x) mjf_nhfield;
-  Option.iter (mjModel_set_nhfielddata x) mjf_nhfielddata;
-  Option.iter (mjModel_set_ntex x) mjf_ntex;
-  Option.iter (mjModel_set_ntexdata x) mjf_ntexdata;
-  Option.iter (mjModel_set_nmat x) mjf_nmat;
-  Option.iter (mjModel_set_npair x) mjf_npair;
-  Option.iter (mjModel_set_nexclude x) mjf_nexclude;
-  Option.iter (mjModel_set_neq x) mjf_neq;
-  Option.iter (mjModel_set_ntendon x) mjf_ntendon;
-  Option.iter (mjModel_set_nwrap x) mjf_nwrap;
-  Option.iter (mjModel_set_nsensor x) mjf_nsensor;
-  Option.iter (mjModel_set_nnumeric x) mjf_nnumeric;
-  Option.iter (mjModel_set_nnumericdata x) mjf_nnumericdata;
-  Option.iter (mjModel_set_ntext x) mjf_ntext;
-  Option.iter (mjModel_set_ntextdata x) mjf_ntextdata;
-  Option.iter (mjModel_set_ntuple x) mjf_ntuple;
-  Option.iter (mjModel_set_ntupledata x) mjf_ntupledata;
-  Option.iter (mjModel_set_nkey x) mjf_nkey;
-  Option.iter (mjModel_set_nmocap x) mjf_nmocap;
-  Option.iter (mjModel_set_nuser_body x) mjf_nuser_body;
-  Option.iter (mjModel_set_nuser_jnt x) mjf_nuser_jnt;
-  Option.iter (mjModel_set_nuser_geom x) mjf_nuser_geom;
-  Option.iter (mjModel_set_nuser_site x) mjf_nuser_site;
-  Option.iter (mjModel_set_nuser_cam x) mjf_nuser_cam;
-  Option.iter (mjModel_set_nuser_tendon x) mjf_nuser_tendon;
-  Option.iter (mjModel_set_nuser_actuator x) mjf_nuser_actuator;
-  Option.iter (mjModel_set_nuser_sensor x) mjf_nuser_sensor;
-  Option.iter (mjModel_set_nnames x) mjf_nnames;
-  Option.iter (mjModel_set_nM x) mjf_nM;
-  Option.iter (mjModel_set_nemax x) mjf_nemax;
-  Option.iter (mjModel_set_njmax x) mjf_njmax;
-  Option.iter (mjModel_set_nconmax x) mjf_nconmax;
-  Option.iter (mjModel_set_nstack x) mjf_nstack;
-  Option.iter (mjModel_set_nuserdata x) mjf_nuserdata;
-  Option.iter (mjModel_set_nsensordata x) mjf_nsensordata;
-  Option.iter (mjModel_set_nbuffer x) mjf_nbuffer;
-  Option.iter (mjModel_set_opt x) mjf_opt;
-  Option.iter (mjModel_set_vis x) mjf_vis;
-  Option.iter (mjModel_set_stat x) mjf_stat;
-  Option.iter (mjModel_set_buffer x) mjf_buffer;
-  Option.iter (mjModel_set_qpos0 x) mjf_qpos0;
-  Option.iter (mjModel_set_qpos_spring x) mjf_qpos_spring;
-  Option.iter (mjModel_set_body_parentid x) mjf_body_parentid;
-  Option.iter (mjModel_set_body_rootid x) mjf_body_rootid;
-  Option.iter (mjModel_set_body_weldid x) mjf_body_weldid;
-  Option.iter (mjModel_set_body_mocapid x) mjf_body_mocapid;
-  Option.iter (mjModel_set_body_jntnum x) mjf_body_jntnum;
-  Option.iter (mjModel_set_body_jntadr x) mjf_body_jntadr;
-  Option.iter (mjModel_set_body_dofnum x) mjf_body_dofnum;
-  Option.iter (mjModel_set_body_dofadr x) mjf_body_dofadr;
-  Option.iter (mjModel_set_body_geomnum x) mjf_body_geomnum;
-  Option.iter (mjModel_set_body_geomadr x) mjf_body_geomadr;
-  Option.iter (mjModel_set_body_simple x) mjf_body_simple;
-  Option.iter (mjModel_set_body_sameframe x) mjf_body_sameframe;
-  Option.iter (mjModel_set_body_pos x) mjf_body_pos;
-  Option.iter (mjModel_set_body_quat x) mjf_body_quat;
-  Option.iter (mjModel_set_body_ipos x) mjf_body_ipos;
-  Option.iter (mjModel_set_body_iquat x) mjf_body_iquat;
-  Option.iter (mjModel_set_body_mass x) mjf_body_mass;
-  Option.iter (mjModel_set_body_subtreemass x) mjf_body_subtreemass;
-  Option.iter (mjModel_set_body_inertia x) mjf_body_inertia;
-  Option.iter (mjModel_set_body_invweight0 x) mjf_body_invweight0;
-  Option.iter (mjModel_set_body_user x) mjf_body_user;
-  Option.iter (mjModel_set_jnt_type x) mjf_jnt_type;
-  Option.iter (mjModel_set_jnt_qposadr x) mjf_jnt_qposadr;
-  Option.iter (mjModel_set_jnt_dofadr x) mjf_jnt_dofadr;
-  Option.iter (mjModel_set_jnt_bodyid x) mjf_jnt_bodyid;
-  Option.iter (mjModel_set_jnt_group x) mjf_jnt_group;
-  Option.iter (mjModel_set_jnt_limited x) mjf_jnt_limited;
-  Option.iter (mjModel_set_jnt_solref x) mjf_jnt_solref;
-  Option.iter (mjModel_set_jnt_solimp x) mjf_jnt_solimp;
-  Option.iter (mjModel_set_jnt_pos x) mjf_jnt_pos;
-  Option.iter (mjModel_set_jnt_axis x) mjf_jnt_axis;
-  Option.iter (mjModel_set_jnt_stiffness x) mjf_jnt_stiffness;
-  Option.iter (mjModel_set_jnt_range x) mjf_jnt_range;
-  Option.iter (mjModel_set_jnt_margin x) mjf_jnt_margin;
-  Option.iter (mjModel_set_jnt_user x) mjf_jnt_user;
-  Option.iter (mjModel_set_dof_bodyid x) mjf_dof_bodyid;
-  Option.iter (mjModel_set_dof_jntid x) mjf_dof_jntid;
-  Option.iter (mjModel_set_dof_parentid x) mjf_dof_parentid;
-  Option.iter (mjModel_set_dof_Madr x) mjf_dof_Madr;
-  Option.iter (mjModel_set_dof_simplenum x) mjf_dof_simplenum;
-  Option.iter (mjModel_set_dof_solref x) mjf_dof_solref;
-  Option.iter (mjModel_set_dof_solimp x) mjf_dof_solimp;
-  Option.iter (mjModel_set_dof_frictionloss x) mjf_dof_frictionloss;
-  Option.iter (mjModel_set_dof_armature x) mjf_dof_armature;
-  Option.iter (mjModel_set_dof_damping x) mjf_dof_damping;
-  Option.iter (mjModel_set_dof_invweight0 x) mjf_dof_invweight0;
-  Option.iter (mjModel_set_dof_M0 x) mjf_dof_M0;
-  Option.iter (mjModel_set_geom_type x) mjf_geom_type;
-  Option.iter (mjModel_set_geom_contype x) mjf_geom_contype;
-  Option.iter (mjModel_set_geom_conaffinity x) mjf_geom_conaffinity;
-  Option.iter (mjModel_set_geom_condim x) mjf_geom_condim;
-  Option.iter (mjModel_set_geom_bodyid x) mjf_geom_bodyid;
-  Option.iter (mjModel_set_geom_dataid x) mjf_geom_dataid;
-  Option.iter (mjModel_set_geom_matid x) mjf_geom_matid;
-  Option.iter (mjModel_set_geom_group x) mjf_geom_group;
-  Option.iter (mjModel_set_geom_priority x) mjf_geom_priority;
-  Option.iter (mjModel_set_geom_sameframe x) mjf_geom_sameframe;
-  Option.iter (mjModel_set_geom_solmix x) mjf_geom_solmix;
-  Option.iter (mjModel_set_geom_solref x) mjf_geom_solref;
-  Option.iter (mjModel_set_geom_solimp x) mjf_geom_solimp;
-  Option.iter (mjModel_set_geom_size x) mjf_geom_size;
-  Option.iter (mjModel_set_geom_rbound x) mjf_geom_rbound;
-  Option.iter (mjModel_set_geom_pos x) mjf_geom_pos;
-  Option.iter (mjModel_set_geom_quat x) mjf_geom_quat;
-  Option.iter (mjModel_set_geom_friction x) mjf_geom_friction;
-  Option.iter (mjModel_set_geom_margin x) mjf_geom_margin;
-  Option.iter (mjModel_set_geom_gap x) mjf_geom_gap;
-  Option.iter (mjModel_set_geom_user x) mjf_geom_user;
-  Option.iter (mjModel_set_geom_rgba x) mjf_geom_rgba;
-  Option.iter (mjModel_set_site_type x) mjf_site_type;
-  Option.iter (mjModel_set_site_bodyid x) mjf_site_bodyid;
-  Option.iter (mjModel_set_site_matid x) mjf_site_matid;
-  Option.iter (mjModel_set_site_group x) mjf_site_group;
-  Option.iter (mjModel_set_site_sameframe x) mjf_site_sameframe;
-  Option.iter (mjModel_set_site_size x) mjf_site_size;
-  Option.iter (mjModel_set_site_pos x) mjf_site_pos;
-  Option.iter (mjModel_set_site_quat x) mjf_site_quat;
-  Option.iter (mjModel_set_site_user x) mjf_site_user;
-  Option.iter (mjModel_set_site_rgba x) mjf_site_rgba;
-  Option.iter (mjModel_set_cam_mode x) mjf_cam_mode;
-  Option.iter (mjModel_set_cam_bodyid x) mjf_cam_bodyid;
-  Option.iter (mjModel_set_cam_targetbodyid x) mjf_cam_targetbodyid;
-  Option.iter (mjModel_set_cam_pos x) mjf_cam_pos;
-  Option.iter (mjModel_set_cam_quat x) mjf_cam_quat;
-  Option.iter (mjModel_set_cam_poscom0 x) mjf_cam_poscom0;
-  Option.iter (mjModel_set_cam_pos0 x) mjf_cam_pos0;
-  Option.iter (mjModel_set_cam_mat0 x) mjf_cam_mat0;
-  Option.iter (mjModel_set_cam_fovy x) mjf_cam_fovy;
-  Option.iter (mjModel_set_cam_ipd x) mjf_cam_ipd;
-  Option.iter (mjModel_set_cam_user x) mjf_cam_user;
-  Option.iter (mjModel_set_light_mode x) mjf_light_mode;
-  Option.iter (mjModel_set_light_bodyid x) mjf_light_bodyid;
-  Option.iter (mjModel_set_light_targetbodyid x) mjf_light_targetbodyid;
-  Option.iter (mjModel_set_light_directional x) mjf_light_directional;
-  Option.iter (mjModel_set_light_castshadow x) mjf_light_castshadow;
-  Option.iter (mjModel_set_light_active x) mjf_light_active;
-  Option.iter (mjModel_set_light_pos x) mjf_light_pos;
-  Option.iter (mjModel_set_light_dir x) mjf_light_dir;
-  Option.iter (mjModel_set_light_poscom0 x) mjf_light_poscom0;
-  Option.iter (mjModel_set_light_pos0 x) mjf_light_pos0;
-  Option.iter (mjModel_set_light_dir0 x) mjf_light_dir0;
-  Option.iter (mjModel_set_light_attenuation x) mjf_light_attenuation;
-  Option.iter (mjModel_set_light_cutoff x) mjf_light_cutoff;
-  Option.iter (mjModel_set_light_exponent x) mjf_light_exponent;
-  Option.iter (mjModel_set_light_ambient x) mjf_light_ambient;
-  Option.iter (mjModel_set_light_diffuse x) mjf_light_diffuse;
-  Option.iter (mjModel_set_light_specular x) mjf_light_specular;
-  Option.iter (mjModel_set_mesh_vertadr x) mjf_mesh_vertadr;
-  Option.iter (mjModel_set_mesh_vertnum x) mjf_mesh_vertnum;
-  Option.iter (mjModel_set_mesh_texcoordadr x) mjf_mesh_texcoordadr;
-  Option.iter (mjModel_set_mesh_faceadr x) mjf_mesh_faceadr;
-  Option.iter (mjModel_set_mesh_facenum x) mjf_mesh_facenum;
-  Option.iter (mjModel_set_mesh_graphadr x) mjf_mesh_graphadr;
-  Option.iter (mjModel_set_mesh_vert x) mjf_mesh_vert;
-  Option.iter (mjModel_set_mesh_normal x) mjf_mesh_normal;
-  Option.iter (mjModel_set_mesh_texcoord x) mjf_mesh_texcoord;
-  Option.iter (mjModel_set_mesh_face x) mjf_mesh_face;
-  Option.iter (mjModel_set_mesh_graph x) mjf_mesh_graph;
-  Option.iter (mjModel_set_skin_matid x) mjf_skin_matid;
-  Option.iter (mjModel_set_skin_rgba x) mjf_skin_rgba;
-  Option.iter (mjModel_set_skin_inflate x) mjf_skin_inflate;
-  Option.iter (mjModel_set_skin_vertadr x) mjf_skin_vertadr;
-  Option.iter (mjModel_set_skin_vertnum x) mjf_skin_vertnum;
-  Option.iter (mjModel_set_skin_texcoordadr x) mjf_skin_texcoordadr;
-  Option.iter (mjModel_set_skin_faceadr x) mjf_skin_faceadr;
-  Option.iter (mjModel_set_skin_facenum x) mjf_skin_facenum;
-  Option.iter (mjModel_set_skin_boneadr x) mjf_skin_boneadr;
-  Option.iter (mjModel_set_skin_bonenum x) mjf_skin_bonenum;
-  Option.iter (mjModel_set_skin_vert x) mjf_skin_vert;
-  Option.iter (mjModel_set_skin_texcoord x) mjf_skin_texcoord;
-  Option.iter (mjModel_set_skin_face x) mjf_skin_face;
-  Option.iter (mjModel_set_skin_bonevertadr x) mjf_skin_bonevertadr;
-  Option.iter (mjModel_set_skin_bonevertnum x) mjf_skin_bonevertnum;
-  Option.iter (mjModel_set_skin_bonebindpos x) mjf_skin_bonebindpos;
-  Option.iter (mjModel_set_skin_bonebindquat x) mjf_skin_bonebindquat;
-  Option.iter (mjModel_set_skin_bonebodyid x) mjf_skin_bonebodyid;
-  Option.iter (mjModel_set_skin_bonevertid x) mjf_skin_bonevertid;
-  Option.iter (mjModel_set_skin_bonevertweight x) mjf_skin_bonevertweight;
-  Option.iter (mjModel_set_hfield_size x) mjf_hfield_size;
-  Option.iter (mjModel_set_hfield_nrow x) mjf_hfield_nrow;
-  Option.iter (mjModel_set_hfield_ncol x) mjf_hfield_ncol;
-  Option.iter (mjModel_set_hfield_adr x) mjf_hfield_adr;
-  Option.iter (mjModel_set_hfield_data x) mjf_hfield_data;
-  Option.iter (mjModel_set_tex_type x) mjf_tex_type;
-  Option.iter (mjModel_set_tex_height x) mjf_tex_height;
-  Option.iter (mjModel_set_tex_width x) mjf_tex_width;
-  Option.iter (mjModel_set_tex_adr x) mjf_tex_adr;
-  Option.iter (mjModel_set_tex_rgb x) mjf_tex_rgb;
-  Option.iter (mjModel_set_mat_texid x) mjf_mat_texid;
-  Option.iter (mjModel_set_mat_texuniform x) mjf_mat_texuniform;
-  Option.iter (mjModel_set_mat_texrepeat x) mjf_mat_texrepeat;
-  Option.iter (mjModel_set_mat_emission x) mjf_mat_emission;
-  Option.iter (mjModel_set_mat_specular x) mjf_mat_specular;
-  Option.iter (mjModel_set_mat_shininess x) mjf_mat_shininess;
-  Option.iter (mjModel_set_mat_reflectance x) mjf_mat_reflectance;
-  Option.iter (mjModel_set_mat_rgba x) mjf_mat_rgba;
-  Option.iter (mjModel_set_pair_dim x) mjf_pair_dim;
-  Option.iter (mjModel_set_pair_geom1 x) mjf_pair_geom1;
-  Option.iter (mjModel_set_pair_geom2 x) mjf_pair_geom2;
-  Option.iter (mjModel_set_pair_signature x) mjf_pair_signature;
-  Option.iter (mjModel_set_pair_solref x) mjf_pair_solref;
-  Option.iter (mjModel_set_pair_solimp x) mjf_pair_solimp;
-  Option.iter (mjModel_set_pair_margin x) mjf_pair_margin;
-  Option.iter (mjModel_set_pair_gap x) mjf_pair_gap;
-  Option.iter (mjModel_set_pair_friction x) mjf_pair_friction;
-  Option.iter (mjModel_set_exclude_signature x) mjf_exclude_signature;
-  Option.iter (mjModel_set_eq_type x) mjf_eq_type;
-  Option.iter (mjModel_set_eq_obj1id x) mjf_eq_obj1id;
-  Option.iter (mjModel_set_eq_obj2id x) mjf_eq_obj2id;
-  Option.iter (mjModel_set_eq_active x) mjf_eq_active;
-  Option.iter (mjModel_set_eq_solref x) mjf_eq_solref;
-  Option.iter (mjModel_set_eq_solimp x) mjf_eq_solimp;
-  Option.iter (mjModel_set_eq_data x) mjf_eq_data;
-  Option.iter (mjModel_set_tendon_adr x) mjf_tendon_adr;
-  Option.iter (mjModel_set_tendon_num x) mjf_tendon_num;
-  Option.iter (mjModel_set_tendon_matid x) mjf_tendon_matid;
-  Option.iter (mjModel_set_tendon_group x) mjf_tendon_group;
-  Option.iter (mjModel_set_tendon_limited x) mjf_tendon_limited;
-  Option.iter (mjModel_set_tendon_width x) mjf_tendon_width;
-  Option.iter (mjModel_set_tendon_solref_lim x) mjf_tendon_solref_lim;
-  Option.iter (mjModel_set_tendon_solimp_lim x) mjf_tendon_solimp_lim;
-  Option.iter (mjModel_set_tendon_solref_fri x) mjf_tendon_solref_fri;
-  Option.iter (mjModel_set_tendon_solimp_fri x) mjf_tendon_solimp_fri;
-  Option.iter (mjModel_set_tendon_range x) mjf_tendon_range;
-  Option.iter (mjModel_set_tendon_margin x) mjf_tendon_margin;
-  Option.iter (mjModel_set_tendon_stiffness x) mjf_tendon_stiffness;
-  Option.iter (mjModel_set_tendon_damping x) mjf_tendon_damping;
-  Option.iter (mjModel_set_tendon_frictionloss x) mjf_tendon_frictionloss;
-  Option.iter (mjModel_set_tendon_lengthspring x) mjf_tendon_lengthspring;
-  Option.iter (mjModel_set_tendon_length0 x) mjf_tendon_length0;
-  Option.iter (mjModel_set_tendon_invweight0 x) mjf_tendon_invweight0;
-  Option.iter (mjModel_set_tendon_user x) mjf_tendon_user;
-  Option.iter (mjModel_set_tendon_rgba x) mjf_tendon_rgba;
-  Option.iter (mjModel_set_wrap_type x) mjf_wrap_type;
-  Option.iter (mjModel_set_wrap_objid x) mjf_wrap_objid;
-  Option.iter (mjModel_set_wrap_prm x) mjf_wrap_prm;
-  Option.iter (mjModel_set_actuator_trntype x) mjf_actuator_trntype;
-  Option.iter (mjModel_set_actuator_dyntype x) mjf_actuator_dyntype;
-  Option.iter (mjModel_set_actuator_gaintype x) mjf_actuator_gaintype;
-  Option.iter (mjModel_set_actuator_biastype x) mjf_actuator_biastype;
-  Option.iter (mjModel_set_actuator_trnid x) mjf_actuator_trnid;
-  Option.iter (mjModel_set_actuator_group x) mjf_actuator_group;
-  Option.iter (mjModel_set_actuator_ctrllimited x) mjf_actuator_ctrllimited;
-  Option.iter (mjModel_set_actuator_forcelimited x) mjf_actuator_forcelimited;
-  Option.iter (mjModel_set_actuator_dynprm x) mjf_actuator_dynprm;
-  Option.iter (mjModel_set_actuator_gainprm x) mjf_actuator_gainprm;
-  Option.iter (mjModel_set_actuator_biasprm x) mjf_actuator_biasprm;
-  Option.iter (mjModel_set_actuator_ctrlrange x) mjf_actuator_ctrlrange;
-  Option.iter (mjModel_set_actuator_forcerange x) mjf_actuator_forcerange;
-  Option.iter (mjModel_set_actuator_gear x) mjf_actuator_gear;
-  Option.iter (mjModel_set_actuator_cranklength x) mjf_actuator_cranklength;
-  Option.iter (mjModel_set_actuator_acc0 x) mjf_actuator_acc0;
-  Option.iter (mjModel_set_actuator_length0 x) mjf_actuator_length0;
-  Option.iter (mjModel_set_actuator_lengthrange x) mjf_actuator_lengthrange;
-  Option.iter (mjModel_set_actuator_user x) mjf_actuator_user;
-  Option.iter (mjModel_set_sensor_type x) mjf_sensor_type;
-  Option.iter (mjModel_set_sensor_datatype x) mjf_sensor_datatype;
-  Option.iter (mjModel_set_sensor_needstage x) mjf_sensor_needstage;
-  Option.iter (mjModel_set_sensor_objtype x) mjf_sensor_objtype;
-  Option.iter (mjModel_set_sensor_objid x) mjf_sensor_objid;
-  Option.iter (mjModel_set_sensor_dim x) mjf_sensor_dim;
-  Option.iter (mjModel_set_sensor_adr x) mjf_sensor_adr;
-  Option.iter (mjModel_set_sensor_cutoff x) mjf_sensor_cutoff;
-  Option.iter (mjModel_set_sensor_noise x) mjf_sensor_noise;
-  Option.iter (mjModel_set_sensor_user x) mjf_sensor_user;
-  Option.iter (mjModel_set_numeric_adr x) mjf_numeric_adr;
-  Option.iter (mjModel_set_numeric_size x) mjf_numeric_size;
-  Option.iter (mjModel_set_numeric_data x) mjf_numeric_data;
-  Option.iter (mjModel_set_text_adr x) mjf_text_adr;
-  Option.iter (mjModel_set_text_size x) mjf_text_size;
-  Option.iter (mjModel_set_text_data x) mjf_text_data;
-  Option.iter (mjModel_set_tuple_adr x) mjf_tuple_adr;
-  Option.iter (mjModel_set_tuple_size x) mjf_tuple_size;
-  Option.iter (mjModel_set_tuple_objtype x) mjf_tuple_objtype;
-  Option.iter (mjModel_set_tuple_objid x) mjf_tuple_objid;
-  Option.iter (mjModel_set_tuple_objprm x) mjf_tuple_objprm;
-  Option.iter (mjModel_set_key_time x) mjf_key_time;
-  Option.iter (mjModel_set_key_qpos x) mjf_key_qpos;
-  Option.iter (mjModel_set_key_qvel x) mjf_key_qvel;
-  Option.iter (mjModel_set_key_act x) mjf_key_act;
-  Option.iter (mjModel_set_key_mpos x) mjf_key_mpos;
-  Option.iter (mjModel_set_key_mquat x) mjf_key_mquat;
-  Option.iter (mjModel_set_name_bodyadr x) mjf_name_bodyadr;
-  Option.iter (mjModel_set_name_jntadr x) mjf_name_jntadr;
-  Option.iter (mjModel_set_name_geomadr x) mjf_name_geomadr;
-  Option.iter (mjModel_set_name_siteadr x) mjf_name_siteadr;
-  Option.iter (mjModel_set_name_camadr x) mjf_name_camadr;
-  Option.iter (mjModel_set_name_lightadr x) mjf_name_lightadr;
-  Option.iter (mjModel_set_name_meshadr x) mjf_name_meshadr;
-  Option.iter (mjModel_set_name_skinadr x) mjf_name_skinadr;
-  Option.iter (mjModel_set_name_hfieldadr x) mjf_name_hfieldadr;
-  Option.iter (mjModel_set_name_texadr x) mjf_name_texadr;
-  Option.iter (mjModel_set_name_matadr x) mjf_name_matadr;
-  Option.iter (mjModel_set_name_pairadr x) mjf_name_pairadr;
-  Option.iter (mjModel_set_name_excludeadr x) mjf_name_excludeadr;
-  Option.iter (mjModel_set_name_eqadr x) mjf_name_eqadr;
-  Option.iter (mjModel_set_name_tendonadr x) mjf_name_tendonadr;
-  Option.iter (mjModel_set_name_actuatoradr x) mjf_name_actuatoradr;
-  Option.iter (mjModel_set_name_sensoradr x) mjf_name_sensoradr;
-  Option.iter (mjModel_set_name_numericadr x) mjf_name_numericadr;
-  Option.iter (mjModel_set_name_textadr x) mjf_name_textadr;
-  Option.iter (mjModel_set_name_tupleadr x) mjf_name_tupleadr;
-  Option.iter (mjModel_set_name_keyadr x) mjf_name_keyadr;
-  Option.iter (mjModel_set_names x) mjf_names;
+  Option.iter (mjModel_set_nq x) f_nq;
+  Option.iter (mjModel_set_nv x) f_nv;
+  Option.iter (mjModel_set_nu x) f_nu;
+  Option.iter (mjModel_set_na x) f_na;
+  Option.iter (mjModel_set_nbody x) f_nbody;
+  Option.iter (mjModel_set_njnt x) f_njnt;
+  Option.iter (mjModel_set_ngeom x) f_ngeom;
+  Option.iter (mjModel_set_nsite x) f_nsite;
+  Option.iter (mjModel_set_ncam x) f_ncam;
+  Option.iter (mjModel_set_nlight x) f_nlight;
+  Option.iter (mjModel_set_nmesh x) f_nmesh;
+  Option.iter (mjModel_set_nmeshvert x) f_nmeshvert;
+  Option.iter (mjModel_set_nmeshtexvert x) f_nmeshtexvert;
+  Option.iter (mjModel_set_nmeshface x) f_nmeshface;
+  Option.iter (mjModel_set_nmeshgraph x) f_nmeshgraph;
+  Option.iter (mjModel_set_nskin x) f_nskin;
+  Option.iter (mjModel_set_nskinvert x) f_nskinvert;
+  Option.iter (mjModel_set_nskintexvert x) f_nskintexvert;
+  Option.iter (mjModel_set_nskinface x) f_nskinface;
+  Option.iter (mjModel_set_nskinbone x) f_nskinbone;
+  Option.iter (mjModel_set_nskinbonevert x) f_nskinbonevert;
+  Option.iter (mjModel_set_nhfield x) f_nhfield;
+  Option.iter (mjModel_set_nhfielddata x) f_nhfielddata;
+  Option.iter (mjModel_set_ntex x) f_ntex;
+  Option.iter (mjModel_set_ntexdata x) f_ntexdata;
+  Option.iter (mjModel_set_nmat x) f_nmat;
+  Option.iter (mjModel_set_npair x) f_npair;
+  Option.iter (mjModel_set_nexclude x) f_nexclude;
+  Option.iter (mjModel_set_neq x) f_neq;
+  Option.iter (mjModel_set_ntendon x) f_ntendon;
+  Option.iter (mjModel_set_nwrap x) f_nwrap;
+  Option.iter (mjModel_set_nsensor x) f_nsensor;
+  Option.iter (mjModel_set_nnumeric x) f_nnumeric;
+  Option.iter (mjModel_set_nnumericdata x) f_nnumericdata;
+  Option.iter (mjModel_set_ntext x) f_ntext;
+  Option.iter (mjModel_set_ntextdata x) f_ntextdata;
+  Option.iter (mjModel_set_ntuple x) f_ntuple;
+  Option.iter (mjModel_set_ntupledata x) f_ntupledata;
+  Option.iter (mjModel_set_nkey x) f_nkey;
+  Option.iter (mjModel_set_nmocap x) f_nmocap;
+  Option.iter (mjModel_set_nuser_body x) f_nuser_body;
+  Option.iter (mjModel_set_nuser_jnt x) f_nuser_jnt;
+  Option.iter (mjModel_set_nuser_geom x) f_nuser_geom;
+  Option.iter (mjModel_set_nuser_site x) f_nuser_site;
+  Option.iter (mjModel_set_nuser_cam x) f_nuser_cam;
+  Option.iter (mjModel_set_nuser_tendon x) f_nuser_tendon;
+  Option.iter (mjModel_set_nuser_actuator x) f_nuser_actuator;
+  Option.iter (mjModel_set_nuser_sensor x) f_nuser_sensor;
+  Option.iter (mjModel_set_nnames x) f_nnames;
+  Option.iter (mjModel_set_nM x) f_nM;
+  Option.iter (mjModel_set_nemax x) f_nemax;
+  Option.iter (mjModel_set_njmax x) f_njmax;
+  Option.iter (mjModel_set_nconmax x) f_nconmax;
+  Option.iter (mjModel_set_nstack x) f_nstack;
+  Option.iter (mjModel_set_nuserdata x) f_nuserdata;
+  Option.iter (mjModel_set_nsensordata x) f_nsensordata;
+  Option.iter (mjModel_set_nbuffer x) f_nbuffer;
+  Option.iter (mjModel_set_opt x) f_opt;
+  Option.iter (mjModel_set_vis x) f_vis;
+  Option.iter (mjModel_set_stat x) f_stat;
+  Option.iter (mjModel_set_buffer x) f_buffer;
+  Option.iter (mjModel_set_qpos0 x) f_qpos0;
+  Option.iter (mjModel_set_qpos_spring x) f_qpos_spring;
+  Option.iter (mjModel_set_body_parentid x) f_body_parentid;
+  Option.iter (mjModel_set_body_rootid x) f_body_rootid;
+  Option.iter (mjModel_set_body_weldid x) f_body_weldid;
+  Option.iter (mjModel_set_body_mocapid x) f_body_mocapid;
+  Option.iter (mjModel_set_body_jntnum x) f_body_jntnum;
+  Option.iter (mjModel_set_body_jntadr x) f_body_jntadr;
+  Option.iter (mjModel_set_body_dofnum x) f_body_dofnum;
+  Option.iter (mjModel_set_body_dofadr x) f_body_dofadr;
+  Option.iter (mjModel_set_body_geomnum x) f_body_geomnum;
+  Option.iter (mjModel_set_body_geomadr x) f_body_geomadr;
+  Option.iter (mjModel_set_body_simple x) f_body_simple;
+  Option.iter (mjModel_set_body_sameframe x) f_body_sameframe;
+  Option.iter (mjModel_set_body_pos x) f_body_pos;
+  Option.iter (mjModel_set_body_quat x) f_body_quat;
+  Option.iter (mjModel_set_body_ipos x) f_body_ipos;
+  Option.iter (mjModel_set_body_iquat x) f_body_iquat;
+  Option.iter (mjModel_set_body_mass x) f_body_mass;
+  Option.iter (mjModel_set_body_subtreemass x) f_body_subtreemass;
+  Option.iter (mjModel_set_body_inertia x) f_body_inertia;
+  Option.iter (mjModel_set_body_invweight0 x) f_body_invweight0;
+  Option.iter (mjModel_set_body_user x) f_body_user;
+  Option.iter (mjModel_set_jnt_type x) f_jnt_type;
+  Option.iter (mjModel_set_jnt_qposadr x) f_jnt_qposadr;
+  Option.iter (mjModel_set_jnt_dofadr x) f_jnt_dofadr;
+  Option.iter (mjModel_set_jnt_bodyid x) f_jnt_bodyid;
+  Option.iter (mjModel_set_jnt_group x) f_jnt_group;
+  Option.iter (mjModel_set_jnt_limited x) f_jnt_limited;
+  Option.iter (mjModel_set_jnt_solref x) f_jnt_solref;
+  Option.iter (mjModel_set_jnt_solimp x) f_jnt_solimp;
+  Option.iter (mjModel_set_jnt_pos x) f_jnt_pos;
+  Option.iter (mjModel_set_jnt_axis x) f_jnt_axis;
+  Option.iter (mjModel_set_jnt_stiffness x) f_jnt_stiffness;
+  Option.iter (mjModel_set_jnt_range x) f_jnt_range;
+  Option.iter (mjModel_set_jnt_margin x) f_jnt_margin;
+  Option.iter (mjModel_set_jnt_user x) f_jnt_user;
+  Option.iter (mjModel_set_dof_bodyid x) f_dof_bodyid;
+  Option.iter (mjModel_set_dof_jntid x) f_dof_jntid;
+  Option.iter (mjModel_set_dof_parentid x) f_dof_parentid;
+  Option.iter (mjModel_set_dof_Madr x) f_dof_Madr;
+  Option.iter (mjModel_set_dof_simplenum x) f_dof_simplenum;
+  Option.iter (mjModel_set_dof_solref x) f_dof_solref;
+  Option.iter (mjModel_set_dof_solimp x) f_dof_solimp;
+  Option.iter (mjModel_set_dof_frictionloss x) f_dof_frictionloss;
+  Option.iter (mjModel_set_dof_armature x) f_dof_armature;
+  Option.iter (mjModel_set_dof_damping x) f_dof_damping;
+  Option.iter (mjModel_set_dof_invweight0 x) f_dof_invweight0;
+  Option.iter (mjModel_set_dof_M0 x) f_dof_M0;
+  Option.iter (mjModel_set_geom_type x) f_geom_type;
+  Option.iter (mjModel_set_geom_contype x) f_geom_contype;
+  Option.iter (mjModel_set_geom_conaffinity x) f_geom_conaffinity;
+  Option.iter (mjModel_set_geom_condim x) f_geom_condim;
+  Option.iter (mjModel_set_geom_bodyid x) f_geom_bodyid;
+  Option.iter (mjModel_set_geom_dataid x) f_geom_dataid;
+  Option.iter (mjModel_set_geom_matid x) f_geom_matid;
+  Option.iter (mjModel_set_geom_group x) f_geom_group;
+  Option.iter (mjModel_set_geom_priority x) f_geom_priority;
+  Option.iter (mjModel_set_geom_sameframe x) f_geom_sameframe;
+  Option.iter (mjModel_set_geom_solmix x) f_geom_solmix;
+  Option.iter (mjModel_set_geom_solref x) f_geom_solref;
+  Option.iter (mjModel_set_geom_solimp x) f_geom_solimp;
+  Option.iter (mjModel_set_geom_size x) f_geom_size;
+  Option.iter (mjModel_set_geom_rbound x) f_geom_rbound;
+  Option.iter (mjModel_set_geom_pos x) f_geom_pos;
+  Option.iter (mjModel_set_geom_quat x) f_geom_quat;
+  Option.iter (mjModel_set_geom_friction x) f_geom_friction;
+  Option.iter (mjModel_set_geom_margin x) f_geom_margin;
+  Option.iter (mjModel_set_geom_gap x) f_geom_gap;
+  Option.iter (mjModel_set_geom_user x) f_geom_user;
+  Option.iter (mjModel_set_geom_rgba x) f_geom_rgba;
+  Option.iter (mjModel_set_site_type x) f_site_type;
+  Option.iter (mjModel_set_site_bodyid x) f_site_bodyid;
+  Option.iter (mjModel_set_site_matid x) f_site_matid;
+  Option.iter (mjModel_set_site_group x) f_site_group;
+  Option.iter (mjModel_set_site_sameframe x) f_site_sameframe;
+  Option.iter (mjModel_set_site_size x) f_site_size;
+  Option.iter (mjModel_set_site_pos x) f_site_pos;
+  Option.iter (mjModel_set_site_quat x) f_site_quat;
+  Option.iter (mjModel_set_site_user x) f_site_user;
+  Option.iter (mjModel_set_site_rgba x) f_site_rgba;
+  Option.iter (mjModel_set_cam_mode x) f_cam_mode;
+  Option.iter (mjModel_set_cam_bodyid x) f_cam_bodyid;
+  Option.iter (mjModel_set_cam_targetbodyid x) f_cam_targetbodyid;
+  Option.iter (mjModel_set_cam_pos x) f_cam_pos;
+  Option.iter (mjModel_set_cam_quat x) f_cam_quat;
+  Option.iter (mjModel_set_cam_poscom0 x) f_cam_poscom0;
+  Option.iter (mjModel_set_cam_pos0 x) f_cam_pos0;
+  Option.iter (mjModel_set_cam_mat0 x) f_cam_mat0;
+  Option.iter (mjModel_set_cam_fovy x) f_cam_fovy;
+  Option.iter (mjModel_set_cam_ipd x) f_cam_ipd;
+  Option.iter (mjModel_set_cam_user x) f_cam_user;
+  Option.iter (mjModel_set_light_mode x) f_light_mode;
+  Option.iter (mjModel_set_light_bodyid x) f_light_bodyid;
+  Option.iter (mjModel_set_light_targetbodyid x) f_light_targetbodyid;
+  Option.iter (mjModel_set_light_directional x) f_light_directional;
+  Option.iter (mjModel_set_light_castshadow x) f_light_castshadow;
+  Option.iter (mjModel_set_light_active x) f_light_active;
+  Option.iter (mjModel_set_light_pos x) f_light_pos;
+  Option.iter (mjModel_set_light_dir x) f_light_dir;
+  Option.iter (mjModel_set_light_poscom0 x) f_light_poscom0;
+  Option.iter (mjModel_set_light_pos0 x) f_light_pos0;
+  Option.iter (mjModel_set_light_dir0 x) f_light_dir0;
+  Option.iter (mjModel_set_light_attenuation x) f_light_attenuation;
+  Option.iter (mjModel_set_light_cutoff x) f_light_cutoff;
+  Option.iter (mjModel_set_light_exponent x) f_light_exponent;
+  Option.iter (mjModel_set_light_ambient x) f_light_ambient;
+  Option.iter (mjModel_set_light_diffuse x) f_light_diffuse;
+  Option.iter (mjModel_set_light_specular x) f_light_specular;
+  Option.iter (mjModel_set_mesh_vertadr x) f_mesh_vertadr;
+  Option.iter (mjModel_set_mesh_vertnum x) f_mesh_vertnum;
+  Option.iter (mjModel_set_mesh_texcoordadr x) f_mesh_texcoordadr;
+  Option.iter (mjModel_set_mesh_faceadr x) f_mesh_faceadr;
+  Option.iter (mjModel_set_mesh_facenum x) f_mesh_facenum;
+  Option.iter (mjModel_set_mesh_graphadr x) f_mesh_graphadr;
+  Option.iter (mjModel_set_mesh_vert x) f_mesh_vert;
+  Option.iter (mjModel_set_mesh_normal x) f_mesh_normal;
+  Option.iter (mjModel_set_mesh_texcoord x) f_mesh_texcoord;
+  Option.iter (mjModel_set_mesh_face x) f_mesh_face;
+  Option.iter (mjModel_set_mesh_graph x) f_mesh_graph;
+  Option.iter (mjModel_set_skin_matid x) f_skin_matid;
+  Option.iter (mjModel_set_skin_rgba x) f_skin_rgba;
+  Option.iter (mjModel_set_skin_inflate x) f_skin_inflate;
+  Option.iter (mjModel_set_skin_vertadr x) f_skin_vertadr;
+  Option.iter (mjModel_set_skin_vertnum x) f_skin_vertnum;
+  Option.iter (mjModel_set_skin_texcoordadr x) f_skin_texcoordadr;
+  Option.iter (mjModel_set_skin_faceadr x) f_skin_faceadr;
+  Option.iter (mjModel_set_skin_facenum x) f_skin_facenum;
+  Option.iter (mjModel_set_skin_boneadr x) f_skin_boneadr;
+  Option.iter (mjModel_set_skin_bonenum x) f_skin_bonenum;
+  Option.iter (mjModel_set_skin_vert x) f_skin_vert;
+  Option.iter (mjModel_set_skin_texcoord x) f_skin_texcoord;
+  Option.iter (mjModel_set_skin_face x) f_skin_face;
+  Option.iter (mjModel_set_skin_bonevertadr x) f_skin_bonevertadr;
+  Option.iter (mjModel_set_skin_bonevertnum x) f_skin_bonevertnum;
+  Option.iter (mjModel_set_skin_bonebindpos x) f_skin_bonebindpos;
+  Option.iter (mjModel_set_skin_bonebindquat x) f_skin_bonebindquat;
+  Option.iter (mjModel_set_skin_bonebodyid x) f_skin_bonebodyid;
+  Option.iter (mjModel_set_skin_bonevertid x) f_skin_bonevertid;
+  Option.iter (mjModel_set_skin_bonevertweight x) f_skin_bonevertweight;
+  Option.iter (mjModel_set_hfield_size x) f_hfield_size;
+  Option.iter (mjModel_set_hfield_nrow x) f_hfield_nrow;
+  Option.iter (mjModel_set_hfield_ncol x) f_hfield_ncol;
+  Option.iter (mjModel_set_hfield_adr x) f_hfield_adr;
+  Option.iter (mjModel_set_hfield_data x) f_hfield_data;
+  Option.iter (mjModel_set_tex_type x) f_tex_type;
+  Option.iter (mjModel_set_tex_height x) f_tex_height;
+  Option.iter (mjModel_set_tex_width x) f_tex_width;
+  Option.iter (mjModel_set_tex_adr x) f_tex_adr;
+  Option.iter (mjModel_set_tex_rgb x) f_tex_rgb;
+  Option.iter (mjModel_set_mat_texid x) f_mat_texid;
+  Option.iter (mjModel_set_mat_texuniform x) f_mat_texuniform;
+  Option.iter (mjModel_set_mat_texrepeat x) f_mat_texrepeat;
+  Option.iter (mjModel_set_mat_emission x) f_mat_emission;
+  Option.iter (mjModel_set_mat_specular x) f_mat_specular;
+  Option.iter (mjModel_set_mat_shininess x) f_mat_shininess;
+  Option.iter (mjModel_set_mat_reflectance x) f_mat_reflectance;
+  Option.iter (mjModel_set_mat_rgba x) f_mat_rgba;
+  Option.iter (mjModel_set_pair_dim x) f_pair_dim;
+  Option.iter (mjModel_set_pair_geom1 x) f_pair_geom1;
+  Option.iter (mjModel_set_pair_geom2 x) f_pair_geom2;
+  Option.iter (mjModel_set_pair_signature x) f_pair_signature;
+  Option.iter (mjModel_set_pair_solref x) f_pair_solref;
+  Option.iter (mjModel_set_pair_solimp x) f_pair_solimp;
+  Option.iter (mjModel_set_pair_margin x) f_pair_margin;
+  Option.iter (mjModel_set_pair_gap x) f_pair_gap;
+  Option.iter (mjModel_set_pair_friction x) f_pair_friction;
+  Option.iter (mjModel_set_exclude_signature x) f_exclude_signature;
+  Option.iter (mjModel_set_eq_type x) f_eq_type;
+  Option.iter (mjModel_set_eq_obj1id x) f_eq_obj1id;
+  Option.iter (mjModel_set_eq_obj2id x) f_eq_obj2id;
+  Option.iter (mjModel_set_eq_active x) f_eq_active;
+  Option.iter (mjModel_set_eq_solref x) f_eq_solref;
+  Option.iter (mjModel_set_eq_solimp x) f_eq_solimp;
+  Option.iter (mjModel_set_eq_data x) f_eq_data;
+  Option.iter (mjModel_set_tendon_adr x) f_tendon_adr;
+  Option.iter (mjModel_set_tendon_num x) f_tendon_num;
+  Option.iter (mjModel_set_tendon_matid x) f_tendon_matid;
+  Option.iter (mjModel_set_tendon_group x) f_tendon_group;
+  Option.iter (mjModel_set_tendon_limited x) f_tendon_limited;
+  Option.iter (mjModel_set_tendon_width x) f_tendon_width;
+  Option.iter (mjModel_set_tendon_solref_lim x) f_tendon_solref_lim;
+  Option.iter (mjModel_set_tendon_solimp_lim x) f_tendon_solimp_lim;
+  Option.iter (mjModel_set_tendon_solref_fri x) f_tendon_solref_fri;
+  Option.iter (mjModel_set_tendon_solimp_fri x) f_tendon_solimp_fri;
+  Option.iter (mjModel_set_tendon_range x) f_tendon_range;
+  Option.iter (mjModel_set_tendon_margin x) f_tendon_margin;
+  Option.iter (mjModel_set_tendon_stiffness x) f_tendon_stiffness;
+  Option.iter (mjModel_set_tendon_damping x) f_tendon_damping;
+  Option.iter (mjModel_set_tendon_frictionloss x) f_tendon_frictionloss;
+  Option.iter (mjModel_set_tendon_lengthspring x) f_tendon_lengthspring;
+  Option.iter (mjModel_set_tendon_length0 x) f_tendon_length0;
+  Option.iter (mjModel_set_tendon_invweight0 x) f_tendon_invweight0;
+  Option.iter (mjModel_set_tendon_user x) f_tendon_user;
+  Option.iter (mjModel_set_tendon_rgba x) f_tendon_rgba;
+  Option.iter (mjModel_set_wrap_type x) f_wrap_type;
+  Option.iter (mjModel_set_wrap_objid x) f_wrap_objid;
+  Option.iter (mjModel_set_wrap_prm x) f_wrap_prm;
+  Option.iter (mjModel_set_actuator_trntype x) f_actuator_trntype;
+  Option.iter (mjModel_set_actuator_dyntype x) f_actuator_dyntype;
+  Option.iter (mjModel_set_actuator_gaintype x) f_actuator_gaintype;
+  Option.iter (mjModel_set_actuator_biastype x) f_actuator_biastype;
+  Option.iter (mjModel_set_actuator_trnid x) f_actuator_trnid;
+  Option.iter (mjModel_set_actuator_group x) f_actuator_group;
+  Option.iter (mjModel_set_actuator_ctrllimited x) f_actuator_ctrllimited;
+  Option.iter (mjModel_set_actuator_forcelimited x) f_actuator_forcelimited;
+  Option.iter (mjModel_set_actuator_dynprm x) f_actuator_dynprm;
+  Option.iter (mjModel_set_actuator_gainprm x) f_actuator_gainprm;
+  Option.iter (mjModel_set_actuator_biasprm x) f_actuator_biasprm;
+  Option.iter (mjModel_set_actuator_ctrlrange x) f_actuator_ctrlrange;
+  Option.iter (mjModel_set_actuator_forcerange x) f_actuator_forcerange;
+  Option.iter (mjModel_set_actuator_gear x) f_actuator_gear;
+  Option.iter (mjModel_set_actuator_cranklength x) f_actuator_cranklength;
+  Option.iter (mjModel_set_actuator_acc0 x) f_actuator_acc0;
+  Option.iter (mjModel_set_actuator_length0 x) f_actuator_length0;
+  Option.iter (mjModel_set_actuator_lengthrange x) f_actuator_lengthrange;
+  Option.iter (mjModel_set_actuator_user x) f_actuator_user;
+  Option.iter (mjModel_set_sensor_type x) f_sensor_type;
+  Option.iter (mjModel_set_sensor_datatype x) f_sensor_datatype;
+  Option.iter (mjModel_set_sensor_needstage x) f_sensor_needstage;
+  Option.iter (mjModel_set_sensor_objtype x) f_sensor_objtype;
+  Option.iter (mjModel_set_sensor_objid x) f_sensor_objid;
+  Option.iter (mjModel_set_sensor_dim x) f_sensor_dim;
+  Option.iter (mjModel_set_sensor_adr x) f_sensor_adr;
+  Option.iter (mjModel_set_sensor_cutoff x) f_sensor_cutoff;
+  Option.iter (mjModel_set_sensor_noise x) f_sensor_noise;
+  Option.iter (mjModel_set_sensor_user x) f_sensor_user;
+  Option.iter (mjModel_set_numeric_adr x) f_numeric_adr;
+  Option.iter (mjModel_set_numeric_size x) f_numeric_size;
+  Option.iter (mjModel_set_numeric_data x) f_numeric_data;
+  Option.iter (mjModel_set_text_adr x) f_text_adr;
+  Option.iter (mjModel_set_text_size x) f_text_size;
+  Option.iter (mjModel_set_text_data x) f_text_data;
+  Option.iter (mjModel_set_tuple_adr x) f_tuple_adr;
+  Option.iter (mjModel_set_tuple_size x) f_tuple_size;
+  Option.iter (mjModel_set_tuple_objtype x) f_tuple_objtype;
+  Option.iter (mjModel_set_tuple_objid x) f_tuple_objid;
+  Option.iter (mjModel_set_tuple_objprm x) f_tuple_objprm;
+  Option.iter (mjModel_set_key_time x) f_key_time;
+  Option.iter (mjModel_set_key_qpos x) f_key_qpos;
+  Option.iter (mjModel_set_key_qvel x) f_key_qvel;
+  Option.iter (mjModel_set_key_act x) f_key_act;
+  Option.iter (mjModel_set_key_mpos x) f_key_mpos;
+  Option.iter (mjModel_set_key_mquat x) f_key_mquat;
+  Option.iter (mjModel_set_name_bodyadr x) f_name_bodyadr;
+  Option.iter (mjModel_set_name_jntadr x) f_name_jntadr;
+  Option.iter (mjModel_set_name_geomadr x) f_name_geomadr;
+  Option.iter (mjModel_set_name_siteadr x) f_name_siteadr;
+  Option.iter (mjModel_set_name_camadr x) f_name_camadr;
+  Option.iter (mjModel_set_name_lightadr x) f_name_lightadr;
+  Option.iter (mjModel_set_name_meshadr x) f_name_meshadr;
+  Option.iter (mjModel_set_name_skinadr x) f_name_skinadr;
+  Option.iter (mjModel_set_name_hfieldadr x) f_name_hfieldadr;
+  Option.iter (mjModel_set_name_texadr x) f_name_texadr;
+  Option.iter (mjModel_set_name_matadr x) f_name_matadr;
+  Option.iter (mjModel_set_name_pairadr x) f_name_pairadr;
+  Option.iter (mjModel_set_name_excludeadr x) f_name_excludeadr;
+  Option.iter (mjModel_set_name_eqadr x) f_name_eqadr;
+  Option.iter (mjModel_set_name_tendonadr x) f_name_tendonadr;
+  Option.iter (mjModel_set_name_actuatoradr x) f_name_actuatoradr;
+  Option.iter (mjModel_set_name_sensoradr x) f_name_sensoradr;
+  Option.iter (mjModel_set_name_numericadr x) f_name_numericadr;
+  Option.iter (mjModel_set_name_textadr x) f_name_textadr;
+  Option.iter (mjModel_set_name_tupleadr x) f_name_tupleadr;
+  Option.iter (mjModel_set_name_keyadr x) f_name_keyadr;
+  Option.iter (mjModel_set_names x) f_names;
   x
 
 
@@ -3993,37 +3986,37 @@ let mjContact_set_efc_address x y = Ctypes.(setf x Typs.mjContact_efc_address y)
 
 (** make mjContact struct *)
 let mjContact_make
-    ?mjf_dist
-    ?mjf_pos
-    ?mjf_frame
-    ?mjf_includemargin
-    ?mjf_friction
-    ?mjf_solref
-    ?mjf_solimp
-    ?mjf_mu
-    ?mjf_H
-    ?mjf_dim
-    ?mjf_geom1
-    ?mjf_geom2
-    ?mjf_exclude
-    ?mjf_efc_address
+    ?f_dist
+    ?f_pos
+    ?f_frame
+    ?f_includemargin
+    ?f_friction
+    ?f_solref
+    ?f_solimp
+    ?f_mu
+    ?f_H
+    ?f_dim
+    ?f_geom1
+    ?f_geom2
+    ?f_exclude
+    ?f_efc_address
     ()
   =
   let x = mjContact_allocate () in
-  Option.iter (mjContact_set_dist x) mjf_dist;
-  Option.iter (mjContact_set_pos x) mjf_pos;
-  Option.iter (mjContact_set_frame x) mjf_frame;
-  Option.iter (mjContact_set_includemargin x) mjf_includemargin;
-  Option.iter (mjContact_set_friction x) mjf_friction;
-  Option.iter (mjContact_set_solref x) mjf_solref;
-  Option.iter (mjContact_set_solimp x) mjf_solimp;
-  Option.iter (mjContact_set_mu x) mjf_mu;
-  Option.iter (mjContact_set_H x) mjf_H;
-  Option.iter (mjContact_set_dim x) mjf_dim;
-  Option.iter (mjContact_set_geom1 x) mjf_geom1;
-  Option.iter (mjContact_set_geom2 x) mjf_geom2;
-  Option.iter (mjContact_set_exclude x) mjf_exclude;
-  Option.iter (mjContact_set_efc_address x) mjf_efc_address;
+  Option.iter (mjContact_set_dist x) f_dist;
+  Option.iter (mjContact_set_pos x) f_pos;
+  Option.iter (mjContact_set_frame x) f_frame;
+  Option.iter (mjContact_set_includemargin x) f_includemargin;
+  Option.iter (mjContact_set_friction x) f_friction;
+  Option.iter (mjContact_set_solref x) f_solref;
+  Option.iter (mjContact_set_solimp x) f_solimp;
+  Option.iter (mjContact_set_mu x) f_mu;
+  Option.iter (mjContact_set_H x) f_H;
+  Option.iter (mjContact_set_dim x) f_dim;
+  Option.iter (mjContact_set_geom1 x) f_geom1;
+  Option.iter (mjContact_set_geom2 x) f_geom2;
+  Option.iter (mjContact_set_exclude x) f_exclude;
+  Option.iter (mjContact_set_efc_address x) f_efc_address;
   x
 
 
@@ -4049,10 +4042,10 @@ let mjWarningStat_get_number x = Ctypes.(getf x Typs.mjWarningStat_number)
 let mjWarningStat_set_number x y = Ctypes.(setf x Typs.mjWarningStat_number y)
 
 (** make mjWarningStat struct *)
-let mjWarningStat_make ?mjf_lastinfo ?mjf_number () =
+let mjWarningStat_make ?f_lastinfo ?f_number () =
   let x = mjWarningStat_allocate () in
-  Option.iter (mjWarningStat_set_lastinfo x) mjf_lastinfo;
-  Option.iter (mjWarningStat_set_number x) mjf_number;
+  Option.iter (mjWarningStat_set_lastinfo x) f_lastinfo;
+  Option.iter (mjWarningStat_set_number x) f_number;
   x
 
 
@@ -4078,10 +4071,10 @@ let mjTimerStat_get_number x = Ctypes.(getf x Typs.mjTimerStat_number)
 let mjTimerStat_set_number x y = Ctypes.(setf x Typs.mjTimerStat_number y)
 
 (** make mjTimerStat struct *)
-let mjTimerStat_make ?mjf_duration ?mjf_number () =
+let mjTimerStat_make ?f_duration ?f_number () =
   let x = mjTimerStat_allocate () in
-  Option.iter (mjTimerStat_set_duration x) mjf_duration;
-  Option.iter (mjTimerStat_set_number x) mjf_number;
+  Option.iter (mjTimerStat_set_duration x) f_duration;
+  Option.iter (mjTimerStat_set_number x) f_number;
   x
 
 
@@ -4138,23 +4131,23 @@ let mjSolverStat_set_nupdate x y = Ctypes.(setf x Typs.mjSolverStat_nupdate y)
 
 (** make mjSolverStat struct *)
 let mjSolverStat_make
-    ?mjf_improvement
-    ?mjf_gradient
-    ?mjf_lineslope
-    ?mjf_nactive
-    ?mjf_nchange
-    ?mjf_neval
-    ?mjf_nupdate
+    ?f_improvement
+    ?f_gradient
+    ?f_lineslope
+    ?f_nactive
+    ?f_nchange
+    ?f_neval
+    ?f_nupdate
     ()
   =
   let x = mjSolverStat_allocate () in
-  Option.iter (mjSolverStat_set_improvement x) mjf_improvement;
-  Option.iter (mjSolverStat_set_gradient x) mjf_gradient;
-  Option.iter (mjSolverStat_set_lineslope x) mjf_lineslope;
-  Option.iter (mjSolverStat_set_nactive x) mjf_nactive;
-  Option.iter (mjSolverStat_set_nchange x) mjf_nchange;
-  Option.iter (mjSolverStat_set_neval x) mjf_neval;
-  Option.iter (mjSolverStat_set_nupdate x) mjf_nupdate;
+  Option.iter (mjSolverStat_set_improvement x) f_improvement;
+  Option.iter (mjSolverStat_set_gradient x) f_gradient;
+  Option.iter (mjSolverStat_set_lineslope x) f_lineslope;
+  Option.iter (mjSolverStat_set_nactive x) f_nactive;
+  Option.iter (mjSolverStat_set_nchange x) f_nchange;
+  Option.iter (mjSolverStat_set_neval x) f_neval;
+  Option.iter (mjSolverStat_set_nupdate x) f_nupdate;
   x
 
 
@@ -4847,235 +4840,235 @@ let mjData_set_cfrc_ext x y = Ctypes.(setf x Typs.mjData_cfrc_ext y)
 
 (** make mjData struct *)
 let mjData_make
-    ?mjf_nstack
-    ?mjf_nbuffer
-    ?mjf_pstack
-    ?mjf_maxuse_stack
-    ?mjf_maxuse_con
-    ?mjf_maxuse_efc
-    ?mjf_warning
-    ?mjf_timer
-    ?mjf_solver
-    ?mjf_solver_iter
-    ?mjf_solver_nnz
-    ?mjf_solver_fwdinv
-    ?mjf_ne
-    ?mjf_nf
-    ?mjf_nefc
-    ?mjf_ncon
-    ?mjf_time
-    ?mjf_energy
-    ?mjf_buffer
-    ?mjf_stack
-    ?mjf_qpos
-    ?mjf_qvel
-    ?mjf_act
-    ?mjf_qacc_warmstart
-    ?mjf_ctrl
-    ?mjf_qfrc_applied
-    ?mjf_xfrc_applied
-    ?mjf_qacc
-    ?mjf_act_dot
-    ?mjf_mocap_pos
-    ?mjf_mocap_quat
-    ?mjf_userdata
-    ?mjf_sensordata
-    ?mjf_xpos
-    ?mjf_xquat
-    ?mjf_xmat
-    ?mjf_xipos
-    ?mjf_ximat
-    ?mjf_xanchor
-    ?mjf_xaxis
-    ?mjf_geom_xpos
-    ?mjf_geom_xmat
-    ?mjf_site_xpos
-    ?mjf_site_xmat
-    ?mjf_cam_xpos
-    ?mjf_cam_xmat
-    ?mjf_light_xpos
-    ?mjf_light_xdir
-    ?mjf_subtree_com
-    ?mjf_cdof
-    ?mjf_cinert
-    ?mjf_ten_wrapadr
-    ?mjf_ten_wrapnum
-    ?mjf_ten_J_rownnz
-    ?mjf_ten_J_rowadr
-    ?mjf_ten_J_colind
-    ?mjf_ten_length
-    ?mjf_ten_J
-    ?mjf_wrap_obj
-    ?mjf_wrap_xpos
-    ?mjf_actuator_length
-    ?mjf_actuator_moment
-    ?mjf_crb
-    ?mjf_qM
-    ?mjf_qLD
-    ?mjf_qLDiagInv
-    ?mjf_qLDiagSqrtInv
-    ?mjf_contact
-    ?mjf_efc_type
-    ?mjf_efc_id
-    ?mjf_efc_J_rownnz
-    ?mjf_efc_J_rowadr
-    ?mjf_efc_J_rowsuper
-    ?mjf_efc_J_colind
-    ?mjf_efc_JT_rownnz
-    ?mjf_efc_JT_rowadr
-    ?mjf_efc_JT_rowsuper
-    ?mjf_efc_JT_colind
-    ?mjf_efc_J
-    ?mjf_efc_JT
-    ?mjf_efc_pos
-    ?mjf_efc_margin
-    ?mjf_efc_frictionloss
-    ?mjf_efc_diagApprox
-    ?mjf_efc_KBIP
-    ?mjf_efc_D
-    ?mjf_efc_R
-    ?mjf_efc_AR_rownnz
-    ?mjf_efc_AR_rowadr
-    ?mjf_efc_AR_colind
-    ?mjf_efc_AR
-    ?mjf_ten_velocity
-    ?mjf_actuator_velocity
-    ?mjf_cvel
-    ?mjf_cdof_dot
-    ?mjf_qfrc_bias
-    ?mjf_qfrc_passive
-    ?mjf_efc_vel
-    ?mjf_efc_aref
-    ?mjf_subtree_linvel
-    ?mjf_subtree_angmom
-    ?mjf_actuator_force
-    ?mjf_qfrc_actuator
-    ?mjf_qfrc_unc
-    ?mjf_qacc_unc
-    ?mjf_efc_b
-    ?mjf_efc_force
-    ?mjf_efc_state
-    ?mjf_qfrc_constraint
-    ?mjf_qfrc_inverse
-    ?mjf_cacc
-    ?mjf_cfrc_int
-    ?mjf_cfrc_ext
+    ?f_nstack
+    ?f_nbuffer
+    ?f_pstack
+    ?f_maxuse_stack
+    ?f_maxuse_con
+    ?f_maxuse_efc
+    ?f_warning
+    ?f_timer
+    ?f_solver
+    ?f_solver_iter
+    ?f_solver_nnz
+    ?f_solver_fwdinv
+    ?f_ne
+    ?f_nf
+    ?f_nefc
+    ?f_ncon
+    ?f_time
+    ?f_energy
+    ?f_buffer
+    ?f_stack
+    ?f_qpos
+    ?f_qvel
+    ?f_act
+    ?f_qacc_warmstart
+    ?f_ctrl
+    ?f_qfrc_applied
+    ?f_xfrc_applied
+    ?f_qacc
+    ?f_act_dot
+    ?f_mocap_pos
+    ?f_mocap_quat
+    ?f_userdata
+    ?f_sensordata
+    ?f_xpos
+    ?f_xquat
+    ?f_xmat
+    ?f_xipos
+    ?f_ximat
+    ?f_xanchor
+    ?f_xaxis
+    ?f_geom_xpos
+    ?f_geom_xmat
+    ?f_site_xpos
+    ?f_site_xmat
+    ?f_cam_xpos
+    ?f_cam_xmat
+    ?f_light_xpos
+    ?f_light_xdir
+    ?f_subtree_com
+    ?f_cdof
+    ?f_cinert
+    ?f_ten_wrapadr
+    ?f_ten_wrapnum
+    ?f_ten_J_rownnz
+    ?f_ten_J_rowadr
+    ?f_ten_J_colind
+    ?f_ten_length
+    ?f_ten_J
+    ?f_wrap_obj
+    ?f_wrap_xpos
+    ?f_actuator_length
+    ?f_actuator_moment
+    ?f_crb
+    ?f_qM
+    ?f_qLD
+    ?f_qLDiagInv
+    ?f_qLDiagSqrtInv
+    ?f_contact
+    ?f_efc_type
+    ?f_efc_id
+    ?f_efc_J_rownnz
+    ?f_efc_J_rowadr
+    ?f_efc_J_rowsuper
+    ?f_efc_J_colind
+    ?f_efc_JT_rownnz
+    ?f_efc_JT_rowadr
+    ?f_efc_JT_rowsuper
+    ?f_efc_JT_colind
+    ?f_efc_J
+    ?f_efc_JT
+    ?f_efc_pos
+    ?f_efc_margin
+    ?f_efc_frictionloss
+    ?f_efc_diagApprox
+    ?f_efc_KBIP
+    ?f_efc_D
+    ?f_efc_R
+    ?f_efc_AR_rownnz
+    ?f_efc_AR_rowadr
+    ?f_efc_AR_colind
+    ?f_efc_AR
+    ?f_ten_velocity
+    ?f_actuator_velocity
+    ?f_cvel
+    ?f_cdof_dot
+    ?f_qfrc_bias
+    ?f_qfrc_passive
+    ?f_efc_vel
+    ?f_efc_aref
+    ?f_subtree_linvel
+    ?f_subtree_angmom
+    ?f_actuator_force
+    ?f_qfrc_actuator
+    ?f_qfrc_unc
+    ?f_qacc_unc
+    ?f_efc_b
+    ?f_efc_force
+    ?f_efc_state
+    ?f_qfrc_constraint
+    ?f_qfrc_inverse
+    ?f_cacc
+    ?f_cfrc_int
+    ?f_cfrc_ext
     ()
   =
   let x = mjData_allocate () in
-  Option.iter (mjData_set_nstack x) mjf_nstack;
-  Option.iter (mjData_set_nbuffer x) mjf_nbuffer;
-  Option.iter (mjData_set_pstack x) mjf_pstack;
-  Option.iter (mjData_set_maxuse_stack x) mjf_maxuse_stack;
-  Option.iter (mjData_set_maxuse_con x) mjf_maxuse_con;
-  Option.iter (mjData_set_maxuse_efc x) mjf_maxuse_efc;
-  Option.iter (mjData_set_warning x) mjf_warning;
-  Option.iter (mjData_set_timer x) mjf_timer;
-  Option.iter (mjData_set_solver x) mjf_solver;
-  Option.iter (mjData_set_solver_iter x) mjf_solver_iter;
-  Option.iter (mjData_set_solver_nnz x) mjf_solver_nnz;
-  Option.iter (mjData_set_solver_fwdinv x) mjf_solver_fwdinv;
-  Option.iter (mjData_set_ne x) mjf_ne;
-  Option.iter (mjData_set_nf x) mjf_nf;
-  Option.iter (mjData_set_nefc x) mjf_nefc;
-  Option.iter (mjData_set_ncon x) mjf_ncon;
-  Option.iter (mjData_set_time x) mjf_time;
-  Option.iter (mjData_set_energy x) mjf_energy;
-  Option.iter (mjData_set_buffer x) mjf_buffer;
-  Option.iter (mjData_set_stack x) mjf_stack;
-  Option.iter (mjData_set_qpos x) mjf_qpos;
-  Option.iter (mjData_set_qvel x) mjf_qvel;
-  Option.iter (mjData_set_act x) mjf_act;
-  Option.iter (mjData_set_qacc_warmstart x) mjf_qacc_warmstart;
-  Option.iter (mjData_set_ctrl x) mjf_ctrl;
-  Option.iter (mjData_set_qfrc_applied x) mjf_qfrc_applied;
-  Option.iter (mjData_set_xfrc_applied x) mjf_xfrc_applied;
-  Option.iter (mjData_set_qacc x) mjf_qacc;
-  Option.iter (mjData_set_act_dot x) mjf_act_dot;
-  Option.iter (mjData_set_mocap_pos x) mjf_mocap_pos;
-  Option.iter (mjData_set_mocap_quat x) mjf_mocap_quat;
-  Option.iter (mjData_set_userdata x) mjf_userdata;
-  Option.iter (mjData_set_sensordata x) mjf_sensordata;
-  Option.iter (mjData_set_xpos x) mjf_xpos;
-  Option.iter (mjData_set_xquat x) mjf_xquat;
-  Option.iter (mjData_set_xmat x) mjf_xmat;
-  Option.iter (mjData_set_xipos x) mjf_xipos;
-  Option.iter (mjData_set_ximat x) mjf_ximat;
-  Option.iter (mjData_set_xanchor x) mjf_xanchor;
-  Option.iter (mjData_set_xaxis x) mjf_xaxis;
-  Option.iter (mjData_set_geom_xpos x) mjf_geom_xpos;
-  Option.iter (mjData_set_geom_xmat x) mjf_geom_xmat;
-  Option.iter (mjData_set_site_xpos x) mjf_site_xpos;
-  Option.iter (mjData_set_site_xmat x) mjf_site_xmat;
-  Option.iter (mjData_set_cam_xpos x) mjf_cam_xpos;
-  Option.iter (mjData_set_cam_xmat x) mjf_cam_xmat;
-  Option.iter (mjData_set_light_xpos x) mjf_light_xpos;
-  Option.iter (mjData_set_light_xdir x) mjf_light_xdir;
-  Option.iter (mjData_set_subtree_com x) mjf_subtree_com;
-  Option.iter (mjData_set_cdof x) mjf_cdof;
-  Option.iter (mjData_set_cinert x) mjf_cinert;
-  Option.iter (mjData_set_ten_wrapadr x) mjf_ten_wrapadr;
-  Option.iter (mjData_set_ten_wrapnum x) mjf_ten_wrapnum;
-  Option.iter (mjData_set_ten_J_rownnz x) mjf_ten_J_rownnz;
-  Option.iter (mjData_set_ten_J_rowadr x) mjf_ten_J_rowadr;
-  Option.iter (mjData_set_ten_J_colind x) mjf_ten_J_colind;
-  Option.iter (mjData_set_ten_length x) mjf_ten_length;
-  Option.iter (mjData_set_ten_J x) mjf_ten_J;
-  Option.iter (mjData_set_wrap_obj x) mjf_wrap_obj;
-  Option.iter (mjData_set_wrap_xpos x) mjf_wrap_xpos;
-  Option.iter (mjData_set_actuator_length x) mjf_actuator_length;
-  Option.iter (mjData_set_actuator_moment x) mjf_actuator_moment;
-  Option.iter (mjData_set_crb x) mjf_crb;
-  Option.iter (mjData_set_qM x) mjf_qM;
-  Option.iter (mjData_set_qLD x) mjf_qLD;
-  Option.iter (mjData_set_qLDiagInv x) mjf_qLDiagInv;
-  Option.iter (mjData_set_qLDiagSqrtInv x) mjf_qLDiagSqrtInv;
-  Option.iter (mjData_set_contact x) mjf_contact;
-  Option.iter (mjData_set_efc_type x) mjf_efc_type;
-  Option.iter (mjData_set_efc_id x) mjf_efc_id;
-  Option.iter (mjData_set_efc_J_rownnz x) mjf_efc_J_rownnz;
-  Option.iter (mjData_set_efc_J_rowadr x) mjf_efc_J_rowadr;
-  Option.iter (mjData_set_efc_J_rowsuper x) mjf_efc_J_rowsuper;
-  Option.iter (mjData_set_efc_J_colind x) mjf_efc_J_colind;
-  Option.iter (mjData_set_efc_JT_rownnz x) mjf_efc_JT_rownnz;
-  Option.iter (mjData_set_efc_JT_rowadr x) mjf_efc_JT_rowadr;
-  Option.iter (mjData_set_efc_JT_rowsuper x) mjf_efc_JT_rowsuper;
-  Option.iter (mjData_set_efc_JT_colind x) mjf_efc_JT_colind;
-  Option.iter (mjData_set_efc_J x) mjf_efc_J;
-  Option.iter (mjData_set_efc_JT x) mjf_efc_JT;
-  Option.iter (mjData_set_efc_pos x) mjf_efc_pos;
-  Option.iter (mjData_set_efc_margin x) mjf_efc_margin;
-  Option.iter (mjData_set_efc_frictionloss x) mjf_efc_frictionloss;
-  Option.iter (mjData_set_efc_diagApprox x) mjf_efc_diagApprox;
-  Option.iter (mjData_set_efc_KBIP x) mjf_efc_KBIP;
-  Option.iter (mjData_set_efc_D x) mjf_efc_D;
-  Option.iter (mjData_set_efc_R x) mjf_efc_R;
-  Option.iter (mjData_set_efc_AR_rownnz x) mjf_efc_AR_rownnz;
-  Option.iter (mjData_set_efc_AR_rowadr x) mjf_efc_AR_rowadr;
-  Option.iter (mjData_set_efc_AR_colind x) mjf_efc_AR_colind;
-  Option.iter (mjData_set_efc_AR x) mjf_efc_AR;
-  Option.iter (mjData_set_ten_velocity x) mjf_ten_velocity;
-  Option.iter (mjData_set_actuator_velocity x) mjf_actuator_velocity;
-  Option.iter (mjData_set_cvel x) mjf_cvel;
-  Option.iter (mjData_set_cdof_dot x) mjf_cdof_dot;
-  Option.iter (mjData_set_qfrc_bias x) mjf_qfrc_bias;
-  Option.iter (mjData_set_qfrc_passive x) mjf_qfrc_passive;
-  Option.iter (mjData_set_efc_vel x) mjf_efc_vel;
-  Option.iter (mjData_set_efc_aref x) mjf_efc_aref;
-  Option.iter (mjData_set_subtree_linvel x) mjf_subtree_linvel;
-  Option.iter (mjData_set_subtree_angmom x) mjf_subtree_angmom;
-  Option.iter (mjData_set_actuator_force x) mjf_actuator_force;
-  Option.iter (mjData_set_qfrc_actuator x) mjf_qfrc_actuator;
-  Option.iter (mjData_set_qfrc_unc x) mjf_qfrc_unc;
-  Option.iter (mjData_set_qacc_unc x) mjf_qacc_unc;
-  Option.iter (mjData_set_efc_b x) mjf_efc_b;
-  Option.iter (mjData_set_efc_force x) mjf_efc_force;
-  Option.iter (mjData_set_efc_state x) mjf_efc_state;
-  Option.iter (mjData_set_qfrc_constraint x) mjf_qfrc_constraint;
-  Option.iter (mjData_set_qfrc_inverse x) mjf_qfrc_inverse;
-  Option.iter (mjData_set_cacc x) mjf_cacc;
-  Option.iter (mjData_set_cfrc_int x) mjf_cfrc_int;
-  Option.iter (mjData_set_cfrc_ext x) mjf_cfrc_ext;
+  Option.iter (mjData_set_nstack x) f_nstack;
+  Option.iter (mjData_set_nbuffer x) f_nbuffer;
+  Option.iter (mjData_set_pstack x) f_pstack;
+  Option.iter (mjData_set_maxuse_stack x) f_maxuse_stack;
+  Option.iter (mjData_set_maxuse_con x) f_maxuse_con;
+  Option.iter (mjData_set_maxuse_efc x) f_maxuse_efc;
+  Option.iter (mjData_set_warning x) f_warning;
+  Option.iter (mjData_set_timer x) f_timer;
+  Option.iter (mjData_set_solver x) f_solver;
+  Option.iter (mjData_set_solver_iter x) f_solver_iter;
+  Option.iter (mjData_set_solver_nnz x) f_solver_nnz;
+  Option.iter (mjData_set_solver_fwdinv x) f_solver_fwdinv;
+  Option.iter (mjData_set_ne x) f_ne;
+  Option.iter (mjData_set_nf x) f_nf;
+  Option.iter (mjData_set_nefc x) f_nefc;
+  Option.iter (mjData_set_ncon x) f_ncon;
+  Option.iter (mjData_set_time x) f_time;
+  Option.iter (mjData_set_energy x) f_energy;
+  Option.iter (mjData_set_buffer x) f_buffer;
+  Option.iter (mjData_set_stack x) f_stack;
+  Option.iter (mjData_set_qpos x) f_qpos;
+  Option.iter (mjData_set_qvel x) f_qvel;
+  Option.iter (mjData_set_act x) f_act;
+  Option.iter (mjData_set_qacc_warmstart x) f_qacc_warmstart;
+  Option.iter (mjData_set_ctrl x) f_ctrl;
+  Option.iter (mjData_set_qfrc_applied x) f_qfrc_applied;
+  Option.iter (mjData_set_xfrc_applied x) f_xfrc_applied;
+  Option.iter (mjData_set_qacc x) f_qacc;
+  Option.iter (mjData_set_act_dot x) f_act_dot;
+  Option.iter (mjData_set_mocap_pos x) f_mocap_pos;
+  Option.iter (mjData_set_mocap_quat x) f_mocap_quat;
+  Option.iter (mjData_set_userdata x) f_userdata;
+  Option.iter (mjData_set_sensordata x) f_sensordata;
+  Option.iter (mjData_set_xpos x) f_xpos;
+  Option.iter (mjData_set_xquat x) f_xquat;
+  Option.iter (mjData_set_xmat x) f_xmat;
+  Option.iter (mjData_set_xipos x) f_xipos;
+  Option.iter (mjData_set_ximat x) f_ximat;
+  Option.iter (mjData_set_xanchor x) f_xanchor;
+  Option.iter (mjData_set_xaxis x) f_xaxis;
+  Option.iter (mjData_set_geom_xpos x) f_geom_xpos;
+  Option.iter (mjData_set_geom_xmat x) f_geom_xmat;
+  Option.iter (mjData_set_site_xpos x) f_site_xpos;
+  Option.iter (mjData_set_site_xmat x) f_site_xmat;
+  Option.iter (mjData_set_cam_xpos x) f_cam_xpos;
+  Option.iter (mjData_set_cam_xmat x) f_cam_xmat;
+  Option.iter (mjData_set_light_xpos x) f_light_xpos;
+  Option.iter (mjData_set_light_xdir x) f_light_xdir;
+  Option.iter (mjData_set_subtree_com x) f_subtree_com;
+  Option.iter (mjData_set_cdof x) f_cdof;
+  Option.iter (mjData_set_cinert x) f_cinert;
+  Option.iter (mjData_set_ten_wrapadr x) f_ten_wrapadr;
+  Option.iter (mjData_set_ten_wrapnum x) f_ten_wrapnum;
+  Option.iter (mjData_set_ten_J_rownnz x) f_ten_J_rownnz;
+  Option.iter (mjData_set_ten_J_rowadr x) f_ten_J_rowadr;
+  Option.iter (mjData_set_ten_J_colind x) f_ten_J_colind;
+  Option.iter (mjData_set_ten_length x) f_ten_length;
+  Option.iter (mjData_set_ten_J x) f_ten_J;
+  Option.iter (mjData_set_wrap_obj x) f_wrap_obj;
+  Option.iter (mjData_set_wrap_xpos x) f_wrap_xpos;
+  Option.iter (mjData_set_actuator_length x) f_actuator_length;
+  Option.iter (mjData_set_actuator_moment x) f_actuator_moment;
+  Option.iter (mjData_set_crb x) f_crb;
+  Option.iter (mjData_set_qM x) f_qM;
+  Option.iter (mjData_set_qLD x) f_qLD;
+  Option.iter (mjData_set_qLDiagInv x) f_qLDiagInv;
+  Option.iter (mjData_set_qLDiagSqrtInv x) f_qLDiagSqrtInv;
+  Option.iter (mjData_set_contact x) f_contact;
+  Option.iter (mjData_set_efc_type x) f_efc_type;
+  Option.iter (mjData_set_efc_id x) f_efc_id;
+  Option.iter (mjData_set_efc_J_rownnz x) f_efc_J_rownnz;
+  Option.iter (mjData_set_efc_J_rowadr x) f_efc_J_rowadr;
+  Option.iter (mjData_set_efc_J_rowsuper x) f_efc_J_rowsuper;
+  Option.iter (mjData_set_efc_J_colind x) f_efc_J_colind;
+  Option.iter (mjData_set_efc_JT_rownnz x) f_efc_JT_rownnz;
+  Option.iter (mjData_set_efc_JT_rowadr x) f_efc_JT_rowadr;
+  Option.iter (mjData_set_efc_JT_rowsuper x) f_efc_JT_rowsuper;
+  Option.iter (mjData_set_efc_JT_colind x) f_efc_JT_colind;
+  Option.iter (mjData_set_efc_J x) f_efc_J;
+  Option.iter (mjData_set_efc_JT x) f_efc_JT;
+  Option.iter (mjData_set_efc_pos x) f_efc_pos;
+  Option.iter (mjData_set_efc_margin x) f_efc_margin;
+  Option.iter (mjData_set_efc_frictionloss x) f_efc_frictionloss;
+  Option.iter (mjData_set_efc_diagApprox x) f_efc_diagApprox;
+  Option.iter (mjData_set_efc_KBIP x) f_efc_KBIP;
+  Option.iter (mjData_set_efc_D x) f_efc_D;
+  Option.iter (mjData_set_efc_R x) f_efc_R;
+  Option.iter (mjData_set_efc_AR_rownnz x) f_efc_AR_rownnz;
+  Option.iter (mjData_set_efc_AR_rowadr x) f_efc_AR_rowadr;
+  Option.iter (mjData_set_efc_AR_colind x) f_efc_AR_colind;
+  Option.iter (mjData_set_efc_AR x) f_efc_AR;
+  Option.iter (mjData_set_ten_velocity x) f_ten_velocity;
+  Option.iter (mjData_set_actuator_velocity x) f_actuator_velocity;
+  Option.iter (mjData_set_cvel x) f_cvel;
+  Option.iter (mjData_set_cdof_dot x) f_cdof_dot;
+  Option.iter (mjData_set_qfrc_bias x) f_qfrc_bias;
+  Option.iter (mjData_set_qfrc_passive x) f_qfrc_passive;
+  Option.iter (mjData_set_efc_vel x) f_efc_vel;
+  Option.iter (mjData_set_efc_aref x) f_efc_aref;
+  Option.iter (mjData_set_subtree_linvel x) f_subtree_linvel;
+  Option.iter (mjData_set_subtree_angmom x) f_subtree_angmom;
+  Option.iter (mjData_set_actuator_force x) f_actuator_force;
+  Option.iter (mjData_set_qfrc_actuator x) f_qfrc_actuator;
+  Option.iter (mjData_set_qfrc_unc x) f_qfrc_unc;
+  Option.iter (mjData_set_qacc_unc x) f_qacc_unc;
+  Option.iter (mjData_set_efc_b x) f_efc_b;
+  Option.iter (mjData_set_efc_force x) f_efc_force;
+  Option.iter (mjData_set_efc_state x) f_efc_state;
+  Option.iter (mjData_set_qfrc_constraint x) f_qfrc_constraint;
+  Option.iter (mjData_set_qfrc_inverse x) f_qfrc_inverse;
+  Option.iter (mjData_set_cacc x) f_cacc;
+  Option.iter (mjData_set_cfrc_int x) f_cfrc_int;
+  Option.iter (mjData_set_cfrc_ext x) f_cfrc_ext;
   x
 
 
@@ -5250,25 +5243,25 @@ let mjvPerturb_set_scale x y = Ctypes.(setf x Typs.mjvPerturb_scale y)
 
 (** make mjvPerturb struct *)
 let mjvPerturb_make
-    ?mjf_select
-    ?mjf_skinselect
-    ?mjf_active
-    ?mjf_active2
-    ?mjf_refpos
-    ?mjf_refquat
-    ?mjf_localpos
-    ?mjf_scale
+    ?f_select
+    ?f_skinselect
+    ?f_active
+    ?f_active2
+    ?f_refpos
+    ?f_refquat
+    ?f_localpos
+    ?f_scale
     ()
   =
   let x = mjvPerturb_allocate () in
-  Option.iter (mjvPerturb_set_select x) mjf_select;
-  Option.iter (mjvPerturb_set_skinselect x) mjf_skinselect;
-  Option.iter (mjvPerturb_set_active x) mjf_active;
-  Option.iter (mjvPerturb_set_active2 x) mjf_active2;
-  Option.iter (mjvPerturb_set_refpos x) mjf_refpos;
-  Option.iter (mjvPerturb_set_refquat x) mjf_refquat;
-  Option.iter (mjvPerturb_set_localpos x) mjf_localpos;
-  Option.iter (mjvPerturb_set_scale x) mjf_scale;
+  Option.iter (mjvPerturb_set_select x) f_select;
+  Option.iter (mjvPerturb_set_skinselect x) f_skinselect;
+  Option.iter (mjvPerturb_set_active x) f_active;
+  Option.iter (mjvPerturb_set_active2 x) f_active2;
+  Option.iter (mjvPerturb_set_refpos x) f_refpos;
+  Option.iter (mjvPerturb_set_refquat x) f_refquat;
+  Option.iter (mjvPerturb_set_localpos x) f_localpos;
+  Option.iter (mjvPerturb_set_scale x) f_scale;
   x
 
 
@@ -5325,23 +5318,23 @@ let mjvCamera_set_elevation x y = Ctypes.(setf x Typs.mjvCamera_elevation y)
 
 (** make mjvCamera struct *)
 let mjvCamera_make
-    ?mjf_type
-    ?mjf_fixedcamid
-    ?mjf_trackbodyid
-    ?mjf_lookat
-    ?mjf_distance
-    ?mjf_azimuth
-    ?mjf_elevation
+    ?f_type
+    ?f_fixedcamid
+    ?f_trackbodyid
+    ?f_lookat
+    ?f_distance
+    ?f_azimuth
+    ?f_elevation
     ()
   =
   let x = mjvCamera_allocate () in
-  Option.iter (mjvCamera_set_type x) mjf_type;
-  Option.iter (mjvCamera_set_fixedcamid x) mjf_fixedcamid;
-  Option.iter (mjvCamera_set_trackbodyid x) mjf_trackbodyid;
-  Option.iter (mjvCamera_set_lookat x) mjf_lookat;
-  Option.iter (mjvCamera_set_distance x) mjf_distance;
-  Option.iter (mjvCamera_set_azimuth x) mjf_azimuth;
-  Option.iter (mjvCamera_set_elevation x) mjf_elevation;
+  Option.iter (mjvCamera_set_type x) f_type;
+  Option.iter (mjvCamera_set_fixedcamid x) f_fixedcamid;
+  Option.iter (mjvCamera_set_trackbodyid x) f_trackbodyid;
+  Option.iter (mjvCamera_set_lookat x) f_lookat;
+  Option.iter (mjvCamera_set_distance x) f_distance;
+  Option.iter (mjvCamera_set_azimuth x) f_azimuth;
+  Option.iter (mjvCamera_set_elevation x) f_elevation;
   x
 
 
@@ -5404,25 +5397,25 @@ let mjvGLCamera_set_frustum_far x y = Ctypes.(setf x Typs.mjvGLCamera_frustum_fa
 
 (** make mjvGLCamera struct *)
 let mjvGLCamera_make
-    ?mjf_pos
-    ?mjf_forward
-    ?mjf_up
-    ?mjf_frustum_center
-    ?mjf_frustum_bottom
-    ?mjf_frustum_top
-    ?mjf_frustum_near
-    ?mjf_frustum_far
+    ?f_pos
+    ?f_forward
+    ?f_up
+    ?f_frustum_center
+    ?f_frustum_bottom
+    ?f_frustum_top
+    ?f_frustum_near
+    ?f_frustum_far
     ()
   =
   let x = mjvGLCamera_allocate () in
-  Option.iter (mjvGLCamera_set_pos x) mjf_pos;
-  Option.iter (mjvGLCamera_set_forward x) mjf_forward;
-  Option.iter (mjvGLCamera_set_up x) mjf_up;
-  Option.iter (mjvGLCamera_set_frustum_center x) mjf_frustum_center;
-  Option.iter (mjvGLCamera_set_frustum_bottom x) mjf_frustum_bottom;
-  Option.iter (mjvGLCamera_set_frustum_top x) mjf_frustum_top;
-  Option.iter (mjvGLCamera_set_frustum_near x) mjf_frustum_near;
-  Option.iter (mjvGLCamera_set_frustum_far x) mjf_frustum_far;
+  Option.iter (mjvGLCamera_set_pos x) f_pos;
+  Option.iter (mjvGLCamera_set_forward x) f_forward;
+  Option.iter (mjvGLCamera_set_up x) f_up;
+  Option.iter (mjvGLCamera_set_frustum_center x) f_frustum_center;
+  Option.iter (mjvGLCamera_set_frustum_bottom x) f_frustum_bottom;
+  Option.iter (mjvGLCamera_set_frustum_top x) f_frustum_top;
+  Option.iter (mjvGLCamera_set_frustum_near x) f_frustum_near;
+  Option.iter (mjvGLCamera_set_frustum_far x) f_frustum_far;
   x
 
 
@@ -5569,53 +5562,53 @@ let mjvGeom_set_transparent x y = Ctypes.(setf x Typs.mjvGeom_transparent y)
 
 (** make mjvGeom struct *)
 let mjvGeom_make
-    ?mjf_type
-    ?mjf_dataid
-    ?mjf_objtype
-    ?mjf_objid
-    ?mjf_category
-    ?mjf_texid
-    ?mjf_texuniform
-    ?mjf_texcoord
-    ?mjf_segid
-    ?mjf_texrepeat
-    ?mjf_size
-    ?mjf_pos
-    ?mjf_mat
-    ?mjf_rgba
-    ?mjf_emission
-    ?mjf_specular
-    ?mjf_shininess
-    ?mjf_reflectance
-    ?mjf_label
-    ?mjf_camdist
-    ?mjf_modelrbound
-    ?mjf_transparent
+    ?f_type
+    ?f_dataid
+    ?f_objtype
+    ?f_objid
+    ?f_category
+    ?f_texid
+    ?f_texuniform
+    ?f_texcoord
+    ?f_segid
+    ?f_texrepeat
+    ?f_size
+    ?f_pos
+    ?f_mat
+    ?f_rgba
+    ?f_emission
+    ?f_specular
+    ?f_shininess
+    ?f_reflectance
+    ?f_label
+    ?f_camdist
+    ?f_modelrbound
+    ?f_transparent
     ()
   =
   let x = mjvGeom_allocate () in
-  Option.iter (mjvGeom_set_type x) mjf_type;
-  Option.iter (mjvGeom_set_dataid x) mjf_dataid;
-  Option.iter (mjvGeom_set_objtype x) mjf_objtype;
-  Option.iter (mjvGeom_set_objid x) mjf_objid;
-  Option.iter (mjvGeom_set_category x) mjf_category;
-  Option.iter (mjvGeom_set_texid x) mjf_texid;
-  Option.iter (mjvGeom_set_texuniform x) mjf_texuniform;
-  Option.iter (mjvGeom_set_texcoord x) mjf_texcoord;
-  Option.iter (mjvGeom_set_segid x) mjf_segid;
-  Option.iter (mjvGeom_set_texrepeat x) mjf_texrepeat;
-  Option.iter (mjvGeom_set_size x) mjf_size;
-  Option.iter (mjvGeom_set_pos x) mjf_pos;
-  Option.iter (mjvGeom_set_mat x) mjf_mat;
-  Option.iter (mjvGeom_set_rgba x) mjf_rgba;
-  Option.iter (mjvGeom_set_emission x) mjf_emission;
-  Option.iter (mjvGeom_set_specular x) mjf_specular;
-  Option.iter (mjvGeom_set_shininess x) mjf_shininess;
-  Option.iter (mjvGeom_set_reflectance x) mjf_reflectance;
-  Option.iter (mjvGeom_set_label x) mjf_label;
-  Option.iter (mjvGeom_set_camdist x) mjf_camdist;
-  Option.iter (mjvGeom_set_modelrbound x) mjf_modelrbound;
-  Option.iter (mjvGeom_set_transparent x) mjf_transparent;
+  Option.iter (mjvGeom_set_type x) f_type;
+  Option.iter (mjvGeom_set_dataid x) f_dataid;
+  Option.iter (mjvGeom_set_objtype x) f_objtype;
+  Option.iter (mjvGeom_set_objid x) f_objid;
+  Option.iter (mjvGeom_set_category x) f_category;
+  Option.iter (mjvGeom_set_texid x) f_texid;
+  Option.iter (mjvGeom_set_texuniform x) f_texuniform;
+  Option.iter (mjvGeom_set_texcoord x) f_texcoord;
+  Option.iter (mjvGeom_set_segid x) f_segid;
+  Option.iter (mjvGeom_set_texrepeat x) f_texrepeat;
+  Option.iter (mjvGeom_set_size x) f_size;
+  Option.iter (mjvGeom_set_pos x) f_pos;
+  Option.iter (mjvGeom_set_mat x) f_mat;
+  Option.iter (mjvGeom_set_rgba x) f_rgba;
+  Option.iter (mjvGeom_set_emission x) f_emission;
+  Option.iter (mjvGeom_set_specular x) f_specular;
+  Option.iter (mjvGeom_set_shininess x) f_shininess;
+  Option.iter (mjvGeom_set_reflectance x) f_reflectance;
+  Option.iter (mjvGeom_set_label x) f_label;
+  Option.iter (mjvGeom_set_camdist x) f_camdist;
+  Option.iter (mjvGeom_set_modelrbound x) f_modelrbound;
+  Option.iter (mjvGeom_set_transparent x) f_transparent;
   x
 
 
@@ -5696,31 +5689,31 @@ let mjvLight_set_castshadow x y = Ctypes.(setf x Typs.mjvLight_castshadow y)
 
 (** make mjvLight struct *)
 let mjvLight_make
-    ?mjf_pos
-    ?mjf_dir
-    ?mjf_attenuation
-    ?mjf_cutoff
-    ?mjf_exponent
-    ?mjf_ambient
-    ?mjf_diffuse
-    ?mjf_specular
-    ?mjf_headlight
-    ?mjf_directional
-    ?mjf_castshadow
+    ?f_pos
+    ?f_dir
+    ?f_attenuation
+    ?f_cutoff
+    ?f_exponent
+    ?f_ambient
+    ?f_diffuse
+    ?f_specular
+    ?f_headlight
+    ?f_directional
+    ?f_castshadow
     ()
   =
   let x = mjvLight_allocate () in
-  Option.iter (mjvLight_set_pos x) mjf_pos;
-  Option.iter (mjvLight_set_dir x) mjf_dir;
-  Option.iter (mjvLight_set_attenuation x) mjf_attenuation;
-  Option.iter (mjvLight_set_cutoff x) mjf_cutoff;
-  Option.iter (mjvLight_set_exponent x) mjf_exponent;
-  Option.iter (mjvLight_set_ambient x) mjf_ambient;
-  Option.iter (mjvLight_set_diffuse x) mjf_diffuse;
-  Option.iter (mjvLight_set_specular x) mjf_specular;
-  Option.iter (mjvLight_set_headlight x) mjf_headlight;
-  Option.iter (mjvLight_set_directional x) mjf_directional;
-  Option.iter (mjvLight_set_castshadow x) mjf_castshadow;
+  Option.iter (mjvLight_set_pos x) f_pos;
+  Option.iter (mjvLight_set_dir x) f_dir;
+  Option.iter (mjvLight_set_attenuation x) f_attenuation;
+  Option.iter (mjvLight_set_cutoff x) f_cutoff;
+  Option.iter (mjvLight_set_exponent x) f_exponent;
+  Option.iter (mjvLight_set_ambient x) f_ambient;
+  Option.iter (mjvLight_set_diffuse x) f_diffuse;
+  Option.iter (mjvLight_set_specular x) f_specular;
+  Option.iter (mjvLight_set_headlight x) f_headlight;
+  Option.iter (mjvLight_set_directional x) f_directional;
+  Option.iter (mjvLight_set_castshadow x) f_castshadow;
   x
 
 
@@ -5783,25 +5776,25 @@ let mjvOption_set_flags x y = Ctypes.(setf x Typs.mjvOption_flags y)
 
 (** make mjvOption struct *)
 let mjvOption_make
-    ?mjf_label
-    ?mjf_frame
-    ?mjf_geomgroup
-    ?mjf_sitegroup
-    ?mjf_jointgroup
-    ?mjf_tendongroup
-    ?mjf_actuatorgroup
-    ?mjf_flags
+    ?f_label
+    ?f_frame
+    ?f_geomgroup
+    ?f_sitegroup
+    ?f_jointgroup
+    ?f_tendongroup
+    ?f_actuatorgroup
+    ?f_flags
     ()
   =
   let x = mjvOption_allocate () in
-  Option.iter (mjvOption_set_label x) mjf_label;
-  Option.iter (mjvOption_set_frame x) mjf_frame;
-  Option.iter (mjvOption_set_geomgroup x) mjf_geomgroup;
-  Option.iter (mjvOption_set_sitegroup x) mjf_sitegroup;
-  Option.iter (mjvOption_set_jointgroup x) mjf_jointgroup;
-  Option.iter (mjvOption_set_tendongroup x) mjf_tendongroup;
-  Option.iter (mjvOption_set_actuatorgroup x) mjf_actuatorgroup;
-  Option.iter (mjvOption_set_flags x) mjf_flags;
+  Option.iter (mjvOption_set_label x) f_label;
+  Option.iter (mjvOption_set_frame x) f_frame;
+  Option.iter (mjvOption_set_geomgroup x) f_geomgroup;
+  Option.iter (mjvOption_set_sitegroup x) f_sitegroup;
+  Option.iter (mjvOption_set_jointgroup x) f_jointgroup;
+  Option.iter (mjvOption_set_tendongroup x) f_tendongroup;
+  Option.iter (mjvOption_set_actuatorgroup x) f_actuatorgroup;
+  Option.iter (mjvOption_set_flags x) f_flags;
   x
 
 
@@ -5942,51 +5935,51 @@ let mjvScene_set_framergb x y = Ctypes.(setf x Typs.mjvScene_framergb y)
 
 (** make mjvScene struct *)
 let mjvScene_make
-    ?mjf_maxgeom
-    ?mjf_ngeom
-    ?mjf_geoms
-    ?mjf_geomorder
-    ?mjf_nskin
-    ?mjf_skinfacenum
-    ?mjf_skinvertadr
-    ?mjf_skinvertnum
-    ?mjf_skinvert
-    ?mjf_skinnormal
-    ?mjf_nlight
-    ?mjf_lights
-    ?mjf_camera
-    ?mjf_enabletransform
-    ?mjf_translate
-    ?mjf_rotate
-    ?mjf_scale
-    ?mjf_stereo
-    ?mjf_flags
-    ?mjf_framewidth
-    ?mjf_framergb
+    ?f_maxgeom
+    ?f_ngeom
+    ?f_geoms
+    ?f_geomorder
+    ?f_nskin
+    ?f_skinfacenum
+    ?f_skinvertadr
+    ?f_skinvertnum
+    ?f_skinvert
+    ?f_skinnormal
+    ?f_nlight
+    ?f_lights
+    ?f_camera
+    ?f_enabletransform
+    ?f_translate
+    ?f_rotate
+    ?f_scale
+    ?f_stereo
+    ?f_flags
+    ?f_framewidth
+    ?f_framergb
     ()
   =
   let x = mjvScene_allocate () in
-  Option.iter (mjvScene_set_maxgeom x) mjf_maxgeom;
-  Option.iter (mjvScene_set_ngeom x) mjf_ngeom;
-  Option.iter (mjvScene_set_geoms x) mjf_geoms;
-  Option.iter (mjvScene_set_geomorder x) mjf_geomorder;
-  Option.iter (mjvScene_set_nskin x) mjf_nskin;
-  Option.iter (mjvScene_set_skinfacenum x) mjf_skinfacenum;
-  Option.iter (mjvScene_set_skinvertadr x) mjf_skinvertadr;
-  Option.iter (mjvScene_set_skinvertnum x) mjf_skinvertnum;
-  Option.iter (mjvScene_set_skinvert x) mjf_skinvert;
-  Option.iter (mjvScene_set_skinnormal x) mjf_skinnormal;
-  Option.iter (mjvScene_set_nlight x) mjf_nlight;
-  Option.iter (mjvScene_set_lights x) mjf_lights;
-  Option.iter (mjvScene_set_camera x) mjf_camera;
-  Option.iter (mjvScene_set_enabletransform x) mjf_enabletransform;
-  Option.iter (mjvScene_set_translate x) mjf_translate;
-  Option.iter (mjvScene_set_rotate x) mjf_rotate;
-  Option.iter (mjvScene_set_scale x) mjf_scale;
-  Option.iter (mjvScene_set_stereo x) mjf_stereo;
-  Option.iter (mjvScene_set_flags x) mjf_flags;
-  Option.iter (mjvScene_set_framewidth x) mjf_framewidth;
-  Option.iter (mjvScene_set_framergb x) mjf_framergb;
+  Option.iter (mjvScene_set_maxgeom x) f_maxgeom;
+  Option.iter (mjvScene_set_ngeom x) f_ngeom;
+  Option.iter (mjvScene_set_geoms x) f_geoms;
+  Option.iter (mjvScene_set_geomorder x) f_geomorder;
+  Option.iter (mjvScene_set_nskin x) f_nskin;
+  Option.iter (mjvScene_set_skinfacenum x) f_skinfacenum;
+  Option.iter (mjvScene_set_skinvertadr x) f_skinvertadr;
+  Option.iter (mjvScene_set_skinvertnum x) f_skinvertnum;
+  Option.iter (mjvScene_set_skinvert x) f_skinvert;
+  Option.iter (mjvScene_set_skinnormal x) f_skinnormal;
+  Option.iter (mjvScene_set_nlight x) f_nlight;
+  Option.iter (mjvScene_set_lights x) f_lights;
+  Option.iter (mjvScene_set_camera x) f_camera;
+  Option.iter (mjvScene_set_enabletransform x) f_enabletransform;
+  Option.iter (mjvScene_set_translate x) f_translate;
+  Option.iter (mjvScene_set_rotate x) f_rotate;
+  Option.iter (mjvScene_set_scale x) f_scale;
+  Option.iter (mjvScene_set_stereo x) f_stereo;
+  Option.iter (mjvScene_set_flags x) f_flags;
+  Option.iter (mjvScene_set_framewidth x) f_framewidth;
+  Option.iter (mjvScene_set_framergb x) f_framergb;
   x
 
 
@@ -6175,67 +6168,67 @@ let mjvFigure_set_yaxisdata x y = Ctypes.(setf x Typs.mjvFigure_yaxisdata y)
 
 (** make mjvFigure struct *)
 let mjvFigure_make
-    ?mjf_flg_legend
-    ?mjf_flg_ticklabel
-    ?mjf_flg_extend
-    ?mjf_flg_barplot
-    ?mjf_flg_selection
-    ?mjf_flg_symmetric
-    ?mjf_linewidth
-    ?mjf_gridwidth
-    ?mjf_gridsize
-    ?mjf_gridrgb
-    ?mjf_figurergba
-    ?mjf_panergba
-    ?mjf_legendrgba
-    ?mjf_textrgb
-    ?mjf_xformat
-    ?mjf_yformat
-    ?mjf_minwidth
-    ?mjf_title
-    ?mjf_xlabel
-    ?mjf_legendoffset
-    ?mjf_subplot
-    ?mjf_highlight
-    ?mjf_highlightid
-    ?mjf_selection
-    ?mjf_linepnt
-    ?mjf_xaxispixel
-    ?mjf_yaxispixel
-    ?mjf_xaxisdata
-    ?mjf_yaxisdata
+    ?f_flg_legend
+    ?f_flg_ticklabel
+    ?f_flg_extend
+    ?f_flg_barplot
+    ?f_flg_selection
+    ?f_flg_symmetric
+    ?f_linewidth
+    ?f_gridwidth
+    ?f_gridsize
+    ?f_gridrgb
+    ?f_figurergba
+    ?f_panergba
+    ?f_legendrgba
+    ?f_textrgb
+    ?f_xformat
+    ?f_yformat
+    ?f_minwidth
+    ?f_title
+    ?f_xlabel
+    ?f_legendoffset
+    ?f_subplot
+    ?f_highlight
+    ?f_highlightid
+    ?f_selection
+    ?f_linepnt
+    ?f_xaxispixel
+    ?f_yaxispixel
+    ?f_xaxisdata
+    ?f_yaxisdata
     ()
   =
   let x = mjvFigure_allocate () in
-  Option.iter (mjvFigure_set_flg_legend x) mjf_flg_legend;
-  Option.iter (mjvFigure_set_flg_ticklabel x) mjf_flg_ticklabel;
-  Option.iter (mjvFigure_set_flg_extend x) mjf_flg_extend;
-  Option.iter (mjvFigure_set_flg_barplot x) mjf_flg_barplot;
-  Option.iter (mjvFigure_set_flg_selection x) mjf_flg_selection;
-  Option.iter (mjvFigure_set_flg_symmetric x) mjf_flg_symmetric;
-  Option.iter (mjvFigure_set_linewidth x) mjf_linewidth;
-  Option.iter (mjvFigure_set_gridwidth x) mjf_gridwidth;
-  Option.iter (mjvFigure_set_gridsize x) mjf_gridsize;
-  Option.iter (mjvFigure_set_gridrgb x) mjf_gridrgb;
-  Option.iter (mjvFigure_set_figurergba x) mjf_figurergba;
-  Option.iter (mjvFigure_set_panergba x) mjf_panergba;
-  Option.iter (mjvFigure_set_legendrgba x) mjf_legendrgba;
-  Option.iter (mjvFigure_set_textrgb x) mjf_textrgb;
-  Option.iter (mjvFigure_set_xformat x) mjf_xformat;
-  Option.iter (mjvFigure_set_yformat x) mjf_yformat;
-  Option.iter (mjvFigure_set_minwidth x) mjf_minwidth;
-  Option.iter (mjvFigure_set_title x) mjf_title;
-  Option.iter (mjvFigure_set_xlabel x) mjf_xlabel;
-  Option.iter (mjvFigure_set_legendoffset x) mjf_legendoffset;
-  Option.iter (mjvFigure_set_subplot x) mjf_subplot;
-  Option.iter (mjvFigure_set_highlight x) mjf_highlight;
-  Option.iter (mjvFigure_set_highlightid x) mjf_highlightid;
-  Option.iter (mjvFigure_set_selection x) mjf_selection;
-  Option.iter (mjvFigure_set_linepnt x) mjf_linepnt;
-  Option.iter (mjvFigure_set_xaxispixel x) mjf_xaxispixel;
-  Option.iter (mjvFigure_set_yaxispixel x) mjf_yaxispixel;
-  Option.iter (mjvFigure_set_xaxisdata x) mjf_xaxisdata;
-  Option.iter (mjvFigure_set_yaxisdata x) mjf_yaxisdata;
+  Option.iter (mjvFigure_set_flg_legend x) f_flg_legend;
+  Option.iter (mjvFigure_set_flg_ticklabel x) f_flg_ticklabel;
+  Option.iter (mjvFigure_set_flg_extend x) f_flg_extend;
+  Option.iter (mjvFigure_set_flg_barplot x) f_flg_barplot;
+  Option.iter (mjvFigure_set_flg_selection x) f_flg_selection;
+  Option.iter (mjvFigure_set_flg_symmetric x) f_flg_symmetric;
+  Option.iter (mjvFigure_set_linewidth x) f_linewidth;
+  Option.iter (mjvFigure_set_gridwidth x) f_gridwidth;
+  Option.iter (mjvFigure_set_gridsize x) f_gridsize;
+  Option.iter (mjvFigure_set_gridrgb x) f_gridrgb;
+  Option.iter (mjvFigure_set_figurergba x) f_figurergba;
+  Option.iter (mjvFigure_set_panergba x) f_panergba;
+  Option.iter (mjvFigure_set_legendrgba x) f_legendrgba;
+  Option.iter (mjvFigure_set_textrgb x) f_textrgb;
+  Option.iter (mjvFigure_set_xformat x) f_xformat;
+  Option.iter (mjvFigure_set_yformat x) f_yformat;
+  Option.iter (mjvFigure_set_minwidth x) f_minwidth;
+  Option.iter (mjvFigure_set_title x) f_title;
+  Option.iter (mjvFigure_set_xlabel x) f_xlabel;
+  Option.iter (mjvFigure_set_legendoffset x) f_legendoffset;
+  Option.iter (mjvFigure_set_subplot x) f_subplot;
+  Option.iter (mjvFigure_set_highlight x) f_highlight;
+  Option.iter (mjvFigure_set_highlightid x) f_highlightid;
+  Option.iter (mjvFigure_set_selection x) f_selection;
+  Option.iter (mjvFigure_set_linepnt x) f_linepnt;
+  Option.iter (mjvFigure_set_xaxispixel x) f_xaxispixel;
+  Option.iter (mjvFigure_set_yaxispixel x) f_yaxispixel;
+  Option.iter (mjvFigure_set_xaxisdata x) f_xaxisdata;
+  Option.iter (mjvFigure_set_yaxisdata x) f_yaxisdata;
   x
 
 
@@ -6304,12 +6297,12 @@ let mjrRect_get_height x = Ctypes.(getf x Typs.mjrRect_height)
 let mjrRect_set_height x y = Ctypes.(setf x Typs.mjrRect_height y)
 
 (** make mjrRect struct *)
-let mjrRect_make ?mjf_left ?mjf_bottom ?mjf_width ?mjf_height () =
+let mjrRect_make ?f_left ?f_bottom ?f_width ?f_height () =
   let x = mjrRect_allocate () in
-  Option.iter (mjrRect_set_left x) mjf_left;
-  Option.iter (mjrRect_set_bottom x) mjf_bottom;
-  Option.iter (mjrRect_set_width x) mjf_width;
-  Option.iter (mjrRect_set_height x) mjf_height;
+  Option.iter (mjrRect_set_left x) f_left;
+  Option.iter (mjrRect_set_bottom x) f_bottom;
+  Option.iter (mjrRect_set_width x) f_width;
+  Option.iter (mjrRect_set_height x) f_height;
   x
 
 
@@ -6520,73 +6513,73 @@ let mjrContext_set_currentBuffer x y = Ctypes.(setf x Typs.mjrContext_currentBuf
 
 (** make mjrContext struct *)
 let mjrContext_make
-    ?mjf_lineWidth
-    ?mjf_shadowClip
-    ?mjf_shadowScale
-    ?mjf_fogStart
-    ?mjf_fogEnd
-    ?mjf_fogRGBA
-    ?mjf_shadowSize
-    ?mjf_offWidth
-    ?mjf_offHeight
-    ?mjf_offSamples
-    ?mjf_fontScale
-    ?mjf_auxWidth
-    ?mjf_auxHeight
-    ?mjf_auxSamples
-    ?mjf_ntexture
-    ?mjf_textureType
-    ?mjf_rangePlane
-    ?mjf_rangeMesh
-    ?mjf_rangeHField
-    ?mjf_rangeBuiltin
-    ?mjf_rangeFont
-    ?mjf_nskin
-    ?mjf_charWidth
-    ?mjf_charWidthBig
-    ?mjf_charHeight
-    ?mjf_charHeightBig
-    ?mjf_glewInitialized
-    ?mjf_windowAvailable
-    ?mjf_windowSamples
-    ?mjf_windowStereo
-    ?mjf_windowDoublebuffer
-    ?mjf_currentBuffer
+    ?f_lineWidth
+    ?f_shadowClip
+    ?f_shadowScale
+    ?f_fogStart
+    ?f_fogEnd
+    ?f_fogRGBA
+    ?f_shadowSize
+    ?f_offWidth
+    ?f_offHeight
+    ?f_offSamples
+    ?f_fontScale
+    ?f_auxWidth
+    ?f_auxHeight
+    ?f_auxSamples
+    ?f_ntexture
+    ?f_textureType
+    ?f_rangePlane
+    ?f_rangeMesh
+    ?f_rangeHField
+    ?f_rangeBuiltin
+    ?f_rangeFont
+    ?f_nskin
+    ?f_charWidth
+    ?f_charWidthBig
+    ?f_charHeight
+    ?f_charHeightBig
+    ?f_glewInitialized
+    ?f_windowAvailable
+    ?f_windowSamples
+    ?f_windowStereo
+    ?f_windowDoublebuffer
+    ?f_currentBuffer
     ()
   =
   let x = mjrContext_allocate () in
-  Option.iter (mjrContext_set_lineWidth x) mjf_lineWidth;
-  Option.iter (mjrContext_set_shadowClip x) mjf_shadowClip;
-  Option.iter (mjrContext_set_shadowScale x) mjf_shadowScale;
-  Option.iter (mjrContext_set_fogStart x) mjf_fogStart;
-  Option.iter (mjrContext_set_fogEnd x) mjf_fogEnd;
-  Option.iter (mjrContext_set_fogRGBA x) mjf_fogRGBA;
-  Option.iter (mjrContext_set_shadowSize x) mjf_shadowSize;
-  Option.iter (mjrContext_set_offWidth x) mjf_offWidth;
-  Option.iter (mjrContext_set_offHeight x) mjf_offHeight;
-  Option.iter (mjrContext_set_offSamples x) mjf_offSamples;
-  Option.iter (mjrContext_set_fontScale x) mjf_fontScale;
-  Option.iter (mjrContext_set_auxWidth x) mjf_auxWidth;
-  Option.iter (mjrContext_set_auxHeight x) mjf_auxHeight;
-  Option.iter (mjrContext_set_auxSamples x) mjf_auxSamples;
-  Option.iter (mjrContext_set_ntexture x) mjf_ntexture;
-  Option.iter (mjrContext_set_textureType x) mjf_textureType;
-  Option.iter (mjrContext_set_rangePlane x) mjf_rangePlane;
-  Option.iter (mjrContext_set_rangeMesh x) mjf_rangeMesh;
-  Option.iter (mjrContext_set_rangeHField x) mjf_rangeHField;
-  Option.iter (mjrContext_set_rangeBuiltin x) mjf_rangeBuiltin;
-  Option.iter (mjrContext_set_rangeFont x) mjf_rangeFont;
-  Option.iter (mjrContext_set_nskin x) mjf_nskin;
-  Option.iter (mjrContext_set_charWidth x) mjf_charWidth;
-  Option.iter (mjrContext_set_charWidthBig x) mjf_charWidthBig;
-  Option.iter (mjrContext_set_charHeight x) mjf_charHeight;
-  Option.iter (mjrContext_set_charHeightBig x) mjf_charHeightBig;
-  Option.iter (mjrContext_set_glewInitialized x) mjf_glewInitialized;
-  Option.iter (mjrContext_set_windowAvailable x) mjf_windowAvailable;
-  Option.iter (mjrContext_set_windowSamples x) mjf_windowSamples;
-  Option.iter (mjrContext_set_windowStereo x) mjf_windowStereo;
-  Option.iter (mjrContext_set_windowDoublebuffer x) mjf_windowDoublebuffer;
-  Option.iter (mjrContext_set_currentBuffer x) mjf_currentBuffer;
+  Option.iter (mjrContext_set_lineWidth x) f_lineWidth;
+  Option.iter (mjrContext_set_shadowClip x) f_shadowClip;
+  Option.iter (mjrContext_set_shadowScale x) f_shadowScale;
+  Option.iter (mjrContext_set_fogStart x) f_fogStart;
+  Option.iter (mjrContext_set_fogEnd x) f_fogEnd;
+  Option.iter (mjrContext_set_fogRGBA x) f_fogRGBA;
+  Option.iter (mjrContext_set_shadowSize x) f_shadowSize;
+  Option.iter (mjrContext_set_offWidth x) f_offWidth;
+  Option.iter (mjrContext_set_offHeight x) f_offHeight;
+  Option.iter (mjrContext_set_offSamples x) f_offSamples;
+  Option.iter (mjrContext_set_fontScale x) f_fontScale;
+  Option.iter (mjrContext_set_auxWidth x) f_auxWidth;
+  Option.iter (mjrContext_set_auxHeight x) f_auxHeight;
+  Option.iter (mjrContext_set_auxSamples x) f_auxSamples;
+  Option.iter (mjrContext_set_ntexture x) f_ntexture;
+  Option.iter (mjrContext_set_textureType x) f_textureType;
+  Option.iter (mjrContext_set_rangePlane x) f_rangePlane;
+  Option.iter (mjrContext_set_rangeMesh x) f_rangeMesh;
+  Option.iter (mjrContext_set_rangeHField x) f_rangeHField;
+  Option.iter (mjrContext_set_rangeBuiltin x) f_rangeBuiltin;
+  Option.iter (mjrContext_set_rangeFont x) f_rangeFont;
+  Option.iter (mjrContext_set_nskin x) f_nskin;
+  Option.iter (mjrContext_set_charWidth x) f_charWidth;
+  Option.iter (mjrContext_set_charWidthBig x) f_charWidthBig;
+  Option.iter (mjrContext_set_charHeight x) f_charHeight;
+  Option.iter (mjrContext_set_charHeightBig x) f_charHeightBig;
+  Option.iter (mjrContext_set_glewInitialized x) f_glewInitialized;
+  Option.iter (mjrContext_set_windowAvailable x) f_windowAvailable;
+  Option.iter (mjrContext_set_windowSamples x) f_windowSamples;
+  Option.iter (mjrContext_set_windowStereo x) f_windowStereo;
+  Option.iter (mjrContext_set_windowDoublebuffer x) f_windowDoublebuffer;
+  Option.iter (mjrContext_set_currentBuffer x) f_currentBuffer;
   x
 
 
@@ -6784,57 +6777,57 @@ let mjuiState_set_dragbutton x y = Ctypes.(setf x Typs.mjuiState_dragbutton y)
 
 (** make mjuiState struct *)
 let mjuiState_make
-    ?mjf_nrect
-    ?mjf_rect
-    ?mjf_userdata
-    ?mjf_type
-    ?mjf_left
-    ?mjf_right
-    ?mjf_middle
-    ?mjf_doubleclick
-    ?mjf_button
-    ?mjf_buttontime
-    ?mjf_x
-    ?mjf_y
-    ?mjf_dx
-    ?mjf_dy
-    ?mjf_sx
-    ?mjf_sy
-    ?mjf_control
-    ?mjf_shift
-    ?mjf_alt
-    ?mjf_key
-    ?mjf_keytime
-    ?mjf_mouserect
-    ?mjf_dragrect
-    ?mjf_dragbutton
+    ?f_nrect
+    ?f_rect
+    ?f_userdata
+    ?f_type
+    ?f_left
+    ?f_right
+    ?f_middle
+    ?f_doubleclick
+    ?f_button
+    ?f_buttontime
+    ?f_x
+    ?f_y
+    ?f_dx
+    ?f_dy
+    ?f_sx
+    ?f_sy
+    ?f_control
+    ?f_shift
+    ?f_alt
+    ?f_key
+    ?f_keytime
+    ?f_mouserect
+    ?f_dragrect
+    ?f_dragbutton
     ()
   =
   let x = mjuiState_allocate () in
-  Option.iter (mjuiState_set_nrect x) mjf_nrect;
-  Option.iter (mjuiState_set_rect x) mjf_rect;
-  Option.iter (mjuiState_set_userdata x) mjf_userdata;
-  Option.iter (mjuiState_set_type x) mjf_type;
-  Option.iter (mjuiState_set_left x) mjf_left;
-  Option.iter (mjuiState_set_right x) mjf_right;
-  Option.iter (mjuiState_set_middle x) mjf_middle;
-  Option.iter (mjuiState_set_doubleclick x) mjf_doubleclick;
-  Option.iter (mjuiState_set_button x) mjf_button;
-  Option.iter (mjuiState_set_buttontime x) mjf_buttontime;
-  Option.iter (mjuiState_set_x x) mjf_x;
-  Option.iter (mjuiState_set_y x) mjf_y;
-  Option.iter (mjuiState_set_dx x) mjf_dx;
-  Option.iter (mjuiState_set_dy x) mjf_dy;
-  Option.iter (mjuiState_set_sx x) mjf_sx;
-  Option.iter (mjuiState_set_sy x) mjf_sy;
-  Option.iter (mjuiState_set_control x) mjf_control;
-  Option.iter (mjuiState_set_shift x) mjf_shift;
-  Option.iter (mjuiState_set_alt x) mjf_alt;
-  Option.iter (mjuiState_set_key x) mjf_key;
-  Option.iter (mjuiState_set_keytime x) mjf_keytime;
-  Option.iter (mjuiState_set_mouserect x) mjf_mouserect;
-  Option.iter (mjuiState_set_dragrect x) mjf_dragrect;
-  Option.iter (mjuiState_set_dragbutton x) mjf_dragbutton;
+  Option.iter (mjuiState_set_nrect x) f_nrect;
+  Option.iter (mjuiState_set_rect x) f_rect;
+  Option.iter (mjuiState_set_userdata x) f_userdata;
+  Option.iter (mjuiState_set_type x) f_type;
+  Option.iter (mjuiState_set_left x) f_left;
+  Option.iter (mjuiState_set_right x) f_right;
+  Option.iter (mjuiState_set_middle x) f_middle;
+  Option.iter (mjuiState_set_doubleclick x) f_doubleclick;
+  Option.iter (mjuiState_set_button x) f_button;
+  Option.iter (mjuiState_set_buttontime x) f_buttontime;
+  Option.iter (mjuiState_set_x x) f_x;
+  Option.iter (mjuiState_set_y x) f_y;
+  Option.iter (mjuiState_set_dx x) f_dx;
+  Option.iter (mjuiState_set_dy x) f_dy;
+  Option.iter (mjuiState_set_sx x) f_sx;
+  Option.iter (mjuiState_set_sy x) f_sy;
+  Option.iter (mjuiState_set_control x) f_control;
+  Option.iter (mjuiState_set_shift x) f_shift;
+  Option.iter (mjuiState_set_alt x) f_alt;
+  Option.iter (mjuiState_set_key x) f_key;
+  Option.iter (mjuiState_set_keytime x) f_keytime;
+  Option.iter (mjuiState_set_mouserect x) f_mouserect;
+  Option.iter (mjuiState_set_dragrect x) f_dragrect;
+  Option.iter (mjuiState_set_dragbutton x) f_dragbutton;
   x
 
 
@@ -6917,31 +6910,31 @@ let mjuiThemeSpacing_set_samples x y = Ctypes.(setf x Typs.mjuiThemeSpacing_samp
 
 (** make mjuiThemeSpacing struct *)
 let mjuiThemeSpacing_make
-    ?mjf_total
-    ?mjf_scroll
-    ?mjf_label
-    ?mjf_section
-    ?mjf_itemside
-    ?mjf_itemmid
-    ?mjf_itemver
-    ?mjf_texthor
-    ?mjf_textver
-    ?mjf_linescroll
-    ?mjf_samples
+    ?f_total
+    ?f_scroll
+    ?f_label
+    ?f_section
+    ?f_itemside
+    ?f_itemmid
+    ?f_itemver
+    ?f_texthor
+    ?f_textver
+    ?f_linescroll
+    ?f_samples
     ()
   =
   let x = mjuiThemeSpacing_allocate () in
-  Option.iter (mjuiThemeSpacing_set_total x) mjf_total;
-  Option.iter (mjuiThemeSpacing_set_scroll x) mjf_scroll;
-  Option.iter (mjuiThemeSpacing_set_label x) mjf_label;
-  Option.iter (mjuiThemeSpacing_set_section x) mjf_section;
-  Option.iter (mjuiThemeSpacing_set_itemside x) mjf_itemside;
-  Option.iter (mjuiThemeSpacing_set_itemmid x) mjf_itemmid;
-  Option.iter (mjuiThemeSpacing_set_itemver x) mjf_itemver;
-  Option.iter (mjuiThemeSpacing_set_texthor x) mjf_texthor;
-  Option.iter (mjuiThemeSpacing_set_textver x) mjf_textver;
-  Option.iter (mjuiThemeSpacing_set_linescroll x) mjf_linescroll;
-  Option.iter (mjuiThemeSpacing_set_samples x) mjf_samples;
+  Option.iter (mjuiThemeSpacing_set_total x) f_total;
+  Option.iter (mjuiThemeSpacing_set_scroll x) f_scroll;
+  Option.iter (mjuiThemeSpacing_set_label x) f_label;
+  Option.iter (mjuiThemeSpacing_set_section x) f_section;
+  Option.iter (mjuiThemeSpacing_set_itemside x) f_itemside;
+  Option.iter (mjuiThemeSpacing_set_itemmid x) f_itemmid;
+  Option.iter (mjuiThemeSpacing_set_itemver x) f_itemver;
+  Option.iter (mjuiThemeSpacing_set_texthor x) f_texthor;
+  Option.iter (mjuiThemeSpacing_set_textver x) f_textver;
+  Option.iter (mjuiThemeSpacing_set_linescroll x) f_linescroll;
+  Option.iter (mjuiThemeSpacing_set_samples x) f_samples;
   x
 
 
@@ -7090,51 +7083,51 @@ let mjuiThemeColor_set_cursor x y = Ctypes.(setf x Typs.mjuiThemeColor_cursor y)
 
 (** make mjuiThemeColor struct *)
 let mjuiThemeColor_make
-    ?mjf_master
-    ?mjf_thumb
-    ?mjf_secttitle
-    ?mjf_sectfont
-    ?mjf_sectsymbol
-    ?mjf_sectpane
-    ?mjf_shortcut
-    ?mjf_fontactive
-    ?mjf_fontinactive
-    ?mjf_decorinactive
-    ?mjf_decorinactive2
-    ?mjf_button
-    ?mjf_check
-    ?mjf_radio
-    ?mjf_select
-    ?mjf_select2
-    ?mjf_slider
-    ?mjf_slider2
-    ?mjf_edit
-    ?mjf_edit2
-    ?mjf_cursor
+    ?f_master
+    ?f_thumb
+    ?f_secttitle
+    ?f_sectfont
+    ?f_sectsymbol
+    ?f_sectpane
+    ?f_shortcut
+    ?f_fontactive
+    ?f_fontinactive
+    ?f_decorinactive
+    ?f_decorinactive2
+    ?f_button
+    ?f_check
+    ?f_radio
+    ?f_select
+    ?f_select2
+    ?f_slider
+    ?f_slider2
+    ?f_edit
+    ?f_edit2
+    ?f_cursor
     ()
   =
   let x = mjuiThemeColor_allocate () in
-  Option.iter (mjuiThemeColor_set_master x) mjf_master;
-  Option.iter (mjuiThemeColor_set_thumb x) mjf_thumb;
-  Option.iter (mjuiThemeColor_set_secttitle x) mjf_secttitle;
-  Option.iter (mjuiThemeColor_set_sectfont x) mjf_sectfont;
-  Option.iter (mjuiThemeColor_set_sectsymbol x) mjf_sectsymbol;
-  Option.iter (mjuiThemeColor_set_sectpane x) mjf_sectpane;
-  Option.iter (mjuiThemeColor_set_shortcut x) mjf_shortcut;
-  Option.iter (mjuiThemeColor_set_fontactive x) mjf_fontactive;
-  Option.iter (mjuiThemeColor_set_fontinactive x) mjf_fontinactive;
-  Option.iter (mjuiThemeColor_set_decorinactive x) mjf_decorinactive;
-  Option.iter (mjuiThemeColor_set_decorinactive2 x) mjf_decorinactive2;
-  Option.iter (mjuiThemeColor_set_button x) mjf_button;
-  Option.iter (mjuiThemeColor_set_check x) mjf_check;
-  Option.iter (mjuiThemeColor_set_radio x) mjf_radio;
-  Option.iter (mjuiThemeColor_set_select x) mjf_select;
-  Option.iter (mjuiThemeColor_set_select2 x) mjf_select2;
-  Option.iter (mjuiThemeColor_set_slider x) mjf_slider;
-  Option.iter (mjuiThemeColor_set_slider2 x) mjf_slider2;
-  Option.iter (mjuiThemeColor_set_edit x) mjf_edit;
-  Option.iter (mjuiThemeColor_set_edit2 x) mjf_edit2;
-  Option.iter (mjuiThemeColor_set_cursor x) mjf_cursor;
+  Option.iter (mjuiThemeColor_set_master x) f_master;
+  Option.iter (mjuiThemeColor_set_thumb x) f_thumb;
+  Option.iter (mjuiThemeColor_set_secttitle x) f_secttitle;
+  Option.iter (mjuiThemeColor_set_sectfont x) f_sectfont;
+  Option.iter (mjuiThemeColor_set_sectsymbol x) f_sectsymbol;
+  Option.iter (mjuiThemeColor_set_sectpane x) f_sectpane;
+  Option.iter (mjuiThemeColor_set_shortcut x) f_shortcut;
+  Option.iter (mjuiThemeColor_set_fontactive x) f_fontactive;
+  Option.iter (mjuiThemeColor_set_fontinactive x) f_fontinactive;
+  Option.iter (mjuiThemeColor_set_decorinactive x) f_decorinactive;
+  Option.iter (mjuiThemeColor_set_decorinactive2 x) f_decorinactive2;
+  Option.iter (mjuiThemeColor_set_button x) f_button;
+  Option.iter (mjuiThemeColor_set_check x) f_check;
+  Option.iter (mjuiThemeColor_set_radio x) f_radio;
+  Option.iter (mjuiThemeColor_set_select x) f_select;
+  Option.iter (mjuiThemeColor_set_select2 x) f_select2;
+  Option.iter (mjuiThemeColor_set_slider x) f_slider;
+  Option.iter (mjuiThemeColor_set_slider2 x) f_slider2;
+  Option.iter (mjuiThemeColor_set_edit x) f_edit;
+  Option.iter (mjuiThemeColor_set_edit2 x) f_edit2;
+  Option.iter (mjuiThemeColor_set_cursor x) f_cursor;
   x
 
 
@@ -7160,10 +7153,10 @@ let mjuiItemSingle_get_shortcut x = Ctypes.(getf x Typs.mjuiItemSingle_shortcut)
 let mjuiItemSingle_set_shortcut x y = Ctypes.(setf x Typs.mjuiItemSingle_shortcut y)
 
 (** make mjuiItemSingle struct *)
-let mjuiItemSingle_make ?mjf_modifier ?mjf_shortcut () =
+let mjuiItemSingle_make ?f_modifier ?f_shortcut () =
   let x = mjuiItemSingle_allocate () in
-  Option.iter (mjuiItemSingle_set_modifier x) mjf_modifier;
-  Option.iter (mjuiItemSingle_set_shortcut x) mjf_shortcut;
+  Option.iter (mjuiItemSingle_set_modifier x) f_modifier;
+  Option.iter (mjuiItemSingle_set_shortcut x) f_shortcut;
   x
 
 
@@ -7183,9 +7176,9 @@ let mjuiItemMulti_get_nelem x = Ctypes.(getf x Typs.mjuiItemMulti_nelem)
 let mjuiItemMulti_set_nelem x y = Ctypes.(setf x Typs.mjuiItemMulti_nelem y)
 
 (** make mjuiItemMulti struct *)
-let mjuiItemMulti_make ?mjf_nelem () =
+let mjuiItemMulti_make ?f_nelem () =
   let x = mjuiItemMulti_allocate () in
-  Option.iter (mjuiItemMulti_set_nelem x) mjf_nelem;
+  Option.iter (mjuiItemMulti_set_nelem x) f_nelem;
   x
 
 
@@ -7211,10 +7204,10 @@ let mjuiItemSlider_get_divisions x = Ctypes.(getf x Typs.mjuiItemSlider_division
 let mjuiItemSlider_set_divisions x y = Ctypes.(setf x Typs.mjuiItemSlider_divisions y)
 
 (** make mjuiItemSlider struct *)
-let mjuiItemSlider_make ?mjf_range ?mjf_divisions () =
+let mjuiItemSlider_make ?f_range ?f_divisions () =
   let x = mjuiItemSlider_allocate () in
-  Option.iter (mjuiItemSlider_set_range x) mjf_range;
-  Option.iter (mjuiItemSlider_set_divisions x) mjf_divisions;
+  Option.iter (mjuiItemSlider_set_range x) f_range;
+  Option.iter (mjuiItemSlider_set_divisions x) f_divisions;
   x
 
 
@@ -7234,9 +7227,9 @@ let mjuiItemEdit_get_nelem x = Ctypes.(getf x Typs.mjuiItemEdit_nelem)
 let mjuiItemEdit_set_nelem x y = Ctypes.(setf x Typs.mjuiItemEdit_nelem y)
 
 (** make mjuiItemEdit struct *)
-let mjuiItemEdit_make ?mjf_nelem () =
+let mjuiItemEdit_make ?f_nelem () =
   let x = mjuiItemEdit_allocate () in
-  Option.iter (mjuiItemEdit_set_nelem x) mjf_nelem;
+  Option.iter (mjuiItemEdit_set_nelem x) f_nelem;
   x
 
 
@@ -7299,25 +7292,25 @@ let mjuiSection_set_rcontent x y = Ctypes.(setf x Typs.mjuiSection_rcontent y)
 
 (** make mjuiSection struct *)
 let mjuiSection_make
-    ?mjf_name
-    ?mjf_state
-    ?mjf_modifier
-    ?mjf_shortcut
-    ?mjf_nitem
-    ?mjf_item
-    ?mjf_rtitle
-    ?mjf_rcontent
+    ?f_name
+    ?f_state
+    ?f_modifier
+    ?f_shortcut
+    ?f_nitem
+    ?f_item
+    ?f_rtitle
+    ?f_rcontent
     ()
   =
   let x = mjuiSection_allocate () in
-  Option.iter (mjuiSection_set_name x) mjf_name;
-  Option.iter (mjuiSection_set_state x) mjf_state;
-  Option.iter (mjuiSection_set_modifier x) mjf_modifier;
-  Option.iter (mjuiSection_set_shortcut x) mjf_shortcut;
-  Option.iter (mjuiSection_set_nitem x) mjf_nitem;
-  Option.iter (mjuiSection_set_item x) mjf_item;
-  Option.iter (mjuiSection_set_rtitle x) mjf_rtitle;
-  Option.iter (mjuiSection_set_rcontent x) mjf_rcontent;
+  Option.iter (mjuiSection_set_name x) f_name;
+  Option.iter (mjuiSection_set_state x) f_state;
+  Option.iter (mjuiSection_set_modifier x) f_modifier;
+  Option.iter (mjuiSection_set_shortcut x) f_shortcut;
+  Option.iter (mjuiSection_set_nitem x) f_nitem;
+  Option.iter (mjuiSection_set_item x) f_item;
+  Option.iter (mjuiSection_set_rtitle x) f_rtitle;
+  Option.iter (mjuiSection_set_rcontent x) f_rcontent;
   x
 
 
@@ -7464,53 +7457,53 @@ let mjUI_set_sect x y = Ctypes.(setf x Typs.mjUI_sect y)
 
 (** make mjUI struct *)
 let mjUI_make
-    ?mjf_spacing
-    ?mjf_color
-    ?mjf_predicate
-    ?mjf_userdata
-    ?mjf_rectid
-    ?mjf_auxid
-    ?mjf_radiocol
-    ?mjf_width
-    ?mjf_height
-    ?mjf_maxheight
-    ?mjf_scroll
-    ?mjf_mousesect
-    ?mjf_mouseitem
-    ?mjf_mousehelp
-    ?mjf_editsect
-    ?mjf_edititem
-    ?mjf_editcursor
-    ?mjf_editscroll
-    ?mjf_edittext
-    ?mjf_editchanged
-    ?mjf_nsect
-    ?mjf_sect
+    ?f_spacing
+    ?f_color
+    ?f_predicate
+    ?f_userdata
+    ?f_rectid
+    ?f_auxid
+    ?f_radiocol
+    ?f_width
+    ?f_height
+    ?f_maxheight
+    ?f_scroll
+    ?f_mousesect
+    ?f_mouseitem
+    ?f_mousehelp
+    ?f_editsect
+    ?f_edititem
+    ?f_editcursor
+    ?f_editscroll
+    ?f_edittext
+    ?f_editchanged
+    ?f_nsect
+    ?f_sect
     ()
   =
   let x = mjUI_allocate () in
-  Option.iter (mjUI_set_spacing x) mjf_spacing;
-  Option.iter (mjUI_set_color x) mjf_color;
-  Option.iter (mjUI_set_predicate x) mjf_predicate;
-  Option.iter (mjUI_set_userdata x) mjf_userdata;
-  Option.iter (mjUI_set_rectid x) mjf_rectid;
-  Option.iter (mjUI_set_auxid x) mjf_auxid;
-  Option.iter (mjUI_set_radiocol x) mjf_radiocol;
-  Option.iter (mjUI_set_width x) mjf_width;
-  Option.iter (mjUI_set_height x) mjf_height;
-  Option.iter (mjUI_set_maxheight x) mjf_maxheight;
-  Option.iter (mjUI_set_scroll x) mjf_scroll;
-  Option.iter (mjUI_set_mousesect x) mjf_mousesect;
-  Option.iter (mjUI_set_mouseitem x) mjf_mouseitem;
-  Option.iter (mjUI_set_mousehelp x) mjf_mousehelp;
-  Option.iter (mjUI_set_editsect x) mjf_editsect;
-  Option.iter (mjUI_set_edititem x) mjf_edititem;
-  Option.iter (mjUI_set_editcursor x) mjf_editcursor;
-  Option.iter (mjUI_set_editscroll x) mjf_editscroll;
-  Option.iter (mjUI_set_edittext x) mjf_edittext;
-  Option.iter (mjUI_set_editchanged x) mjf_editchanged;
-  Option.iter (mjUI_set_nsect x) mjf_nsect;
-  Option.iter (mjUI_set_sect x) mjf_sect;
+  Option.iter (mjUI_set_spacing x) f_spacing;
+  Option.iter (mjUI_set_color x) f_color;
+  Option.iter (mjUI_set_predicate x) f_predicate;
+  Option.iter (mjUI_set_userdata x) f_userdata;
+  Option.iter (mjUI_set_rectid x) f_rectid;
+  Option.iter (mjUI_set_auxid x) f_auxid;
+  Option.iter (mjUI_set_radiocol x) f_radiocol;
+  Option.iter (mjUI_set_width x) f_width;
+  Option.iter (mjUI_set_height x) f_height;
+  Option.iter (mjUI_set_maxheight x) f_maxheight;
+  Option.iter (mjUI_set_scroll x) f_scroll;
+  Option.iter (mjUI_set_mousesect x) f_mousesect;
+  Option.iter (mjUI_set_mouseitem x) f_mouseitem;
+  Option.iter (mjUI_set_mousehelp x) f_mousehelp;
+  Option.iter (mjUI_set_editsect x) f_editsect;
+  Option.iter (mjUI_set_edititem x) f_edititem;
+  Option.iter (mjUI_set_editcursor x) f_editcursor;
+  Option.iter (mjUI_set_editscroll x) f_editscroll;
+  Option.iter (mjUI_set_edittext x) f_edittext;
+  Option.iter (mjUI_set_editchanged x) f_editchanged;
+  Option.iter (mjUI_set_nsect x) f_nsect;
+  Option.iter (mjUI_set_sect x) f_sect;
   x
 
 
@@ -7554,13 +7547,13 @@ let mjuiDef_get_other x = Ctypes.(getf x Typs.mjuiDef_other)
 let mjuiDef_set_other x y = Ctypes.(setf x Typs.mjuiDef_other y)
 
 (** make mjuiDef struct *)
-let mjuiDef_make ?mjf_type ?mjf_name ?mjf_state ?mjf_pdata ?mjf_other () =
+let mjuiDef_make ?f_type ?f_name ?f_state ?f_pdata ?f_other () =
   let x = mjuiDef_allocate () in
-  Option.iter (mjuiDef_set_type x) mjf_type;
-  Option.iter (mjuiDef_set_name x) mjf_name;
-  Option.iter (mjuiDef_set_state x) mjf_state;
-  Option.iter (mjuiDef_set_pdata x) mjf_pdata;
-  Option.iter (mjuiDef_set_other x) mjf_other;
+  Option.iter (mjuiDef_set_type x) f_type;
+  Option.iter (mjuiDef_set_name x) f_name;
+  Option.iter (mjuiDef_set_state x) f_state;
+  Option.iter (mjuiDef_set_pdata x) f_pdata;
+  Option.iter (mjuiDef_set_other x) f_other;
   x
 
 
