@@ -21,4 +21,7 @@ dune install
 ```sh
 dune exec ./examples/basic.exe -- -xml model/rodent.xml 
 dune exec ./examples/basic.exe -- -xml model/humanoid.xml 
+
+dune exec ./examples/random_policy.exe -- -xml model/ant.xml -record #record video
+dune exec ./examples/random_policy.exe -- -xml model/ant.xml # visualize only
 ```

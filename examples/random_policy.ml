@@ -26,22 +26,9 @@ let () =
   let data = Data.make model in
   if record_video
   then (
-    record
-      ~width:1200
-      ~height:900
-      ~duration:3.
-      ~fps:30.
-      ~advance
-      model
-      data
-      "recording.out";
-    let command =
-      Printf.(
-        sprintf
-          "ffmpeg -f rawvideo -pixel_format rgb24 -video_size %ix%i -framerate 30 -i  \
-           recording.out -vf \"vflip\" video.mp4")
-        1200
-        900
-    in
-    Sys.command command |> ignore)
+    let width = 640 in
+    let height = 480 in
+    let duration = 5. in
+    let fps = 30 in
+    record ~width ~height ~duration ~fps ~advance model data "video.mp4")
   else visualise ~loop model data

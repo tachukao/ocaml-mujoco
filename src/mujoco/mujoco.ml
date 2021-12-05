@@ -245,7 +245,7 @@ let record
     (* Loop until the user closes the window *)
     if Data.time data < duration
     then
-      if Data.time data -. frametime > 1. /. fps || frametime = 0.
+      if (Data.time data -. frametime > 1. /. Float.(of_int fps)) || frametime = 0.
       then (
         (* Update Mujoco Scene *)
         mjv_updateScene
@@ -280,7 +280,21 @@ let record
         (* Advance simulation *)
         advance model data ();
         aux ch frametime framecount)
-    else Stdio.print_endline "\nSIMULATION FINISHED"
+    else Stdio.print_endline "\nFINISHED"
   in
-  Stdio.print_endline "BEGIN SIMULATION";
-  Stdio.Out_channel.with_file file ~f:(fun ch -> aux ch 0. 0)
+  let tmpdir = Filename.get_temp_dir_name () in
+  let tmpfile = Printf.sprintf "%s/%s" tmpdir "tmp_mujoco_recording.out" in
+  Stdio.print_endline "BEGIN RECORDING";
+  Stdio.Out_channel.with_file tmpfile ~f:(fun ch -> aux ch 0. 0);
+  let command =
+    Printf.(
+      sprintf
+        "ffmpeg -f rawvideo -pixel_format rgb24 -video_size %ix%i -framerate %i -i  \
+         %s -vf \"vflip\" %s")
+      width
+      height
+      fps
+      tmpfile
+      file
+  in
+  Sys.command command |> ignore

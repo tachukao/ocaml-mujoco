@@ -55,7 +55,7 @@ val record
   -> ?height:int
   -> ?camera_scale:float
   -> duration:float
-  -> fps:float
+  -> fps:int
   -> advance:(Model.t -> Data.t -> unit -> unit)
   -> Model.t
   -> Data.t
