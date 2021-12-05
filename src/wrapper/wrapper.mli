@@ -2738,10 +2738,10 @@ val mjModel_get_text_size : mjModel -> int ptr
 val mjModel_set_text_size : mjModel -> int ptr -> unit
 
 (** get text_data from mjModel *)
-val mjModel_get_text_data : mjModel -> string
+val mjModel_get_text_data : mjModel -> char ptr
 
 (** set text_data for mjModel *)
-val mjModel_set_text_data : mjModel -> string -> unit
+val mjModel_set_text_data : mjModel -> char ptr -> unit
 
 (** get tuple_adr from mjModel *)
 val mjModel_get_tuple_adr : mjModel -> int ptr
@@ -2936,10 +2936,10 @@ val mjModel_get_name_keyadr : mjModel -> int ptr
 val mjModel_set_name_keyadr : mjModel -> int ptr -> unit
 
 (** get names from mjModel *)
-val mjModel_get_names : mjModel -> string
+val mjModel_get_names : mjModel -> char ptr
 
 (** set names for mjModel *)
-val mjModel_set_names : mjModel -> string -> unit
+val mjModel_set_names : mjModel -> char ptr -> unit
 
 (** make mjModel struct *)
 val mjModel_make
@@ -3236,7 +3236,7 @@ val mjModel_make
   -> ?f_numeric_data:float ptr
   -> ?f_text_adr:int ptr
   -> ?f_text_size:int ptr
-  -> ?f_text_data:string
+  -> ?f_text_data:char ptr
   -> ?f_tuple_adr:int ptr
   -> ?f_tuple_size:int ptr
   -> ?f_tuple_objtype:int ptr
@@ -3269,7 +3269,7 @@ val mjModel_make
   -> ?f_name_textadr:int ptr
   -> ?f_name_tupleadr:int ptr
   -> ?f_name_keyadr:int ptr
-  -> ?f_names:string
+  -> ?f_names:char ptr
   -> unit
   -> mjModel
 
@@ -4655,10 +4655,10 @@ val mjvGeom_get_reflectance : mjvGeom -> float
 val mjvGeom_set_reflectance : mjvGeom -> float -> unit
 
 (** get label from mjvGeom *)
-val mjvGeom_get_label : mjvGeom -> string
+val mjvGeom_get_label : mjvGeom -> char ptr
 
 (** set label for mjvGeom *)
-val mjvGeom_set_label : mjvGeom -> string -> unit
+val mjvGeom_set_label : mjvGeom -> char ptr -> unit
 
 (** get camdist from mjvGeom *)
 val mjvGeom_get_camdist : mjvGeom -> float
@@ -4698,7 +4698,7 @@ val mjvGeom_make
   -> ?f_specular:float
   -> ?f_shininess:float
   -> ?f_reflectance:float
-  -> ?f_label:string
+  -> ?f_label:char ptr
   -> ?f_camdist:float
   -> ?f_modelrbound:float
   -> ?f_transparent:Unsigned.UChar.t
@@ -5121,34 +5121,34 @@ val mjvFigure_get_textrgb : mjvFigure -> float ptr
 val mjvFigure_set_textrgb : mjvFigure -> float ptr -> unit
 
 (** get xformat from mjvFigure *)
-val mjvFigure_get_xformat : mjvFigure -> string
+val mjvFigure_get_xformat : mjvFigure -> char ptr
 
 (** set xformat for mjvFigure *)
-val mjvFigure_set_xformat : mjvFigure -> string -> unit
+val mjvFigure_set_xformat : mjvFigure -> char ptr -> unit
 
 (** get yformat from mjvFigure *)
-val mjvFigure_get_yformat : mjvFigure -> string
+val mjvFigure_get_yformat : mjvFigure -> char ptr
 
 (** set yformat for mjvFigure *)
-val mjvFigure_set_yformat : mjvFigure -> string -> unit
+val mjvFigure_set_yformat : mjvFigure -> char ptr -> unit
 
 (** get minwidth from mjvFigure *)
-val mjvFigure_get_minwidth : mjvFigure -> string
+val mjvFigure_get_minwidth : mjvFigure -> char ptr
 
 (** set minwidth for mjvFigure *)
-val mjvFigure_set_minwidth : mjvFigure -> string -> unit
+val mjvFigure_set_minwidth : mjvFigure -> char ptr -> unit
 
 (** get title from mjvFigure *)
-val mjvFigure_get_title : mjvFigure -> string
+val mjvFigure_get_title : mjvFigure -> char ptr
 
 (** set title for mjvFigure *)
-val mjvFigure_set_title : mjvFigure -> string -> unit
+val mjvFigure_set_title : mjvFigure -> char ptr -> unit
 
 (** get xlabel from mjvFigure *)
-val mjvFigure_get_xlabel : mjvFigure -> string
+val mjvFigure_get_xlabel : mjvFigure -> char ptr
 
 (** set xlabel for mjvFigure *)
-val mjvFigure_set_xlabel : mjvFigure -> string -> unit
+val mjvFigure_set_xlabel : mjvFigure -> char ptr -> unit
 
 (** get legendoffset from mjvFigure *)
 val mjvFigure_get_legendoffset : mjvFigure -> int
@@ -5226,11 +5226,11 @@ val mjvFigure_make
   -> ?f_panergba:float ptr
   -> ?f_legendrgba:float ptr
   -> ?f_textrgb:float ptr
-  -> ?f_xformat:string
-  -> ?f_yformat:string
-  -> ?f_minwidth:string
-  -> ?f_title:string
-  -> ?f_xlabel:string
+  -> ?f_xformat:char ptr
+  -> ?f_yformat:char ptr
+  -> ?f_minwidth:char ptr
+  -> ?f_title:char ptr
+  -> ?f_xlabel:char ptr
   -> ?f_legendoffset:int
   -> ?f_subplot:int
   -> ?f_highlight:int ptr
@@ -6077,10 +6077,10 @@ val mjuiSection_allocate : unit -> mjuiSection
 val mjuiSection_null : unit -> mjuiSection ptr
 
 (** get name from mjuiSection *)
-val mjuiSection_get_name : mjuiSection -> string
+val mjuiSection_get_name : mjuiSection -> char ptr
 
 (** set name for mjuiSection *)
-val mjuiSection_set_name : mjuiSection -> string -> unit
+val mjuiSection_set_name : mjuiSection -> char ptr -> unit
 
 (** get state from mjuiSection *)
 val mjuiSection_get_state : mjuiSection -> int
@@ -6126,7 +6126,7 @@ val mjuiSection_set_rcontent : mjuiSection -> mjrRect -> unit
 
 (** make mjuiSection struct *)
 val mjuiSection_make
-  :  ?f_name:string
+  :  ?f_name:char ptr
   -> ?f_state:int
   -> ?f_modifier:int
   -> ?f_shortcut:int
@@ -6255,10 +6255,10 @@ val mjUI_get_editscroll : mjUI -> int
 val mjUI_set_editscroll : mjUI -> int -> unit
 
 (** get edittext from mjUI *)
-val mjUI_get_edittext : mjUI -> string
+val mjUI_get_edittext : mjUI -> char ptr
 
 (** set edittext for mjUI *)
-val mjUI_set_edittext : mjUI -> string -> unit
+val mjUI_set_edittext : mjUI -> char ptr -> unit
 
 (** get editchanged from mjUI *)
 val mjUI_get_editchanged : mjUI -> mjuiItem ptr
@@ -6298,7 +6298,7 @@ val mjUI_make
   -> ?f_edititem:int
   -> ?f_editcursor:int
   -> ?f_editscroll:int
-  -> ?f_edittext:string
+  -> ?f_edittext:char ptr
   -> ?f_editchanged:mjuiItem ptr
   -> ?f_nsect:int
   -> ?f_sect:mjuiSection ptr
@@ -6321,10 +6321,10 @@ val mjuiDef_get_type : mjuiDef -> int
 val mjuiDef_set_type : mjuiDef -> int -> unit
 
 (** get name from mjuiDef *)
-val mjuiDef_get_name : mjuiDef -> string
+val mjuiDef_get_name : mjuiDef -> char ptr
 
 (** set name for mjuiDef *)
-val mjuiDef_set_name : mjuiDef -> string -> unit
+val mjuiDef_set_name : mjuiDef -> char ptr -> unit
 
 (** get state from mjuiDef *)
 val mjuiDef_get_state : mjuiDef -> int
@@ -6339,18 +6339,18 @@ val mjuiDef_get_pdata : mjuiDef -> unit ptr
 val mjuiDef_set_pdata : mjuiDef -> unit ptr -> unit
 
 (** get other from mjuiDef *)
-val mjuiDef_get_other : mjuiDef -> string
+val mjuiDef_get_other : mjuiDef -> char ptr
 
 (** set other for mjuiDef *)
-val mjuiDef_set_other : mjuiDef -> string -> unit
+val mjuiDef_set_other : mjuiDef -> char ptr -> unit
 
 (** make mjuiDef struct *)
 val mjuiDef_make
   :  ?f_type:int
-  -> ?f_name:string
+  -> ?f_name:char ptr
   -> ?f_state:int
   -> ?f_pdata:unit ptr
-  -> ?f_other:string
+  -> ?f_other:char ptr
   -> unit
   -> mjuiDef
 
@@ -6358,7 +6358,7 @@ val mjuiDef_make
 val mjuiDef_to_carray : mjuiDef list -> mjuiDef Ctypes.carray
 
 (** Return 1 (for backward compatibility). *)
-val mj_activate : string -> int
+val mj_activate : char ptr -> int
 
 (** Do nothing (for backward compatibility). *)
 val mj_deactivate : unit -> unit
@@ -6367,16 +6367,16 @@ val mj_deactivate : unit -> unit
 val mj_defaultVFS : mjVFS ptr -> unit
 
 (** Add file to VFS, return 0: success, 1: full, 2: repeated name, -1: not found on disk. *)
-val mj_addFileVFS : mjVFS ptr -> string -> string -> int
+val mj_addFileVFS : mjVFS ptr -> char ptr -> char ptr -> int
 
 (** Make empty file in VFS, return 0: success, 1: full, 2: repeated name. *)
-val mj_makeEmptyFileVFS : mjVFS ptr -> string -> int -> int
+val mj_makeEmptyFileVFS : mjVFS ptr -> char ptr -> int -> int
 
 (** Return file index in VFS, or -1 if not found in VFS. *)
-val mj_findFileVFS : mjVFS ptr -> string -> int
+val mj_findFileVFS : mjVFS ptr -> char ptr -> int
 
 (** Delete file from VFS, return 0: success, -1: not found in VFS. *)
-val mj_deleteFileVFS : mjVFS ptr -> string -> int
+val mj_deleteFileVFS : mjVFS ptr -> char ptr -> int
 
 (** Delete all files from VFS. *)
 val mj_deleteVFS : mjVFS ptr -> unit
@@ -6384,17 +6384,17 @@ val mj_deleteVFS : mjVFS ptr -> unit
 (** Parse XML file in MJCF or URDF format, compile it, return low-level model.
  If vfs is not NULL, look up files in vfs before reading from disk.
  If error is not NULL, it must have size error_sz. *)
-val mj_loadXML : string -> mjVFS ptr -> string -> int -> mjModel ptr
+val mj_loadXML : char ptr -> mjVFS ptr -> char ptr -> int -> mjModel ptr
 
 (** Update XML data structures with info from low-level model, save as MJCF.
  If error is not NULL, it must have size error_sz. *)
-val mj_saveLastXML : string -> mjModel ptr -> string -> int -> int
+val mj_saveLastXML : char ptr -> mjModel ptr -> char ptr -> int -> int
 
 (** Free last XML model if loaded. Called internally at each load. *)
 val mj_freeLastXML : unit -> unit
 
 (** Print internal XML schema as plain text or HTML, with style-padding or &nbsp;. *)
-val mj_printSchema : string -> string -> int -> int -> int -> int
+val mj_printSchema : char ptr -> char ptr -> int -> int -> int -> int
 
 (** Advance simulation, use control callback to obtain external force and control. *)
 val mj_step : mjModel ptr -> mjData ptr -> unit
@@ -6433,11 +6433,11 @@ val mj_defaultVisual : mjVisual ptr -> unit
 val mj_copyModel : mjModel ptr -> mjModel ptr -> mjModel ptr
 
 (** Save model to binary MJB file or memory buffer; buffer has precedence when given. *)
-val mj_saveModel : mjModel ptr -> string -> unit ptr -> int -> unit
+val mj_saveModel : mjModel ptr -> char ptr -> unit ptr -> int -> unit
 
 (** Load model from binary MJB file.
  If vfs is not NULL, look up file in vfs before reading from disk. *)
-val mj_loadModel : string -> mjVFS ptr -> mjModel ptr
+val mj_loadModel : char ptr -> mjVFS ptr -> mjModel ptr
 
 (** Free memory allocation in model. *)
 val mj_deleteModel : mjModel ptr -> unit
@@ -6478,15 +6478,15 @@ val mj_setLengthRange
   -> mjData ptr
   -> int
   -> mjLROpt ptr
-  -> string
+  -> char ptr
   -> int
   -> int
 
 (** Print model to text file. *)
-val mj_printModel : mjModel ptr -> string -> unit
+val mj_printModel : mjModel ptr -> char ptr -> unit
 
 (** Print data to text file. *)
-val mj_printData : mjModel ptr -> mjData ptr -> string -> unit
+val mj_printData : mjModel ptr -> mjData ptr -> char ptr -> unit
 
 (** Print matrix to screen. *)
 val mju_printMat : float ptr -> int -> int -> unit
@@ -6667,7 +6667,7 @@ val mj_jacPointAxis
   -> unit
 
 (** Get id of object with specified name, return -1 if not found; type is mjtObj. *)
-val mj_name2id : mjModel ptr -> int -> string -> int
+val mj_name2id : mjModel ptr -> int -> char ptr -> int
 
 (** Convert sparse inertia matrix M into full (i.e. dense) matrix. *)
 val mj_fullM : mjModel ptr -> float ptr -> float ptr -> unit
@@ -7024,7 +7024,7 @@ val mjr_blitAux : int -> mjrRect -> int -> int -> mjrContext ptr -> unit
 (** Draw text at (x,y) in relative coordinates; font is mjtFont. *)
 val mjr_text
   :  int
-  -> string
+  -> char ptr
   -> mjrContext ptr
   -> float
   -> float
@@ -7034,7 +7034,7 @@ val mjr_text
   -> unit
 
 (** Draw text overlay; font is mjtFont; gridpos is mjtGridPos. *)
-val mjr_overlay : int -> int -> mjrRect -> string -> string -> mjrContext ptr -> unit
+val mjr_overlay : int -> int -> mjrRect -> char ptr -> char ptr -> mjrContext ptr -> unit
 
 (** Get maximum viewport for active buffer. *)
 val mjr_maxViewport : mjrContext ptr -> mjrRect
@@ -7046,7 +7046,7 @@ val mjr_rectangle : mjrRect -> float -> float -> float -> float -> unit
 val mjr_label
   :  mjrRect
   -> int
-  -> string
+  -> char ptr
   -> float
   -> float
   -> float
@@ -7097,22 +7097,22 @@ val mjui_event : mjUI ptr -> mjuiState ptr -> mjrContext ptr -> mjuiItem ptr
 val mjui_render : mjUI ptr -> mjuiState ptr -> mjrContext ptr -> unit
 
 (** Main error function; does not return to caller. *)
-val mju_error : string -> unit
+val mju_error : char ptr -> unit
 
 (** Error function with int argument; msg is a printf format string. *)
-val mju_error_i : string -> int -> unit
+val mju_error_i : char ptr -> int -> unit
 
 (** Error function with string argument. *)
-val mju_error_s : string -> string -> unit
+val mju_error_s : char ptr -> char ptr -> unit
 
 (** Main warning function; returns to caller. *)
-val mju_warning : string -> unit
+val mju_warning : char ptr -> unit
 
 (** Warning function with int argument. *)
-val mju_warning_i : string -> int -> unit
+val mju_warning_i : char ptr -> int -> unit
 
 (** Warning function with string argument. *)
-val mju_warning_s : string -> string -> unit
+val mju_warning_s : char ptr -> char ptr -> unit
 
 (** Clear user error and memory handlers. *)
 val mju_clearHandlers : unit -> unit
@@ -7127,7 +7127,7 @@ val mju_free : unit ptr -> unit
 val mj_warning : mjData ptr -> int -> int -> unit
 
 (** Write [datetime, type: message] to MUJOCO_LOG.TXT. *)
-val mju_writeLog : string -> string -> unit
+val mju_writeLog : char ptr -> char ptr -> unit
 
 (** Set res = 0. *)
 val mju_zero3 : float ptr -> unit
@@ -7358,7 +7358,7 @@ val mju_sign : float -> float
 val mju_round : float -> int
 
 (** Convert type name to type id (mjtObj). *)
-val mju_str2Type : string -> int
+val mju_str2Type : char ptr -> int
 
 (** Return 1 if nan or abs(x)>mjMAXVAL, 0 otherwise. Used by check functions. *)
 val mju_isBad : float -> int
@@ -7391,7 +7391,7 @@ val mju_insertionSortInt : int ptr -> int -> unit
 val mju_Halton : int -> int -> float
 
 (** Call strncpy, then set dst[n-1] = 0. *)
-val mju_strncpy : char -> char -> int -> string
+val mju_strncpy : char -> char -> int -> char ptr
 
 (** Sigmoid function over 0<=x<=1 constructed from half-quadratics. *)
 val mju_sigmoid : float -> float

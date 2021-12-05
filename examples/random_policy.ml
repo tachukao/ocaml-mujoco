@@ -22,7 +22,7 @@ let loop ~t0 model data () =
 
 let () =
   (* Create camera option scene and context *)
-  let model = Model.load_xml model_xml ~name:"Example" in
+  let model = Model.load_xml model_xml in
   let data = Data.make model in
   if record_video
   then (

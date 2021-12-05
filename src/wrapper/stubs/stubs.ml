@@ -10,7 +10,7 @@ module Bindings (F : FOREIGN) = struct
   (** ---------------------- Activation ----------------------------------------------------- *)
 
   (** Return 1 (for backward compatibility). *)
-  let mj_activate = foreign "mj_activate" (string @-> returning int)
+  let mj_activate = foreign "mj_activate" (ptr char @-> returning int)
 
   (** Do nothing (for backward compatibility). *)
   let mj_deactivate = foreign "mj_deactivate" (void @-> returning void)
@@ -22,20 +22,20 @@ module Bindings (F : FOREIGN) = struct
 
   (** Add file to VFS, return 0: success, 1: full, 2: repeated name, -1: not found on disk. *)
   let mj_addFileVFS =
-    foreign "mj_addFileVFS" (ptr mjVFS @-> string @-> string @-> returning int)
+    foreign "mj_addFileVFS" (ptr mjVFS @-> ptr char @-> ptr char @-> returning int)
 
 
   (** Make empty file in VFS, return 0: success, 1: full, 2: repeated name. *)
   let mj_makeEmptyFileVFS =
-    foreign "mj_makeEmptyFileVFS" (ptr mjVFS @-> string @-> int @-> returning int)
+    foreign "mj_makeEmptyFileVFS" (ptr mjVFS @-> ptr char @-> int @-> returning int)
 
 
   (** Return file index in VFS, or -1 if not found in VFS. *)
-  let mj_findFileVFS = foreign "mj_findFileVFS" (ptr mjVFS @-> string @-> returning int)
+  let mj_findFileVFS = foreign "mj_findFileVFS" (ptr mjVFS @-> ptr char @-> returning int)
 
   (** Delete file from VFS, return 0: success, -1: not found in VFS. *)
   let mj_deleteFileVFS =
-    foreign "mj_deleteFileVFS" (ptr mjVFS @-> string @-> returning int)
+    foreign "mj_deleteFileVFS" (ptr mjVFS @-> ptr char @-> returning int)
 
 
   (** Delete all files from VFS. *)
@@ -49,13 +49,15 @@ module Bindings (F : FOREIGN) = struct
   let mj_loadXML =
     foreign
       "mj_loadXML"
-      (string @-> ptr mjVFS @-> string @-> int @-> returning (ptr mjModel))
+      (ptr char @-> ptr mjVFS @-> ptr char @-> int @-> returning (ptr mjModel))
 
 
   (** Update XML data structures with info from low-level model, save as MJCF.
  If error is not NULL, it must have size error_sz. *)
   let mj_saveLastXML =
-    foreign "mj_saveLastXML" (string @-> ptr mjModel @-> string @-> int @-> returning int)
+    foreign
+      "mj_saveLastXML"
+      (ptr char @-> ptr mjModel @-> ptr char @-> int @-> returning int)
 
 
   (** Free last XML model if loaded. Called internally at each load. *)
@@ -63,7 +65,9 @@ module Bindings (F : FOREIGN) = struct
 
   (** Print internal XML schema as plain text or HTML, with style-padding or &nbsp;. *)
   let mj_printSchema =
-    foreign "mj_printSchema" (string @-> string @-> int @-> int @-> int @-> returning int)
+    foreign
+      "mj_printSchema"
+      (ptr char @-> ptr char @-> int @-> int @-> int @-> returning int)
 
 
   (** ---------------------- Main simulation ------------------------------------------------ *)
@@ -120,13 +124,15 @@ module Bindings (F : FOREIGN) = struct
 
   (** Save model to binary MJB file or memory buffer; buffer has precedence when given. *)
   let mj_saveModel =
-    foreign "mj_saveModel" (ptr mjModel @-> string @-> ptr void @-> int @-> returning void)
+    foreign
+      "mj_saveModel"
+      (ptr mjModel @-> ptr char @-> ptr void @-> int @-> returning void)
 
 
   (** Load model from binary MJB file.
  If vfs is not NULL, look up file in vfs before reading from disk. *)
   let mj_loadModel =
-    foreign "mj_loadModel" (string @-> ptr mjVFS @-> returning (ptr mjModel))
+    foreign "mj_loadModel" (ptr char @-> ptr mjVFS @-> returning (ptr mjModel))
 
 
   (** Free memory allocation in model. *)
@@ -180,7 +186,7 @@ module Bindings (F : FOREIGN) = struct
       @-> ptr mjData
       @-> int
       @-> ptr mjLROpt
-      @-> string
+      @-> ptr char
       @-> int
       @-> returning int)
 
@@ -188,11 +194,11 @@ module Bindings (F : FOREIGN) = struct
   (** ---------------------- Printing ------------------------------------------------------- *)
 
   (** Print model to text file. *)
-  let mj_printModel = foreign "mj_printModel" (ptr mjModel @-> string @-> returning void)
+  let mj_printModel = foreign "mj_printModel" (ptr mjModel @-> ptr char @-> returning void)
 
   (** Print data to text file. *)
   let mj_printData =
-    foreign "mj_printData" (ptr mjModel @-> ptr mjData @-> string @-> returning void)
+    foreign "mj_printData" (ptr mjModel @-> ptr mjData @-> ptr char @-> returning void)
 
 
   (** Print matrix to screen. *)
@@ -460,7 +466,9 @@ module Bindings (F : FOREIGN) = struct
 
 
   (** Get id of object with specified name, return -1 if not found; type is mjtObj. *)
-  let mj_name2id = foreign "mj_name2id" (ptr mjModel @-> int @-> string @-> returning int)
+  let mj_name2id =
+    foreign "mj_name2id" (ptr mjModel @-> int @-> ptr char @-> returning int)
+
 
   (** Convert sparse inertia matrix M into full (i.e. dense) matrix. *)
   let mj_fullM =
@@ -984,7 +992,7 @@ module Bindings (F : FOREIGN) = struct
     foreign
       "mjr_text"
       (int
-      @-> string
+      @-> ptr char
       @-> ptr mjrContext
       @-> float
       @-> float
@@ -998,7 +1006,13 @@ module Bindings (F : FOREIGN) = struct
   let mjr_overlay =
     foreign
       "mjr_overlay"
-      (int @-> int @-> mjrRect @-> string @-> string @-> ptr mjrContext @-> returning void)
+      (int
+      @-> int
+      @-> mjrRect
+      @-> ptr char
+      @-> ptr char
+      @-> ptr mjrContext
+      @-> returning void)
 
 
   (** Get maximum viewport for active buffer. *)
@@ -1017,7 +1031,7 @@ module Bindings (F : FOREIGN) = struct
       "mjr_label"
       (mjrRect
       @-> int
-      @-> string
+      @-> ptr char
       @-> float
       @-> float
       @-> float
@@ -1093,22 +1107,22 @@ module Bindings (F : FOREIGN) = struct
   (** ---------------------- Error and memory ----------------------------------------------- *)
 
   (** Main error function; does not return to caller. *)
-  let mju_error = foreign "mju_error" (string @-> returning void)
+  let mju_error = foreign "mju_error" (ptr char @-> returning void)
 
   (** Error function with int argument; msg is a printf format string. *)
-  let mju_error_i = foreign "mju_error_i" (string @-> int @-> returning void)
+  let mju_error_i = foreign "mju_error_i" (ptr char @-> int @-> returning void)
 
   (** Error function with string argument. *)
-  let mju_error_s = foreign "mju_error_s" (string @-> string @-> returning void)
+  let mju_error_s = foreign "mju_error_s" (ptr char @-> ptr char @-> returning void)
 
   (** Main warning function; returns to caller. *)
-  let mju_warning = foreign "mju_warning" (string @-> returning void)
+  let mju_warning = foreign "mju_warning" (ptr char @-> returning void)
 
   (** Warning function with int argument. *)
-  let mju_warning_i = foreign "mju_warning_i" (string @-> int @-> returning void)
+  let mju_warning_i = foreign "mju_warning_i" (ptr char @-> int @-> returning void)
 
   (** Warning function with string argument. *)
-  let mju_warning_s = foreign "mju_warning_s" (string @-> string @-> returning void)
+  let mju_warning_s = foreign "mju_warning_s" (ptr char @-> ptr char @-> returning void)
 
   (** Clear user error and memory handlers. *)
   let mju_clearHandlers = foreign "mju_clearHandlers" (void @-> returning void)
@@ -1123,7 +1137,7 @@ module Bindings (F : FOREIGN) = struct
   let mj_warning = foreign "mj_warning" (ptr mjData @-> int @-> int @-> returning void)
 
   (** Write [datetime, type: message] to MUJOCO_LOG.TXT. *)
-  let mju_writeLog = foreign "mju_writeLog" (string @-> string @-> returning void)
+  let mju_writeLog = foreign "mju_writeLog" (ptr char @-> ptr char @-> returning void)
 
   (** ---------------------- Standard math -------------------------------------------------- *)
 
@@ -1494,7 +1508,7 @@ module Bindings (F : FOREIGN) = struct
   let mju_round = foreign "mju_round" (mjtNum @-> returning int)
 
   (** Convert type name to type id (mjtObj). *)
-  let mju_str2Type = foreign "mju_str2Type" (string @-> returning int)
+  let mju_str2Type = foreign "mju_str2Type" (ptr char @-> returning int)
 
   (** Return 1 if nan or abs(x)>mjMAXVAL, 0 otherwise. Used by check functions. *)
   let mju_isBad = foreign "mju_isBad" (mjtNum @-> returning int)
@@ -1531,7 +1545,7 @@ module Bindings (F : FOREIGN) = struct
   let mju_Halton = foreign "mju_Halton" (int @-> int @-> returning mjtNum)
 
   (** Call strncpy, then set dst[n-1] = 0. *)
-  let mju_strncpy = foreign "mju_strncpy" (char @-> char @-> int @-> returning string)
+  let mju_strncpy = foreign "mju_strncpy" (char @-> char @-> int @-> returning (ptr char))
 
   (** Sigmoid function over 0<=x<=1 constructed from half-quadratics. *)
   let mju_sigmoid = foreign "mju_sigmoid" (mjtNum @-> returning mjtNum)

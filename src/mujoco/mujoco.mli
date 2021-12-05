@@ -10,7 +10,7 @@ type context = mjrContext
 module Model : sig
   type t = { ptr : mjModel ptr }
 
-  val load_xml : name:string -> string -> t
+  val load_xml : string -> t
   val nv : t -> int
   val nu : t -> int
 end

@@ -1,3 +1,4 @@
+open Base
 open Bigarray
 open Mujoco_core.Wrapper
 
@@ -7,12 +8,25 @@ type option = mjvOption
 type scene = mjvScene
 type context = mjrContext
 
+let string_to_char_ptr s = Ctypes.CArray.of_string s |> Ctypes.CArray.start
+
+exception MjModelParseError
+
 module Model = struct
   type t = { ptr : mjModel ptr }
 
-  let load_xml ~name xml =
-    let m = mj_loadXML xml (mjVFS_null ()) name 1000 in
-    Gc.finalise mj_deleteModel m;
+  let load_xml xml =
+    let xml = string_to_char_ptr xml in
+    let error_buffer = Ctypes.allocate_n ~count:1000 Ctypes.char in
+    let m = mj_loadXML xml (mjVFS_null ()) error_buffer 1000 in
+    if Ctypes.is_null m
+    then (
+      Stdio.printf "MuJoCo Internal error:\n\n%!";
+      Ctypes.string_from_ptr error_buffer ~length:1000
+      |> String.filter ~f:(fun x -> not Char.(x = '\000'))
+      |> Stdio.printf "%s\n%!";
+      raise MjModelParseError);
+    Caml.Gc.finalise mj_deleteModel m;
     { ptr = m }
 
 
@@ -30,7 +44,7 @@ module Data = struct
 
   let make m =
     let ptr = mj_makeData Model.(m.ptr) in
-    Gc.finalise mj_deleteData ptr;
+    Caml.Gc.finalise mj_deleteData ptr;
     let nq = mjModel_get_nq !@(m.ptr) in
     let qpos_ptr = mjData_get_qpos !@ptr in
     let qpos = Ctypes.(bigarray_of_ptr genarray) [| nq |] float64 qpos_ptr in
@@ -72,14 +86,14 @@ let default_option () =
 
 let default_scene () =
   let scn = mjvScene_allocate () in
-  Gc.finalise mjv_freeScene !&scn;
+  Caml.Gc.finalise mjv_freeScene !&scn;
   mjv_defaultScene !&scn;
   scn
 
 
 let default_context () =
   let con = mjrContext_allocate () in
-  Gc.finalise mjr_freeContext !&con;
+  Caml.Gc.finalise mjr_freeContext !&con;
   mjr_defaultContext !&con;
   con
 
@@ -92,7 +106,7 @@ let default_callbacks ~cam ~scn ~model ~data =
   let lasty = ref 0. in
   (* key callback *)
   let key_callback _ k _ act _ =
-    if k = GLFW.Backspace && act = GLFW.Press
+    if Caml.(k = GLFW.Backspace && act = GLFW.Press)
     then (
       Data.reset model data;
       forward model data)
@@ -159,7 +173,7 @@ let visualise ~loop model data =
   in
   (* Initialize the GLFW library *)
   GLFW.init ();
-  at_exit GLFW.terminate;
+  Caml.at_exit GLFW.terminate;
   (* Create a windowed mode window and its OpenGL context *)
   let window = GLFW.createWindow ~width ~height ~title:"Demo" () in
   (* Make the window's context current *)
@@ -214,7 +228,7 @@ let record
   let con = default_context () in
   (* Initialize the GLFW library *)
   GLFW.init ();
-  at_exit GLFW.terminate;
+  Caml.at_exit GLFW.terminate;
   (* Create a windowed mode window and its OpenGL context *)
   GLFW.windowHint ~hint:GLFW.Visible ~value:false;
   GLFW.windowHint ~hint:GLFW.DoubleBuffer ~value:false;
@@ -242,9 +256,10 @@ let record
   mjr_setBuffer (mjtFramebuffer_to_int MjFB_OFFSCREEN) !&con;
   let rec aux ch frametime framecount =
     (* Loop until the user closes the window *)
-    if Data.time data < duration
+    if Float.(Data.time data < duration)
     then
-      if (Data.time data -. frametime > 1. /. Float.(of_int fps)) || frametime = 0.
+      if Float.(
+           (Data.time data -. frametime > 1. /. Float.(of_int fps)) || frametime = 0.)
       then (
         (* Update Mujoco Scene *)
         mjv_updateScene
@@ -263,15 +278,15 @@ let record
           (mjtFont_to_int MjFONT_NORMAL)
           (mjtGridPos_to_int MjGRID_TOPLEFT)
           viewport
-          overlay
-          ""
+          (string_to_char_ptr overlay)
+          Ctypes.(from_voidp char null)
           !&con;
         (* read rgb and depth buffers *)
         mjr_readPixels Ctypes.(coerce (ptr int8_t) (ptr uchar) rgb) depth viewport !&con;
         Ctypes.CArray.iter (fun x -> Stdio.Out_channel.output_byte ch x) rgb_arr;
         (* save rgb image *)
         let frametime = Data.time data in
-        let framecount = succ framecount in
+        let framecount = Int.succ framecount in
         if mjr_getError () = 1 then Stdio.printf "x%!" else Stdio.printf ".%!";
         advance model data ();
         aux ch frametime framecount)
@@ -281,7 +296,7 @@ let record
         aux ch frametime framecount)
     else Stdio.print_endline "\nFINISHED"
   in
-  let tmpdir = Filename.get_temp_dir_name () in
+  let tmpdir = Caml.Filename.get_temp_dir_name () in
   let tmpfile = Printf.sprintf "%s/%s" tmpdir "tmp_mujoco_recording.out" in
   Stdio.print_endline "BEGIN RECORDING";
   Stdio.Out_channel.with_file tmpfile ~f:(fun ch -> aux ch 0. 0);
@@ -296,4 +311,4 @@ let record
       tmpfile
       file
   in
-  Sys.command command |> ignore
+  Caml.Sys.command command |> ignore

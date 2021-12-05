@@ -1871,7 +1871,7 @@ module Bindings (S : Cstubs.Types.TYPE) = struct
   let mjModel_text_size = field _mjModel "text_size" (ptr int)
 
   (** array of all text fields (0-terminated)  (ntextdata x 1) *)
-  let mjModel_text_data = field _mjModel "text_data" string
+  let mjModel_text_data = field _mjModel "text_data" (ptr char)
 
   (** address of text in text_data             (ntuple x 1) *)
   let mjModel_tuple_adr = field _mjModel "tuple_adr" (ptr int)
@@ -1970,7 +1970,7 @@ module Bindings (S : Cstubs.Types.TYPE) = struct
   let mjModel_name_keyadr = field _mjModel "name_keyadr" (ptr int)
 
   (** names of all objects, 0-terminated       (nnames x 1) *)
-  let mjModel_names = field _mjModel "names" string
+  let mjModel_names = field _mjModel "names" (ptr char)
 
   let () = seal _mjModel
 
@@ -3034,7 +3034,7 @@ module Bindings (S : Cstubs.Types.TYPE) = struct
   let mjvGeom_reflectance = field _mjvGeom "reflectance" float
 
   (** text label *)
-  let mjvGeom_label = field _mjvGeom "label" string
+  let mjvGeom_label = field _mjvGeom "label" (ptr char)
 
   (** distance to camera (used by sorter) *)
   let mjvGeom_camdist = field _mjvGeom "camdist" float
@@ -3248,19 +3248,19 @@ module Bindings (S : Cstubs.Types.TYPE) = struct
   let mjvFigure_textrgb = field _mjvFigure "textrgb" (ptr float)
 
   (** x-tick label format for sprintf *)
-  let mjvFigure_xformat = field _mjvFigure "xformat" string
+  let mjvFigure_xformat = field _mjvFigure "xformat" (ptr char)
 
   (** y-tick label format for sprintf *)
-  let mjvFigure_yformat = field _mjvFigure "yformat" string
+  let mjvFigure_yformat = field _mjvFigure "yformat" (ptr char)
 
   (** string used to determine min y-tick width *)
-  let mjvFigure_minwidth = field _mjvFigure "minwidth" string
+  let mjvFigure_minwidth = field _mjvFigure "minwidth" (ptr char)
 
   (** figure title; subplots separated with 2+ spaces *)
-  let mjvFigure_title = field _mjvFigure "title" string
+  let mjvFigure_title = field _mjvFigure "title" (ptr char)
 
   (** x-axis label *)
-  let mjvFigure_xlabel = field _mjvFigure "xlabel" string
+  let mjvFigure_xlabel = field _mjvFigure "xlabel" (ptr char)
 
   (** number of lines to offset legend *)
   let mjvFigure_legendoffset = field _mjvFigure "legendoffset" int
@@ -3909,7 +3909,7 @@ module Bindings (S : Cstubs.Types.TYPE) = struct
   let _mjuiSection : _mjuiSection structure typ = structure "_mjuiSection"
 
   (** name *)
-  let mjuiSection_name = field _mjuiSection "name" string
+  let mjuiSection_name = field _mjuiSection "name" (ptr char)
 
   (** 0: closed, 1: open *)
   let mjuiSection_state = field _mjuiSection "state" int
@@ -3997,7 +3997,7 @@ module Bindings (S : Cstubs.Types.TYPE) = struct
   let mjUI_editscroll = field _mjUI "editscroll" int
 
   (** current text *)
-  let mjUI_edittext = field _mjUI "edittext" string
+  let mjUI_edittext = field _mjUI "edittext" (ptr char)
 
   (** pointer to changed edit in last mjui_event *)
   let mjUI_editchanged = field _mjUI "editchanged" (ptr mjuiItem)
@@ -4022,7 +4022,7 @@ module Bindings (S : Cstubs.Types.TYPE) = struct
   let mjuiDef_type = field _mjuiDef "type" int
 
   (** name *)
-  let mjuiDef_name = field _mjuiDef "name" string
+  let mjuiDef_name = field _mjuiDef "name" (ptr char)
 
   (** state *)
   let mjuiDef_state = field _mjuiDef "state" int
@@ -4031,7 +4031,7 @@ module Bindings (S : Cstubs.Types.TYPE) = struct
   let mjuiDef_pdata = field _mjuiDef "pdata" (ptr void)
 
   (** string with type-specific properties *)
-  let mjuiDef_other = field _mjuiDef "other" string
+  let mjuiDef_other = field _mjuiDef "other" (ptr char)
 
   let () = seal _mjuiDef
 

@@ -1,7 +1,16 @@
 open Mujoco_core.Wrapper
 
+let string_to_char_ptr s = Ctypes.CArray.of_string s |> Ctypes.CArray.start
 let model_xml = Cmdargs.(get_string "-xml" |> force ~usage:"model XML")
-let model = mj_loadXML model_xml (mjVFS_null ()) "Example" 1000
+
+let model =
+  mj_loadXML
+    (string_to_char_ptr model_xml)
+    (mjVFS_null ())
+    Ctypes.(allocate_n char ~count:1000)
+    1000
+
+
 let data = mj_makeData model
 
 (* Create camera option scene and context *)
