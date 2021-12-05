@@ -1,4 +1,4 @@
 (library
  (name mujoco)
  (public_name mujoco)
- (libraries mujoco.wrapper glfw-ocaml stdio))
+ (libraries mujoco.core glfw-ocaml stdio))

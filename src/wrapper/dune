@@ -4,8 +4,8 @@
    (:standard -warn-error -A))))
 
 (library
- (name wrapper)
- (public_name mujoco.wrapper)
+ (name mujoco_core)
+ (public_name mujoco.core)
  (libraries mujoco.stubs mujoco.stubs.types ctypes ctypes.foreign)
  (foreign_stubs
   (language c)

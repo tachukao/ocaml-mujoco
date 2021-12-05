@@ -1,5 +1,5 @@
 open Bigarray
-open Wrapper
+open Mujoco_core.Wrapper
 
 type tensor = (float, float64_elt, c_layout) Genarray.t
 type camera = mjvCamera
@@ -154,7 +154,6 @@ let visualise ~loop model data =
   let opt = default_option () in
   let scn = default_scene () in
   let con = default_context () in
-  let open Wrapper in
   let key_callback, mouse_button, mouse_move, scroll_callback =
     default_callbacks ~cam ~scn ~model ~data
   in

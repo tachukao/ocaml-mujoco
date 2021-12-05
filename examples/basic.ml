@@ -1,4 +1,4 @@
-open Wrapper
+open Mujoco_core.Wrapper
 
 let model_xml = Cmdargs.(get_string "-xml" |> force ~usage:"model XML")
 let model = mj_loadXML model_xml (mjVFS_null ()) "Example" 1000

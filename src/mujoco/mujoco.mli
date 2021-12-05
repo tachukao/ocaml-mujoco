@@ -1,5 +1,5 @@
 open Bigarray
-open Wrapper
+open Mujoco_core.Wrapper
 
 type tensor = (float, float64_elt, c_layout) Genarray.t
 type camera = mjvCamera
