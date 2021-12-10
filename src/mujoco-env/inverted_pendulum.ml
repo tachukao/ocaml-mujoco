@@ -12,6 +12,7 @@ module E = struct
   type action = Owl.Arr.arr
   type reward = float
 
+  let frame_skip = 2
   let observe env = Owl.Arr.concatenate [| env.data.qpos; env.data.qvel |] |> Owl.Arr.copy
 
   let reset env =
@@ -40,7 +41,9 @@ module E = struct
   let step env action =
     let reward = 1. in
     Bigarray.Genarray.blit action env.data.ctrl;
-    step env.model env.data;
+    for _ = 0 to frame_skip - 1 do
+      step env.model env.data
+    done;
     let o = observe env in
     let fs = Bigarray.Genarray.(get o [| 0 |]) in
     let not_terminated = Owl.Arr.not_inf o && Float.(abs fs <= 0.2) in

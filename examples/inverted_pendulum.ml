@@ -2,10 +2,8 @@ open Mujoco
 open Mujoco_env
 
 let () =
-  Printf.printf "hello\n%!";
   let env = Inverted_pendulum.init () in
   Owl.Arr.print Model.(ctrlrange env.model);
-  assert (1 = 0);
   let terminated = ref false in
   Printf.printf "start\n%!";
   while not !terminated do
