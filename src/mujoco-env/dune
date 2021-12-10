@@ -11,7 +11,12 @@
   ../../model/ant.xml
   ../../model/humanoid.xml
   ../../model/hopper.xml
+  ../../model/half_cheetah.xml
+  ../../model/swimmer.xml
   ../../model/arm26.xml
-  )
+  ../../model/carpet.png
+  ../../model/marble.png
+  ../../model/sponge.png
+  ../../model/rodent_walker_skin.skn)
  (section share)
  (package mujoco-env))
