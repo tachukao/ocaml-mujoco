@@ -1,7 +1,7 @@
 (library
  (name mujoco_env)
  (public_name mujoco-env)
- (modules env inverted_pendulum)
+ (modules env inverted_pendulum antv3)
  (libraries base mujoco owl stdio findlib))
 
 (install

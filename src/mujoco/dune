@@ -1,4 +1,4 @@
 (library
  (name mujoco)
  (public_name mujoco)
- (libraries base mujoco.core glfw-ocaml stdio))
+ (libraries base mujoco.core glfw-ocaml stdio owl))

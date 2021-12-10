@@ -13,21 +13,25 @@ let string_to_char_ptr s = Ctypes.CArray.of_string s |> Ctypes.CArray.start
 exception MjModelParseError
 
 module Model = struct
-  type t = { ptr : mjModel ptr }
+  type t =
+    { ptr : mjModel ptr
+    ; opt : mjOption ptr
+    }
 
   let load_xml xml =
     let xml = string_to_char_ptr xml in
     let error_buffer = Ctypes.allocate_n ~count:1000 Ctypes.char in
-    let m = mj_loadXML xml (mjVFS_null ()) error_buffer 1000 in
-    if Ctypes.is_null m
+    let ptr = mj_loadXML xml (mjVFS_null ()) error_buffer 1000 in
+    if Ctypes.is_null ptr
     then (
       Stdio.printf "MuJoCo Internal error:\n\n%!";
       Ctypes.string_from_ptr error_buffer ~length:1000
       |> String.filter ~f:(fun x -> not Char.(x = '\000'))
       |> Stdio.printf "%s\n%!";
       raise MjModelParseError);
-    Caml.Gc.finalise mj_deleteModel m;
-    { ptr = m }
+    Caml.Gc.finalise mj_deleteModel ptr;
+    let opt = mjModel_get_opt !@ptr |> Ctypes.addr in
+    { ptr; opt }
 
 
   let ctrlrange m =
@@ -36,6 +40,7 @@ module Model = struct
     Ctypes.(bigarray_of_ptr genarray) [| nu; 2 |] float64 ptr
 
 
+  let timestep m = mjOption_get_timestep !@(m.opt)
   let nv m = mjModel_get_nv !@(m.ptr)
   let nu m = mjModel_get_nu !@(m.ptr)
 end
@@ -46,6 +51,9 @@ module Data = struct
     ; qpos : tensor
     ; qvel : tensor
     ; ctrl : tensor
+    ; cfrc_ext : tensor
+    ; xbody : tensor
+    ; body_name2id : string -> int
     }
 
   let make m =
@@ -59,11 +67,22 @@ module Data = struct
     let nu = Model.nu m in
     let ctrl_ptr = mjData_get_ctrl !@ptr in
     let ctrl = Ctypes.(bigarray_of_ptr genarray) [| nu |] float64 ctrl_ptr in
-    { ptr; qpos; qvel; ctrl }
+    let nbody = mjModel_get_nbody !@(m.ptr) in
+    let cfrc_ext_ptr = mjData_get_cfrc_ext !@ptr in
+    let cfrc_ext =
+      Ctypes.(bigarray_of_ptr genarray) [| nbody; 6 |] float64 cfrc_ext_ptr
+    in
+    let xbody_ptr = mjData_get_xpos !@ptr in
+    let xbody = Ctypes.(bigarray_of_ptr genarray) [| nbody; 3 |] float64 xbody_ptr in
+    let body_name2id name =
+      mj_name2id Model.(m.ptr) (mjtObj_to_int MjOBJ_XBODY) (string_to_char_ptr name)
+    in
+    { ptr; qpos; qvel; ctrl; cfrc_ext; xbody; body_name2id }
 
 
   let reset m d = mj_resetData Model.(m.ptr) d.ptr
   let time d = mjData_get_time !@(d.ptr)
+  let get_body_xpos ~name d = Owl.Arr.row d.xbody (d.body_name2id name)
 end
 
 let step m d = mj_step Model.(m.ptr) Data.(d.ptr)

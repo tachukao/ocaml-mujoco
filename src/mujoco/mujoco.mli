@@ -8,7 +8,7 @@ type scene = mjvScene
 type context = mjrContext
 
 module Model : sig
-  type t = { ptr : mjModel ptr }
+  type t = { ptr : mjModel ptr ; opt: mjOption ptr}
 
   (** [load_xml path] load model from xml [path] *)
   val load_xml : string -> t
@@ -21,6 +21,9 @@ module Model : sig
 
   (** [ctrlrange m] returns the ctrlrange of model [m] with dimensions (nu, 2) *)
   val ctrlrange : t -> tensor
+
+  (** [timestep m] returns the timestep of the option of model [m] *)
+  val timestep : t -> float
 end
 
 module Data : sig
@@ -29,6 +32,9 @@ module Data : sig
     ; qpos : tensor
     ; qvel : tensor
     ; ctrl : tensor
+    ; cfrc_ext : tensor
+    ; xbody : tensor
+    ; body_name2id : string -> int
     }
 
   (** [make m] make data with model [m] *)
@@ -39,6 +45,9 @@ module Data : sig
 
   (** [time d] returns time for data [d] *)
   val time : t -> float
+
+  (** [get_body_xpos ~name d] returns the body xpos corresponding to [name] *)
+  val get_body_xpos : name:string -> t -> tensor
 end
 
 (** [step m d] step for model [m] and data [d] *)

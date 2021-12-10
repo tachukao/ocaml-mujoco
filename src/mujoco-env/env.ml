@@ -1,4 +1,7 @@
+open Mujoco
+
 let model_file = Printf.sprintf "%s/../share/mujoco-env/%s" Findlib.(default_location ())
+let state_vector (data : Data.t) = Owl.Arr.(concatenate [| data.qpos; data.qvel |])
 
 module type E = sig
   type env
