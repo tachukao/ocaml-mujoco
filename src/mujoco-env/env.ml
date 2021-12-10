@@ -20,16 +20,24 @@ module Make (E : E) = struct
     ; observation : observation
     }
 
-  let simulate policy =
+  let loop update =
     let env = init () in
     let rec run terminated observation acc =
       if terminated
       then acc
       else (
-        let action = policy observation in
-        let observation, reward, terminated = step env action in
-        let acc = { observation; reward; action } :: acc in
+        let terminated, observation, acc = update env observation acc in
         run terminated observation acc)
     in
     run false (reset env) []
+
+
+  let simulate policy =
+    let update env observation acc =
+      let action = policy observation in
+      let observation, reward, terminated = step env action in
+      let acc = { observation; reward; action } :: acc in
+      terminated, observation, acc
+    in
+    loop update
 end
