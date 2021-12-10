@@ -1,5 +1,5 @@
 (executables
- (names basic derivative random_policy inverted_pendulum)
+ (names basic derivative random_policy inverted_pendulum ant)
  (libraries stdio base mujoco mujoco-env cmdargs glfw-ocaml owl owl-opt)
  (preprocess
   (pps ppx-owl-opt)))
