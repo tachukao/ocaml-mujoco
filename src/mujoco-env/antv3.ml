@@ -56,7 +56,18 @@ module E = struct
 
 
   let reset env =
-    Data.reset env.model env.data;
+    let noise_low = -.reset_noise_scale in
+    let noise_high = reset_noise_scale in
+    let qpos =
+      let dpos = Owl.Arr.uniform ~a:noise_low ~b:noise_high Owl.Arr.(shape env.qpos0) in
+      Owl.Arr.(dpos + env.qpos0)
+    in
+    let qvel =
+      let dvel = Owl.Arr.gaussian Owl.Arr.(shape env.qvel0) in
+      Owl.Arr.(dvel + (reset_noise_scale $* env.qvel0))
+    in
+    Bigarray.Genarray.blit qpos env.data.qpos;
+    Bigarray.Genarray.blit qvel env.data.qvel;
     observe env
 
 
@@ -65,17 +76,9 @@ module E = struct
     let data = Data.make model in
     let qpos0 = Owl.Arr.copy data.qpos in
     let qvel0 = Owl.Arr.copy data.qpos in
-    let qpos =
-      let dpos = Owl.Arr.uniform ~a:(-0.01) ~b:0.01 Owl.Arr.(shape qpos0) in
-      Owl.Arr.(dpos + qpos0)
-    in
-    let qvel =
-      let dvel = Owl.Arr.uniform ~a:(-0.01) ~b:0.01 Owl.Arr.(shape qvel0) in
-      Owl.Arr.(dvel + qvel0)
-    in
-    Bigarray.Genarray.blit qpos data.qpos;
-    Bigarray.Genarray.blit qvel data.qvel;
-    { model; data; qpos0; qvel0 }
+    let env = { model; data; qpos0; qvel0 } in
+    reset env |> ignore;
+    env
 
 
   let xy_position data =

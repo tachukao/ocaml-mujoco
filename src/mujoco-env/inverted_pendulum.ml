@@ -16,7 +16,16 @@ module E = struct
   let observe env = Owl.Arr.concatenate [| env.data.qpos; env.data.qvel |] |> Owl.Arr.copy
 
   let reset env =
-    Data.reset env.model env.data;
+    let qpos =
+      let dpos = Owl.Arr.uniform ~a:(-0.01) ~b:0.01 Owl.Arr.(shape env.qpos0) in
+      Owl.Arr.(dpos + env.qpos0)
+    in
+    let qvel =
+      let dvel = Owl.Arr.uniform ~a:(-0.01) ~b:0.01 Owl.Arr.(shape env.qvel0) in
+      Owl.Arr.(dvel + env.qvel0)
+    in
+    Bigarray.Genarray.blit qpos env.data.qpos;
+    Bigarray.Genarray.blit qvel env.data.qvel;
     observe env
 
 
@@ -25,17 +34,9 @@ module E = struct
     let data = Data.make model in
     let qpos0 = Owl.Arr.copy data.qpos in
     let qvel0 = Owl.Arr.copy data.qpos in
-    let qpos =
-      let dpos = Owl.Arr.uniform ~a:(-0.01) ~b:0.01 Owl.Arr.(shape qpos0) in
-      Owl.Arr.(dpos + qpos0)
-    in
-    let qvel =
-      let dvel = Owl.Arr.uniform ~a:(-0.01) ~b:0.01 Owl.Arr.(shape qvel0) in
-      Owl.Arr.(dvel + qvel0)
-    in
-    Bigarray.Genarray.blit qpos data.qpos;
-    Bigarray.Genarray.blit qvel data.qvel;
-    { model; data; qpos0; qvel0 }
+    let env = { model; data; qpos0; qvel0 } in
+    reset env |> ignore;
+    env
 
 
   let step env action =
