@@ -5,18 +5,11 @@
  (libraries base mujoco owl stdio findlib))
 
 (install
- (files
-  ../../model/inverted_pendulum.xml
-  ../../model/inverted_double_pendulum.xml
-  ../../model/ant.xml
-  ../../model/humanoid.xml
-  ../../model/hopper.xml
-  ../../model/half_cheetah.xml
-  ../../model/swimmer.xml
-  ../../model/arm26.xml
-  ../../model/carpet.png
-  ../../model/marble.png
-  ../../model/sponge.png
-  ../../model/rodent_walker_skin.skn)
+ (files ../../model/inverted_pendulum.xml
+   ../../model/inverted_double_pendulum.xml ../../model/ant.xml
+   ../../model/humanoid.xml ../../model/hopper.xml
+   ../../model/half_cheetah.xml ../../model/swimmer.xml ../../model/arm26.xml
+   ../../model/carpet.png ../../model/marble.png ../../model/sponge.png
+   ../../model/rodent_walker_skin.skn)
  (section share)
  (package mujoco-env))
