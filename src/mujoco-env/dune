@@ -1,7 +1,8 @@
 (library
  (name mujoco_env)
  (public_name mujoco-env)
- (libraries base mujoco owl glfw-ocaml stdio findlib))
+ (modules env inverted_pendulum)
+ (libraries base mujoco owl stdio findlib))
 
 (install
  (files

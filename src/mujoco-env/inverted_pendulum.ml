@@ -1,42 +1,6 @@
 open Mujoco
 
-let model_file = Printf.sprintf "%s/../share/mujoco-env/%s" Findlib.(default_location ())
-
-module type Env = sig
-  type env
-  type action
-  type reward
-  type observation
-
-  val init : unit -> env
-  val step : env -> action -> observation * reward * bool
-  val reset : env -> observation
-end
-
-module Make (E : Env) = struct
-  include E
-
-  type timestep =
-    { reward : reward
-    ; action : action
-    ; observation : observation
-    }
-
-  let simulate policy =
-    let env = init () in
-    let rec run terminated observation acc =
-      if terminated
-      then acc
-      else (
-        let action = policy observation in
-        let observation, reward, terminated = step env action in
-        let acc = { observation; reward; action } :: acc in
-        run terminated observation acc)
-    in
-    run false (reset env) []
-end
-
-module PendulumE = struct
+module E = struct
   type env =
     { model : Model.t
     ; data : Data.t
@@ -56,7 +20,7 @@ module PendulumE = struct
 
 
   let init () =
-    let model = Model.load_xml (model_file "inverted_pendulum.xml") in
+    let model = Model.load_xml (Env.model_file "inverted_pendulum.xml") in
     let data = Data.make model in
     let qpos0 = Owl.Arr.copy data.qpos in
     let qvel0 = Owl.Arr.copy data.qpos in
@@ -83,4 +47,4 @@ module PendulumE = struct
     o, reward, not not_terminated
 end
 
-module Pendulum = Make (PendulumE)
+include Env.Make (E)
