@@ -18,6 +18,9 @@ module Model : sig
 
   (** [nu m] returns nu for model [m] *)
   val nu : t -> int
+
+  (** [ctrlrange m] returns the ctrlrange of model [m] with dimensions (nu, 2) *)
+  val ctrlrange : t -> tensor
 end
 
 module Data : sig

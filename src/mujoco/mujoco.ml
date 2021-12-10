@@ -30,6 +30,12 @@ module Model = struct
     { ptr = m }
 
 
+  let ctrlrange m =
+    let nu = mjModel_get_nu !@(m.ptr) in
+    let ptr = mjModel_get_actuator_ctrlrange !@(m.ptr) in
+    Ctypes.(bigarray_of_ptr genarray) [| nu; 2 |] float64 ptr
+
+
   let nv m = mjModel_get_nv !@(m.ptr)
   let nu m = mjModel_get_nu !@(m.ptr)
 end
