@@ -1,0 +1,16 @@
+(library
+ (name mujoco_env)
+ (public_name mujoco-env)
+ (libraries base mujoco owl glfw-ocaml stdio findlib))
+
+(install
+ (files
+  ../../model/inverted_pendulum.xml
+  ../../model/inverted_double_pendulum.xml
+  ../../model/ant.xml
+  ../../model/humanoid.xml
+  ../../model/hopper.xml
+  ../../model/arm26.xml
+  )
+ (section share)
+ (package mujoco-env))
